@@ -917,9 +917,8 @@
             updateSignInUI(false); // CALL the global function
             const adminSection = document.getElementById('admin-section');
             if (adminSection?.classList.contains('active')) {
-                 console.log("Admin signed out, UI updated, view change deferred to next interaction or page load.");
-                 // If immediate view change is critical on sign out, showView needs to be global.
-                 // For now, just hide the button and let view change on next navigation.
+                 // For simplicity, just update UI. View change happens on next navigation.
+                 console.log("Admin signed out, UI updated.");
             }
         }
 
@@ -941,7 +940,6 @@
                  }
                  return;
             }
-
 
             if (isSignedIn && googleUser) {
                 buttonDiv.style.display = 'none';
@@ -981,7 +979,7 @@
             { theme: "outline", size: "medium", type: "standard" }
           );
           // Update UI based on any existing session *after* Google init AND DOM is likely ready
-          updateSignInUI(!!googleUser);
+          updateSignInUI(!!googleUser); // <-- Initial call here
           // google.accounts.id.prompt(); // Optional: show one-tap prompt
         };
 
@@ -1071,7 +1069,9 @@
             // --- Initialize Particles.js ---
             if (document.getElementById('particles-js-container')) {
                 console.log("Initializing Particles.js");
-                particlesJS('particles-js-container', { /* ... particles config ... */ });
+                particlesJS('particles-js-container', {
+                    "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00ffff" }, "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" }, "polygon": { "nb_sides": 5 } }, "opacity": { "value": 0.5, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } }, "line_linked": { "enable": true, "distance": 150, "color": "#a0c0ff", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 100, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } } }, "retina_detect": true
+                });
             } else {
                 console.warn("Particles.js container not found.");
             }
@@ -1104,23 +1104,24 @@
             }
 
             function getGameTitle(linkElement) { const caption = linkElement?.querySelector('figcaption'); const img = linkElement?.querySelector('img'); return caption?.textContent.trim() || img?.alt.trim() || ''; }
-            function populateCloakOptions() { /* ... */ } // Keep full function
-            function setTabCloak(title, faviconUrl) { /* ... */ } // Keep full function
-            function resetTabCloak() { /* ... */ } // Keep full function
-            function openSettingsPopup() { /* ... */ } // Keep full function
-            function closeSettingsPopup() { /* ... */ } // Keep full function
-            function openSupportFormPopup(type) { /* ... */ } // Keep full function
-            function closeSupportFormPopup() { /* ... */ } // Keep full function
-            function sortGames() { /* ... */ } // Keep full function
-            function filterGames(filter) { /* ... */ } // Keep full function
-            function populateFinderCategories() { /* ... */ } // Keep full function
-            function showFinderStep(stepId) { /* ... */ } // Keep full function
-            function filterGamesForFinder() { /* ... */ } // Keep full function
-            function displayFinderResults(games) { /* ... */ } // Keep full function
-            function runFinder() { /* ... */ } // Keep full function
+            function populateCloakOptions() { /* ... */ } // Keep implementation
+            function setTabCloak(title, faviconUrl) { /* ... */ } // Keep implementation
+            function resetTabCloak() { /* ... */ } // Keep implementation
+            function openSettingsPopup() { /* ... */ } // Keep implementation
+            function closeSettingsPopup() { /* ... */ } // Keep implementation
+            function openSupportFormPopup(type) { /* ... */ } // Keep implementation
+            function closeSupportFormPopup() { /* ... */ } // Keep implementation
+            function sortGames() { /* ... */ } // Keep implementation
+            function filterGames(filter) { /* ... */ } // Keep implementation
+            function populateFinderCategories() { /* ... */ } // Keep implementation
+            function showFinderStep(stepId) { /* ... */ } // Keep implementation
+            function filterGamesForFinder() { /* ... */ } // Keep implementation
+            function displayFinderResults(games) { /* ... */ } // Keep implementation
+            function runFinder() { /* ... */ } // Keep implementation
+
 
              // --- Event Listeners (All listeners remain inside DOMContentLoaded) ---
-             if(launchButton) { launchButton.addEventListener('click', () => { console.log("[LAUNCH BTN] Clicked."); const currentSuggestionsView = document.getElementById('suggestions-section'); const currentHelpView = document.getElementById('help-section'); const currentAdminView = document.getElementById('admin-section'); if (currentSuggestionsView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentAdminView?.classList.contains('active')) { /* Potentially add cleanup if needed */ } showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All'); }); console.log("Launch Button listener attached."); }
+             if(launchButton) { launchButton.addEventListener('click', () => { const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { /* Optional cleanup if needed */ } showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All'); }); console.log("Launch Button listener attached."); }
              if (homeButton) { homeButton.addEventListener('click', () => { console.log("Home clicked."); const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') ) { console.log("   Cleaning player/state before going home"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } if(homeContent) showView('home-content'); }); console.log("Home button listener attached."); }
             // Suggestions Button (NOW triggers the finder steps)
             if (suggestionsButton) { suggestionsButton.addEventListener('click', () => { console.log("Suggestions clicked, starting finder."); const playerView = document.getElementById('game-player-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (playerView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing suggestions"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } selectedPlayerCount = null; selectedFinderCategory = null; finderResultsContainer.innerHTML = ''; finderNoResults.style.display = 'none'; finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category'); showView('suggestions-section'); showFinderStep('player-count-step'); }); console.log("Suggestions button listener attached."); }
@@ -1317,100 +1318,74 @@
 
              // --- Admin Button Test Games Listener ---
             if (testAllGamesBtn && gameTestResultsDiv) {
-
-                // Function to test a single URL using an iframe and timeout
-                function testSingleGameUrl(url, title) {
-                    return new Promise((resolve) => {
-                        let iframe = document.createElement('iframe');
-                        let timeoutId = null;
-                        const TEST_TIMEOUT = 15000; // 15 seconds timeout per game
-
-                        // Style to hide the iframe
-                        iframe.style.position = 'absolute';
-                        iframe.style.top = '-9999px';
-                        iframe.style.left = '-9999px';
-                        iframe.style.width = '1px';
-                        iframe.style.height = '1px';
-                        iframe.sandbox = 'allow-scripts'; // Allow scripts needed by many games, but restrict other things
-
-                        const iframeLoadHandler = () => {
-                            clearTimeout(timeoutId); // Success, clear the timeout
-                            console.log(`Test OK (iframe loaded): ${title} - ${url}`);
-                            try { // Defensively remove iframe
-                                document.body.removeChild(iframe);
-                            } catch (e) {}
-                            iframe = null; // Help garbage collection
-                            resolve({ status: 'ok', message: 'Loaded (iframe)' });
-                        };
-
-                        const timeoutHandler = () => {
-                            console.warn(`Test Timeout/Blocked: ${title} - ${url}`);
-                            iframe.removeEventListener('load', iframeLoadHandler); // Remove listener if timeout occurs first
-                             try { // Defensively remove iframe
-                                document.body.removeChild(iframe);
-                            } catch (e) {}
-                            iframe = null; // Help garbage collection
-                            resolve({ status: 'error', message: 'Timeout / Blocked' });
-                        };
-
-                        // Attach load listener *before* setting src
-                        iframe.addEventListener('load', iframeLoadHandler, { once: true });
-
-                        // Set timeout *before* setting src
-                        timeoutId = setTimeout(timeoutHandler, TEST_TIMEOUT);
-
-                        // Append to body and set src to start loading
-                        document.body.appendChild(iframe);
-                        iframe.src = url;
-                    });
-                }
-
-                // Main button click handler
                 testAllGamesBtn.addEventListener('click', async () => {
-                    console.log("Starting iframe game link test...");
-                    gameTestResultsDiv.innerHTML = 'Testing games (iframe load)... Please wait.<br>';
+                    console.log("Starting parallel game link test...");
+                    gameTestResultsDiv.innerHTML = 'Testing games... Please wait.<br>';
                     gameTestResultsDiv.style.display = 'block';
                     testAllGamesBtn.disabled = true;
-                    testAllGamesBtn.textContent = 'Testing...'; // Update button text
 
-                    const gameLinks = gameIconsContainer.querySelectorAll('a.game-link');
+                    const gameLinks = Array.from(gameIconsContainer.querySelectorAll('a.game-link')); // Convert NodeList to Array
+                    let promises = [];
+                    let gameData = []; // Store info to match results later
+
+                    // 1. Create all fetch promises
+                    gameLinks.forEach(link => {
+                        const url = link.dataset.gameUrl;
+                        const title = getGameTitle(link);
+                        gameData.push({ title: title, url: url }); // Store data for later reference
+
+                        if (!url) {
+                            // Create a promise that immediately rejects for missing URLs
+                            promises.push(Promise.reject({ reason: 'Missing URL' }));
+                        } else {
+                            // Create the fetch promise
+                            const fetchPromise = fetch(url, { method: 'HEAD', mode: 'no-cors' })
+                                .then(response => {
+                                    // With no-cors, we can't read status, assume OK if fetch itself didn't throw
+                                    return { status: 'fulfilled' }; // Simulate fulfilled status
+                                })
+                                .catch(error => {
+                                    // Network error or potentially CORS preflight failure
+                                    console.warn(`Test Error: ${title} - ${url}`, error);
+                                    // Simulate rejected status with a reason
+                                    throw new Error('Network Error/CORS?');
+                                });
+                            promises.push(fetchPromise);
+                        }
+                    });
+
+                    console.log(`Created ${promises.length} test promises.`);
+
+                    // 2. Wait for all promises to settle (succeed or fail)
+                    const results = await Promise.allSettled(promises);
+                    console.log("All promises settled.");
+
+                    // 3. Process results and build HTML
                     let resultsHTML = '';
                     let successCount = 0;
                     let errorCount = 0;
 
-                    for (const link of gameLinks) {
-                        const url = link.dataset.gameUrl;
-                        const title = getGameTitle(link);
+                    results.forEach((result, index) => {
+                        const title = gameData[index].title; // Get title using index
+                        let statusHTML = '';
 
-                        if (!url) {
-                            resultsHTML += `<div>${title}: <span class="status-error">Missing URL</span></div>`;
-                            errorCount++;
-                            continue;
-                        }
-
-                        // Test the URL
-                        const result = await testSingleGameUrl(url, title);
-
-                        // Append result
-                        resultsHTML += `<div>${title}: <span class="status-${result.status}">${result.message}</span></div>`;
-                        if (result.status === 'ok') {
+                        if (result.status === 'fulfilled') {
+                            statusHTML = '<span class="status-ok">OK (Network)</span>';
                             successCount++;
                         } else {
+                            // result.reason will contain the Error object or our custom object
+                            const reason = result.reason?.message || result.reason?.reason || 'Unknown Error';
+                            statusHTML = `<span class="status-error">${reason}</span>`;
                             errorCount++;
                         }
-                        // Update results progressively (optional)
-                        // gameTestResultsDiv.innerHTML = `<b>Testing... (${successCount + errorCount}/${gameLinks.length})</b><br>` + resultsHTML;
+                        resultsHTML += `<div>${title}: ${statusHTML}</div>`;
+                    });
 
-                        // Small delay to prevent potential browser overload/rate limiting?
-                        await new Promise(resolve => setTimeout(resolve, 100));
-                    }
-
-                    gameTestResultsDiv.innerHTML = `<b>Test Complete (${successCount} Loaded, ${errorCount} Failed/Timeout):</b><br>` + resultsHTML;
+                    gameTestResultsDiv.innerHTML = `<b>Test Complete (${successCount} OK, ${errorCount} Errors):</b><br>` + resultsHTML;
                     testAllGamesBtn.disabled = false;
-                    testAllGamesBtn.textContent = 'Test All Game Links'; // Restore button text
-                    console.log("Iframe game link test finished.");
+                    console.log("Game link test finished.");
                 });
-                console.log("Test All Games (iframe) button listener attached.");
+                console.log("Test All Games button listener attached.");
             }
 
 
@@ -1429,3 +1404,4 @@
 
 </body>
 </html>
+```
