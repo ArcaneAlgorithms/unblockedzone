@@ -15,7 +15,7 @@
         :root {
             --bg-color: #0a0f1a;
             --text-color: #e0e0e0;
-            --accent-color: #00ffff; /* Cyan */
+            --accent-color: #00ffff;
             --highlight-yellow: #FFD700;
             --secondary-blue: #a0c0ff;
             --box-bg: rgba(26, 35, 58, 0.85);
@@ -36,44 +36,15 @@
             --button-active-bg: var(--accent-color);
             --popup-bg: rgba(15, 22, 40, 0.95); /* Darker, more opaque popup bg */
             --popup-border: rgba(0, 255, 255, 0.4);
-            --star-color: #ccc;
-            --star-color-active: #FFD700; /* Gold */
-            --rating-star-size: 14px;
         }
-
-        /* --- Neon Dusk Theme --- */
-        body.theme-neon-dusk {
-            --bg-color: #1a0a1a; /* Dark purple */
-            --text-color: #f0d0f0; /* Light pinkish */
-            --accent-color: #ff00ff; /* Magenta */
-            --highlight-yellow: #f0f000; /* Brighter yellow */
-            --secondary-blue: #d0a0ff; /* Lavender */
-            --box-bg: rgba(40, 15, 40, 0.85); /* Dark purple box */
-            --box-border: rgba(255, 0, 255, 0.3);
-            --description-color: #ccaabb;
-            --icon-bg: rgba(50, 20, 50, 0.6);
-            --icon-border: rgba(255, 0, 255, 0.35);
-            --caption-bg: rgba(26, 10, 26, 0.85);
-            --player-box-border: rgba(255, 0, 255, 0.5);
-            --popup-border: rgba(255, 0, 255, 0.4);
-            --button-bg: rgba(60, 30, 60, 0.7);
-            --button-hover-bg: rgba(85, 45, 85, 0.8);
-            --star-color-active: #ff00ff; /* Magenta stars */
-        }
-        body.theme-neon-dusk::before {
-             background-image: linear-gradient(rgba(255, 0, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 0, 255, 0.04) 1px, transparent 1px);
-             opacity: 0.4;
-        }
-
 
         /* --- General & Header Styles --- */
-        body { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; overflow: hidden; position: relative; padding-top: var(--header-height); transition: background-color 0.3s ease; }
+        body { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; overflow: hidden; position: relative; padding-top: var(--header-height); }
         *, *::before, *::after { box-sizing: inherit; }
-        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 180, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 180, 255, 0.04) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.3; z-index: -2; transition: background-image 0.3s ease, opacity 0.3s ease; }
-        .main-header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-height); background-color: rgba(10, 15, 26, 0.9); backdrop-filter: blur(5px); border-bottom: 1px solid var(--accent-color); z-index: 5000; display: flex; align-items: center; transition: background-color 0.3s ease, border-color 0.3s ease; }
-        body.theme-neon-dusk .main-header { background-color: rgba(26, 10, 26, 0.9); }
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 180, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 180, 255, 0.04) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.3; z-index: -2; }
+        .main-header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-height); background-color: rgba(10, 15, 26, 0.9); backdrop-filter: blur(5px); border-bottom: 1px solid var(--accent-color); z-index: 5000; display: flex; align-items: center; }
         .header-content { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 20px; }
-        .site-title { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--accent-color); text-shadow: 0 0 5px var(--accent-color); transition: color 0.3s ease, text-shadow 0.3s ease; }
+        .site-title { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--accent-color); text-shadow: 0 0 5px var(--accent-color); }
         .header-controls { display: flex; align-items: center; gap: 10px; /* Spacing between icons */ }
         .header-button { background: none; border: none; color: var(--text-color); font-size: 1.5rem; cursor: pointer; padding: 5px; transition: color 0.2s ease, transform 0.2s ease; }
         .header-button:hover { color: var(--highlight-yellow); transform: scale(1.1); }
@@ -152,32 +123,6 @@
         /* --- Game Grid Section --- */
         #game-section h2 { font-family: 'Orbitron', sans-serif; color: var(--accent-color); margin: 0 0 20px 0; font-size: 2rem; text-shadow: 0 0 10px var(--accent-color); width: 100%; text-align: center; flex-shrink: 0; }
         .controls-container { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; margin-bottom: 30px; width: 100%; max-width: 1000px; flex-shrink: 0; }
-        .search-container { position: relative; flex-grow: 1; max-width: 400px; }
-        #searchInput {
-            width: 100%;
-            padding: 8px 15px 8px 35px; /* Add padding for icon */
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.9rem;
-            background-color: var(--button-bg);
-            color: var(--text-color);
-            border: 1px solid var(--box-border);
-            border-radius: 20px;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        #searchInput:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
-        }
-        .search-container i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--secondary-blue);
-            font-size: 0.9rem;
-            pointer-events: none; /* Prevent icon interfering with input */
-        }
         .category-filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; flex-grow: 1; }
         .category-button { font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--secondary-blue); background-color: var(--button-bg); border: 1px solid var(--box-border); padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
         .category-button:hover { background-color: var(--button-hover-bg); border-color: var(--accent-color); color: var(--text-color); }
@@ -195,78 +140,6 @@
         .icon_image img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 11px; background-color: rgba(255,255,255,0.1); }
         .icon_image figcaption { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%) translateY(5px); width: auto; max-width: 90%; padding: 5px 10px; background-color: var(--caption-bg); color: var(--text-color); border-radius: 6px; font-size: 0.75rem; font-weight: 600; text-align: center; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; z-index: 10; opacity: 0; visibility: hidden; transition: opacity 0.25s ease-out, visibility 0s linear 0.25s, transform 0.25s ease-out; }
         .icon_image a:hover figcaption { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); transition-delay: 0s; }
-
-        /* Favorite Button */
-        .favorite-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(10, 15, 26, 0.6);
-            border: none;
-            color: var(--star-color);
-            font-size: 1rem;
-            padding: 4px 6px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 15;
-            transition: color 0.2s ease, transform 0.2s ease;
-            opacity: 0.7;
-        }
-        .icon_image a:hover .favorite-btn {
-            opacity: 1;
-        }
-        .favorite-btn:hover {
-            transform: scale(1.15);
-        }
-        .favorite-btn.favorited {
-            color: var(--star-color-active);
-            opacity: 1;
-        }
-        .favorite-btn .fa-star { /* Font Awesome icon */
-            display: block; /* Helps prevent layout shifts */
-        }
-
-        /* Rating Stars */
-        .rating-stars {
-            position: absolute;
-            bottom: 8px; /* Position above caption */
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 1px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.2s ease, visibility 0s linear 0.2s;
-            z-index: 11; /* Above image, below caption */
-        }
-        .icon_image a:hover .rating-stars {
-            opacity: 1;
-            visibility: visible;
-            transition-delay: 0s;
-        }
-        .icon_image a:hover figcaption {
-            bottom: 28px; /* Move caption up when stars are visible */
-        }
-
-        .rating-stars i {
-            font-size: var(--rating-star-size);
-            color: var(--star-color);
-            cursor: pointer;
-            transition: color 0.1s ease, transform 0.1s ease;
-        }
-        .rating-stars i:hover {
-            color: var(--star-color-active);
-            transform: scale(1.2);
-        }
-        .rating-stars i.rated,
-        .rating-stars:hover i:hover ~ i { /* Make stars to the right dim on hover */
-             color: var(--star-color);
-        }
-        .rating-stars:hover i:hover,
-        .rating-stars i.rated { /* Highlight hovered star and those before it */
-            color: var(--star-color-active);
-        }
-
 
         /* --- Custom Scrollbar for Game Grid (Fully Rounded) --- */
         #icon_image {
@@ -352,8 +225,8 @@
         .tab-cloak-option label img { width: 16px; height: 16px; vertical-align: middle; }
         .settings-actions { display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--box-border); }
         .settings-button { font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; font-weight: 600; padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; border: 1px solid var(--box-border); }
-        #applySettingsButton { background-color: var(--button-active-bg); color: var(--bg-color); border-color: var(--button-active-bg); } /* Renamed */
-        #applySettingsButton:hover { background-color: var(--accent-color); box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); }
+        #applyCloakButton { background-color: var(--button-active-bg); color: var(--bg-color); border-color: var(--button-active-bg); }
+        #applyCloakButton:hover { background-color: var(--accent-color); box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); }
         #resetCloakButton { background-color: var(--button-bg); color: var(--secondary-blue); }
         #resetCloakButton:hover { background-color: var(--button-hover-bg); color: var(--text-color); border-color: var(--accent-color); }
 
@@ -685,24 +558,14 @@
             padding: 10px 20px;
             font-size: 1rem;
         }
-        #gameTestResults, #submissionsDisplayArea {
+        #gameTestResults {
             line-height: 1.6;
-            background-color: var(--box-bg);
-            border: 1px solid var(--box-border);
-            padding: 15px;
-            border-radius: 8px;
-            max-height: 40vh;
-            overflow-y: auto;
-            font-size: 0.8rem;
-            display: none;
-            white-space: pre-wrap;
-            word-wrap: break-word;
         }
-        #gameTestResults div, #submissionsDisplayArea div /* If formatting submissions line by line */ {
+        #gameTestResults div {
             padding: 3px 0;
             border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
         }
-        #gameTestResults div:last-child, #submissionsDisplayArea div:last-child {
+        #gameTestResults div:last-child {
             border-bottom: none;
         }
         #gameTestResults .status-ok { color: #8fbc8f; } /* DarkSeaGreen */
@@ -771,72 +634,75 @@
        <section id="game-section" class="view-section">
            <h2>Select Your Game</h2>
            <div class="controls-container">
-                 <div class="search-container">
-                     <i class="fas fa-search"></i>
-                     <input type="text" id="searchInput" placeholder="Search games...">
-                 </div>
-                <div class="category-filters"> <button class="category-button active-category" data-filter="All">All</button> <button class="category-button rainbow-bg" data-filter="New">New</button> <button class="category-button" data-filter="Favorites">Favorites</button> <button class="category-button" data-filter="Recent">Recent</button> <button class="category-button" data-filter="Action">Action</button> <button class="category-button" data-filter="Arcade">Arcade</button> <button class="category-button" data-filter="Clicker">Clicker</button> <button class="category-button" data-filter="Driving">Driving</button> <button class="category-button" data-filter="Endless">Endless</button> <button class="category-button" data-filter="Flash">Flash</button> <button class="category-button" data-filter="Horror">Horror</button> <button class="category-button" data-filter="Multiplayer">Multiplayer</button> <button class="category-button" data-filter="Platformer">Platformer</button> <button class="category-button" data-filter="Puzzle">Puzzle</button> <button class="category-button" data-filter="Runner">Runner</button> <button class="category-button" data-filter="Physics">Physics</button> <button class="category-button" data-filter="Simulation">Simulation</button> <button class="category-button" data-filter="Sports">Sports</button> <button class="category-button" data-filter="Strategy">Strategy</button> <button class="category-button" data-filter="TowerDefense">Tower Defense</button> <button class="category-button" data-filter="3D">3D</button> <button class="category-button" data-filter="Skill">Skill</button> <button class="category-button" data-filter="io">io</button> <button class="category-button" data-filter="Sandbox">Sandbox</button> <button class="category-button" data-filter="Funny">Funny</button> <button class="category-button" data-filter="Maze">Maze</button> <button class="category-button" data-filter="Idle">Idle</button> <button class="category-button" data-filter="Rhythm">Rhythm</button> <button class="category-button" data-filter="Math">Math</button> <button class="category-button" data-filter="Classic">Classic</button> <button class="category-button" data-filter="Shooter">Shooter</button> <button class="category-button" data-filter="FPS">FPS</button> <button class="category-button" data-filter="Adventure">Adventure</button> </div>
-                <div class="sort-container"> <label for="sortOptions">Sort by:</label> <select id="sortOptions"> <option value="az" selected>A-Z</option> <option value="za">Z-A</option> <option value="rating">Rating</option> </select> </div>
+                <!-- NEW Search Bar -->
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="search" id="searchInput" placeholder="Search games...">
+                </div>
+                <!-- Existing Category Filters -->
+                <div class="category-filters"> <button class="category-button active-category" data-filter="All">All</button> <button class="category-button rainbow-bg" data-filter="New">New</button> <button class="category-button" data-filter="Action">Action</button> <button class="category-button" data-filter="Arcade">Arcade</button> <button class="category-button" data-filter="Clicker">Clicker</button> <button class="category-button" data-filter="Driving">Driving</button> <button class="category-button" data-filter="Endless">Endless</button> <button class="category-button" data-filter="Flash">Flash</button> <button class="category-button" data-filter="Horror">Horror</button> <button class="category-button" data-filter="Multiplayer">Multiplayer</button> <button class="category-button" data-filter="Platformer">Platformer</button> <button class="category-button" data-filter="Puzzle">Puzzle</button> <button class="category-button" data-filter="Runner">Runner</button> <button class="category-button" data-filter="Physics">Physics</button> <button class="category-button" data-filter="Simulation">Simulation</button> <button class="category-button" data-filter="Sports">Sports</button> <button class="category-button" data-filter="Strategy">Strategy</button> <button class="category-button" data-filter="TowerDefense">Tower Defense</button> <button class="category-button" data-filter="3D">3D</button> <button class="category-button" data-filter="Skill">Skill</button> <button class="category-button" data-filter="io">io</button> <button class="category-button" data-filter="Sandbox">Sandbox</button> <button class="category-button" data-filter="Funny">Funny</button> <button class="category-button" data-filter="Maze">Maze</button> <button class="category-button" data-filter="Idle">Idle</button> <button class="category-button" data-filter="Rhythm">Rhythm</button> <button class="category-button" data-filter="Math">Math</button> <button class="category-button" data-filter="Classic">Classic</button> <button class="category-button" data-filter="Shooter">Shooter</button> <button class="category-button" data-filter="FPS">FPS</button> <button class="category-button" data-filter="Adventure">Adventure</button> </div>
+                <!-- Existing Sort Dropdown -->
+                <div class="sort-container"> <label for="sortOptions">Sort by:</label> <select id="sortOptions"> <option value="az" selected>A-Z</option> <option value="za">Z-A</option> </select> </div>
             </div>
             <div class="icon_image" id="icon_image">
                  <!-- REVIEW and ADJUST data-players: 1=Single, Multi=Multiplayer, 2=Strict 2-Player -->
-                 <a data-game-url="https://www.mathsisfun.com/games/a/2048/index.html" data-game-creator="Gabriele Cirulli" class="game-link Puzzle Strategy" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7put38SVe1Deg0JqDmLg8HZ58mA0KmW_tYuMKUlfrCQ3SWkOLXT2lD_BSmRw-18BJMfC1FDl1L5wYd0FPxAzCgK1sDtczcyzJa1uTBSfeiv8QFz6N_0T9Js_Bved5T4tkMyn1nxqarw7Lp-ZSWriMLgjEd8VT87VgRuVRMeu67W4BuMCqGr?key=_cqGIZPHcS9nSvbhhzHuQw" alt="2048" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>2048</figcaption> </a>
-                 <a data-game-url="https://suite.saltyspamz.xyz/games/games/9007199254740992/" data-game-creator="Constructible Universes" class="game-link Puzzle Strategy Math" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7pZz0gPYRzLFGc2CfRoFFmneCupdyhaZ27IkDDFgVSlpRLf4RGmirknfFphoJzZ_mrImVIOMz81Zr-1SvjW0yGRi-eiK0e-s-uiZn12I1_1dtoro4T6Nma7WpqNCKqiGtmS-mYHKD58MEjRobVxOV5rgWrR4pf3piW5gN_6X2VhaFCoeMB8?key=_cqGIZPHcS9nSvbhhzHuQw" alt="9007199254740992" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>9007199254740992</figcaption> </a>
-                 <a data-game-url="https://asmallworldcup.com/embed/a-small-world-cup/" data-game-creator="Roody Games" class="game-link Sports Physics" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7riJk0hgmbjPFIWyDZ5-M_7RiRBgV9gGgPo1nrygI5GWkmVBZMFR1DS544OdB1xHSYhHEtWxtFq4i3-oRoKCtBJMsTmM2mpCKJPaZ8SsLyVIplMkHA3MfCqAEiVSTR2FIN3BuryTETBK8v8IezaunERekXJ1a8HeZgLOklB8DPbn57s8j3s?key=_cqGIZPHcS9nSvbhhzHuQw" alt="A Small World Cup" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>A Small World Cup</figcaption> </a>
-                 <a data-game-url="https://reunbozdo.github.io/" data-game-creator="Puzzle Dev" class="game-link Puzzle" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qrr5y2BGA815sfSQkwY9HkFAH5G8xo20uonAjEze3DVIFpviSRVeCyax2QdrrscVNT2SiLld0pMkVrWmjnk2hwJstqAnrBCwNhjU8PWAtngdkVWh6rSVaRIrblM6Ho4KV7C2axBS9cUqVf1B8bEgBNP8pBzavHVXB4rcWuOIYfRfGXtdXf?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Block Blast" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Block Blast</figcaption> </a>
-                 <a data-game-url="https://html-classic.itch.zone/html/13185656/index.html" data-game-creator="Ninja Kiwi" class="game-link TowerDefense Strategy" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rQONyJLzuwSRLCx5pPS4VXlJz600WaXeQ4X9D3AtPxqcuCB3n0rz4nFb2G4ykyQ59fcyKw49iVqXx5H5xf83FXif1H6FN8ZxDYqIKvZeYIqhiUimt147JUBYoqYKq1sat1qN51Ps-D90AK8ZIKkE1c7ZSENKHGGVkTCwKXsIQAOi2NRx8?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Bloons TD 6" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Bloons TD 6</figcaption> </a>
-                 <a data-game-url="https://gas.education/gams/gfiles/html5/cookieclicker/" data-game-creator="Orteil" class="game-link Clicker Idle" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7pZl7t0nmYsHYi1x81A0hAoSPEgoNJdz8zt1iZuP6b2f4UOIclYI3v0sv9HYXz9KY9CFYswbcLoPD8ENy5zFQHgpa3iCQiAW4BSZIREl9xHAkiIMwXUrkYgsNTsbHFcRW-DYJsmGWY4MnPaLRSzsCC-hMSoIADorKLmc_jk-XW_FeqpKfWE?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Cookie Clicker" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Cookie Clicker</figcaption> </a>
-                 <a data-game-url="https://www.newgrounds.com/portal/view/812336?external=1" data-game-creator="CrazyCattle3D Devs" class="game-link Action 3D" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qZCHjKmw_w6YudN_-o2tdju7khQMGMJT9vopyn2lnfU1hXApGzZKYnsJIno-wIgNNyF7m_54CdTUsRZ8GJtftApvrvFAV9Gr_a-poi8H6E6yHq01imgpFq1sF-bwqhfmIhs2suHSJ_D-I3xbYHe4uetlhRESyhQPj-nxXmyJvVJVJZnDNV?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Crazy Cattle 3D" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Crazy Cattle 3D</figcaption> </a>
-                 <a data-game-url="https://i.gamesgo.net/uploads/game/html5/4072/" data-game-creator="Hipster Whale" class="game-link Arcade Endless" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rOweCQcfnn78ni750PKljtv4vIfBmxtDIdtyJFJ8CV_C6O3ejV6GEbcPqnY-zGsI8OymOXaxxfcYekMA5CVBAT4uUEXhwPUonRD4NoQIyHNXPTN1H6yqY8xgProGIlfzII8G7-_udplWZHsWZ4vLKdKJ1yH-XybGNZ6DQHGwrHiwihHjki?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Crossy Road" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Crossy Road</figcaption> </a>
-                 <a data-game-url="https://www.doodlescricket.com/#/" data-game-creator="Google" class="game-link Sports Arcade" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7q6FutmpDcRE7iP7pHpkcYHW1AXo4ysaVzskouBgVJhroaNGnjYyjCWezezk232ffG1alWFdMZsZHmQN3pQj2-M49RrjIaKb2SeCujsV3zEjmhmsEcnvxrpA9sPuxJHTW14MU-UXN-VicJuclf0SVszrgZWALWVW8S6pfMx-48RDO866Sy-?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Google Cricket" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Google Cricket</figcaption> </a>
-                 <a data-game-url="https://playcanv.as/index/DLgXf1zr" data-game-creator="Neal Agarwal" class="game-link Arcade Skill" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7oWAHnijD3dp8BFC6ncGUfyHh8ohOscjD5wG691cabrW3sjjTSgv-RCFvY9QDvQ0FItKAZSEQb4YuvXgYzlwaxZd2X6DNkqbFrUqWn1Cb0awdBPEkMwmq52lsE9A6c31J9bcAKG8yRU6VwpBxz8Bg3ipUcSp-erFrpOu8lqpKqBZsN0VB55?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Flappy Bird" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Flappy Bird</figcaption> </a>
-                 <a data-game-url="https://run3.io/popgame/fnaf/fnaf1/" data-game-creator="Scott Cawthon" class="game-link Horror Survival" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qxsRqfRqTXYs7sxGuW_b8bPMp3MMULiBfpDb8n9iasl8M6ITdi-MW5JMyYC0o9O_uboNa-y4qIQlMn03qOmbao6pPVbm-Hb5QAc0hX4i-v-pQF9xz8uH2w4jfBCRo1q7a25xr-TCpjAyGoDmSafeXHoZUfrT9_Wn5AqDdgV7cMop7pi9oC?key=_cqGIZPHcS9nSvbhhzHuQw" alt="FNAF 1" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>FNAF 1</figcaption> </a>
-                 <a data-game-url="https://run3.io/popgame/fnaf/fnaf2.html" data-game-creator="Scott Cawthon" class="game-link Horror Survival" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7o6scntWzvbNfuHXk8uu1pH_YbHOBw6ds4ITknP0bwNJmPWkD2qF2tubjnbpwnHOG1zFGIRBc2DOyS2iU4GyuHDqZblXJl5SqsTtibCIbKl3JAMffa2WddCRQfEfUTE_kX6zv4Aarympzm0949cxnX-Mhzz4bs-vSlHHQg0XcuJwvyMuv4?key=_cqGIZPHcS9nSvbhhzHuQw" alt="FNAF 2" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>FNAF 2</figcaption> </a>
-                 <a data-game-url="https://run3.io/popgame/fnaf/fnaf3.html" data-game-creator="Scott Cawthon" class="game-link Horror Survival" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qUdr9O8tYfMzPwYk3z6S1ets56fqkoQkIt0QmqUQ9JKSicXhUvDujDd1v-0rR9Qyt1jXp78oXAKczijMvQbCSdxkbOr7wV0VKDkG8m37rplmajZsAOKQwnY_xWVannmJeW9Yv4WRovZI0ThJ2dB7uXxi6g7PzVVAJ9C5dbGlTyyGWsh_J5?key=_cqGIZPHcS9nSvbhhzHuQw" alt="FNAF 3" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>FNAF 3</figcaption> </a>
-                 <a data-game-url="https://run3.io/popgame/fnaf/fnaf4.html" data-game-creator="Scott Cawthon" class="game-link Horror Survival" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7ocfBjnIr8FZzzBVwQmSFToA1GSsRxCzfaosFibKbByEpsKKx2RvNu0QMbunPkGqUsVaIOUXB8ScC0fs06SG3JfDZ7XHGjWkRYgq6WzttuXX-dJamW-I0UMB9M6AdmWdvZi3a7DIsw72RlBfC5lR7YMoH5MV3SFmjDLIqnEYHufQBetb7_n?key=_cqGIZPHcS9nSvbhhzHuQw" alt="FNAF 4" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>FNAF 4</figcaption> </a>
-                 <a data-game-url="https://run3.io/popgame/fnaf/fnafsl.html" data-game-creator="Scott Cawthon" class="game-link Horror Survival" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7oDEeqHYA5Pd5F6ylFWd2fcI_Kg2YOTbPYfbOoczerUGf5JYcSMPhLvfS_e0Paw4jZsGA85KKzBt8qP-rkCYKJ7cpQexYHLARWRO-wzO8DN2YoRVJPz1R1BanRLn8-2-yzkPeIlS7_VVUYK49hoUlbDhFDbiA1fLiX3HqfJjoLK-XoYfXJc?key=_cqGIZPHcS9nSvbhhzHuQw" alt="FNAF Sister Location" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>FNAF Sister Location</figcaption> </a>
-                 <a data-game-url="https://ubg365.github.io/fruit-ninja/" data-game-creator="Halfbrick Studios" class="game-link Arcade Action Skill" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rSQqThTWWv3mGPKYjKGvcJGwq8smg0uzsqqAI4Qb3pB45Lo5Js6Msyp1ElwqaSQ9kcwGr7xJnBAdxZDmSScQ9zfm1R2VsFpIptQOgz5QnsQ7abILhYYsh3LnNZS4iOEe4Sc-xrq3iBiyj6qHpzcGIO62MebNvQscrPVRN05bOjnOQQ2ABF?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Fruit Ninja" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Fruit Ninja</figcaption> </a>
-                 <a data-game-url="https://geometrygame.org/game/geometry-dash-lite/" data-game-creator="RobTop Games" class="game-link Platformer Arcade Rhythm" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7r84NgcBmdPNZFCxNZ8TyMhAeh8RB7MB4wLFA4tsjEcBAgD3pb-9DKawHgvUwPKogqlN7jCm7wihV4PiCQcE-EJgw2vghN_MENnuaUAB7Oj39KS0YyM5CSRwEr62_XbGCc4Wg6Tvr4F-wXOglG9-SA0IdzXrE4ALGF61c-ltn-lP0ezSCvw?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Geometry Dash" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Geometry Dash</figcaption> </a>
-                 <a data-game-url="https://iron-snout.gitlab.io/file/" data-game-creator="SnoutUp" class="game-link Action Fighting" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rFlYf0z0lM9mfibdSziu7uP1F6HsGy-GaknU5oY8duR-gOJQLHlP2vj5oDy3YimYxT_ENdfVVwtBMKkywWN2ngZ8QEwRXaUxpwOP6D9D6FqGZigeXZW8mus2OQ_oLKb_4nOokUBrDLv1DViqNat_qOKzwhevT1WdG7OyYZ7IBv8sHdvCHu?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Iron Snout" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Iron Snout</figcaption> </a>
-                 <a data-game-url="https://ext.minijuegosgratis.com/jetpack-joyride/index.html" data-game-creator="Halfbrick Studios" class="game-link Arcade Endless Action Runner" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rTBZHw6BTCcf7wLeFm_M4snJMR8b5LgbbBaYmULeubUuBwko6OBb4T00sgQGTqk0EHcWvXqv9HKHyN8_yVT8RXrNXi94TWirscS7LtioGfMnoUmyC7dAlETpv6cH02CAYv5GVB3brQTdco9wBKAyeWz4CLN4KRfUEwuQKd4FPh60B6bgYP?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Jetpack Joyride" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Jetpack Joyride</figcaption> </a>
-                 <a data-game-url="https://rbeesley.github.io/MicrosoftEdge-SURF/" data-game-creator="Microsoft" class="game-link Arcade Endless Sports" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7ooD61sLts6Iw2em1eMWkXX0rSHMyqMpF6m8zhqjfQxD8wF4V85UimeRJQHCliWfh66WTYDGuDBhF4WuYiRKq8XQ8lt210vidWAStA7HvSDhUUn-rlwgLRMM5_znewZajJKED4yW25OdviEY4OqLeuhS8ww3KIBgmLf6GgowhnWuUv0?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Let's Surf" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Let's Surf</figcaption> </a>
-                 <a data-game-url="https://www.echalk.co.uk/amusements/Games/Pacman/pacman.html" data-game-creator="Bandai Namco" class="game-link Arcade Classic Maze Flash" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7r-5i4rsjjqfkWd2Cp88-WtShq9uBBWi8Ku_R2cEUyvDmSeLlwLuFP3x_xLn2OfmRUubvFhuc0OfqV26Gl4QLaL0mXXCULeE_WJP0Fe5KtKd076C3jiclAFVp5KQrmwQnelCBUjqXUSMHw7BQrAQNpW7bP6qUKy2VkHCOTSe1lH_t-kFi8A?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Pacman" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Pacman</figcaption> </a>
-                 <a data-game-url="https://pinball.flutter.dev/#/" data-game-creator="Google" class="game-link Arcade Simulation" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7ok4o3Bc0dQJfiX1acq0roG6aIeJWZ_Hb5iVj5T1GDha2sWklJ_19zIas29gHG_D_YfKG2Hxgg8EmqTSRDVhYvNHBr8jf-ws4vMHipvvfne-2CKDJXWWBzj3Ib-FiKK1whmFQUfkFK5jcI0O0VXNncbsBikW-ugQgvO123tGzA7P5WjouJT?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Google Pinball" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Google Pinball</figcaption> </a>
-                 <a data-game-url="https://basic-ruffle-player.vercel.app/html/polytrack/index.html" data-game-creator="Unknown" class="game-link Driving Skill" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qx0hLvolDnX2W9Q_Usg-LUG3pcPT5y_hsIke7YhBOUhZYP0sHZzMTunNY83NzvH6h2RqJa4NUjgdHG8JTL4r_s5OawyrYJeJUkI1nPEd-Voc5Pu2d0ETyrJ2oPS2uIC9PY9MkWeF30I2prksM2GCwaa4N_j32jN-Gas36rbwciCCG9Q_4?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Poly Track" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Poly Track</figcaption> </a>
-                 <a data-game-url="https://thepizzaedition.github.io/JetpackJoyride/projects/portalflash/index.html" data-game-creator="We Create Stuff" class="game-link Puzzle Platformer Flash" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7p-gRkEDHVugliLG1jIBTbQ7es1njVrggnEdBRCz-gHNTGyIQeBa_hQifuQy7LhzHBlmNaxTL06uphva-vb_dxZKW7mEUxdHgdbhvQU8RbLi4K9VshuQNT3wO2ZSyEK6ySDbg7pmV04uH2hq9nZ-Vo7h2F8nuE_sbZ77O-UZ8XUFmYOtQMV?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Portal: The Flash Edition" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Portal</figcaption> </a>
-                 <a data-game-url="https://crackstuff.pages.dev/games/Rocket-League/" data-game-creator="Psyonix" class="game-link Sports Action Driving Multiplayer" data-players="Multi"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rYjGQcutZiOP7kIs8uzPqu6j5EJLBKv_m0kARbulGQStq5sivxMaEVJs08ymtn-xmL_2guPsC5vA6JRiWHobOaIItPR3x0TQ12u15sJ0qa4VSXP3i1BdgabRDWt6waOhWKnzqcID9rlqi_Upku7ZXJNMFktuzfsGK3o0dqWWwTlEuMAygY?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Rocket League Sideswipe" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Rocket League</figcaption> </a>
-                 <a data-game-url="https://linh879.github.io/run333/tn6pS9dCf37xAhkJv/" data-game-creator="Player03" class="game-link Endless Platformer Skill" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7r5DJ8wEakDCWypgROGowJMDddkNaQ1jp6GHMiY_1yRFVrv020L5l7OotqzCtZJbUbYsNrYTv8SU6Qn45GsoEFFXmd-6rME7nsNhzRkiMAQfs9ssEec0UGMlJiHMVN1PBOb0SRf5c8c1xmqKMpLzpqxm2t9U49n1U-JjWfAgVhWWfRPcb2V?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Run 3" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Run 3</figcaption> </a>
-                 <a data-game-url="https://shalbito.vercel.app/" data-game-creator="R74n" class="game-link Simulation Sandbox Puzzle" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7q5k22Cyd3PRlgkWvTF0LZ74sdC57cTyjTXwW3OqjCDvFkIK-7E4yqqDXHGo6Egm5TBi_eOtqg_KBLSgOOCtIZ7hPTNkSZ4-lsSFkkNVZr_jkQ4v3pFNKtV_HNc17nkGltN4GsjEfwSPl8B_iVLZ9BOtP7xciE7-s2g8Wy1Pxl0PcU2ukw?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Sandboxels" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Sandboxels</figcaption> </a>
-                 <a data-game-url="https://shellshock.io/" data-game-creator="Blue Wizard Digital" class="game-link Action FPS Multiplayer io" data-players="Multi"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7oawJnFVM9CHI0haxijICQHcBTWP-DesKDkRCRpiQaNtAgXPLmzAFEKLWW-Vn8uPmNsfYjOOnasmiAxwm6BOttgNpEXiXPw9AcgeXhGTh2-ltExLPd685UNGBmfEay2XAUMNQQTb97DqhVGnm-QWB2eIVoJ0iyAcZu4zCc2S1EMUNVorIs?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Shellshock.io" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Shellshock.io</figcaption> </a>
-                 <a data-game-url="https://azgames.io/game/slope/" data-game-creator="Y8/Rob Kay" class="game-link Endless Skill Platformer 3D" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7ruFeRu_NYYJobl2iyufAhfnE3_OZhj8B523Qdb6fqB_AteU-AP3dwVqV__Wt6eOHTy_ZCYtCTHrSULqPOZSLaYPxdHwPI-4eGU3dvct8MuLRnuBa_Gy2iFJKrkEKRHPWBDwIKMjjkA4yLN_ntOnDRGz3BLR0RqNRS5F6IDIEp9Dv60PaMd?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Slope" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Slope</figcaption> </a>
-                 <a data-game-url="https://snake.io/crazygames/" data-game-creator="Kooapps Games" class="game-link Arcade Multiplayer io" data-players="Multi"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qtZwR0uAOBsDgNPm27qqC15awQXfiDeFArEWgar66wd_PkonNyfyJVWzkFzedkf_-jwBBucEqUMUnEdQraziT5m2RBL_TxIipmVPnwDzvpgN6R1fY6iRIjKj-_Vo3DgLFAv_t-xKIVBPkiCb0TP1JAY7AqkPtzy5ZPWabAs9TbyglagulV?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Snake.io" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Snake.io</figcaption> </a>
-                 <a data-game-url="https://lagged.com/api/play2/spiral-roll3/" data-game-creator="Voodoo" class="game-link Arcade Skill" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7oA1xAplYUBwiEV9tdnQfDJrnPJsGDtPgUQvs2nXCjFRgbKiAqfr_Ep5gDYe2Em7SvFM6aMVR9DL5HqDiNnvBgE1zs2fg7lA3XZYIcXmGV-AzOKrKRZ1IFx9GG0X_Y1Mq73jnDG3WYLcLkAFLF_LNAx-a2KtrpXeU_ENKVhVix1NizQpWqZ?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Spiral Roll" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Spiral Roll</figcaption> </a>
-                 <a data-game-url="https://jiwjfowhfusfdgfigiydgsifygdiyfgdi.netlify.app/games/stickmanhook/" data-game-creator="Madbox" class="game-link Arcade Skill Platformer" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7q2tuzgCTCvT0DgCavArC8IBUFSh7TusPVOUWpgzdQchZVh0wDYyJ1UvTlyNLqwR1eHCNqHxC7H1gHNHSgTHT3X6SwZE5Rn0iNZ4-Goy1uZDzUgJQI6xRBjLJstQ5DFz3A2iPLd-Sz_Yzy5IWgYgNixl8rehYQU6zyPjJkctZ-1CTAlmDHQ?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Stickman Hook" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Stickman Hook</figcaption> </a>
-                 <a data-game-url="https://g.igroutka.ru/games/164/ZXLa594fek6p7nVR/10/subway_surfers_classic/" data-game-creator="SYBO/Kiloo" class="game-link Endless Action Runner" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7oJIsfHHTpbUCkoZp6jvbH0DZkqNQLC7U73QEedljFzGQRdTCH_0Elmwfhm6uESB4H34jxq82hOILTR7cJiCN_lgS6y5XWKOdrxCeoBe5O_MwMvP2L3x7EmNfxbJdlFLFfote4m7qogW32p16GZYmrTP22zUb75JsTSG5E6OXsYAuZyfCw5?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Subway Surfers" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Subway Surfers</figcaption> </a>
-                 <a data-game-url="https://azgames.io/game/temple-run-2/" data-game-creator="Imangi Studios" class="game-link Endless Action Runner" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7pQBbWUS3X4kQ5ONbQVWfQeHyMoVnG9NvG1Q3Q6wGXoNNPgOe64MrZiDb2HDYYmscAIS_RLCPC4YWGwbqh8p3XLXoaE1w-c2JGU2DHZJwEI5k-odNID_eOwA9NYOjnffwlI2eB8JRLXIqFUxPbDfowAomu6KkW9uOdBPRhodrAryEoQpTnq?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Temple Run 2" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Temple Run 2</figcaption> </a>
-                 <a data-game-url=https://the-impossible-quiz.game-files.crazygames.com/ruffle/theimpossiblequiz.html?v=1.328" data-game-creator="Splapp-me-do" class="game-link Puzzle Flash Funny" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rBn1tq2QDIvM6w7D3HCGvhgrNVQOrrJMZIedz21QaMja3j1R-qicxQ-nA0fP_ueq7YewLEJEpha5568WkZqg6V1AmTQ50UIQN1jpIx8oonaA8flkDCeqI2weBNZzh6WWKqvhhYQppl7aUzL15aU_9XAedUeGwEwzulqBVjG-k2zbOwQ9uZ?key=_cqGIZPHcS9nSvbhhzHuQw" alt="The Impossible Quiz" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>The Impossible Quiz</figcaption> </a>
-                 <a data-game-url="https://basic-ruffle-player.vercel.app/?file=TheImpossibleQuiz2.swf" data-game-creator="Splapp-me-do" class="game-link Puzzle Flash Funny" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7p2e5By6se7f4HZQSQ0d3qi6AGvVvxEsKVfoMrIGUbV8oBOb1yWCr0Po3c_jrPd8CWH_DZcNhH2LCWrOMlfyvWjgq-9OjJ0yFSssZvuEWIdGS_SdrK3OcSx6P57sKPaOT4pAG-0qH_iQ6GP7gzBiGEqjp4uD3cJ8XYCPSi2L9bc6G31bW1f?key=_cqGIZPHcS9nSvbhhzHuQw" alt="The Impossible Quiz 2" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>The Impossible Quiz 2</figcaption> </a>
-                 <a data-game-url="https://slope-game.github.io/new5923/tomb/" data-game-creator="Playgendary" class="game-link Arcade Maze Skill" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7ozzlud4cjKkaKjci8i9152VGO2ffO8QIO_1u6S2gCO-vqEhFDGLAfR7rjb-GHh_BjQhRXwj4AOByOfWmzrkOncsi4u56rwg3ryiZsJaHbujOFkY_nLcHqwNUEkGmiY_4GvYUG5ljLJN3nCI2NgyDj0vlh8DsAn9imul8uN6VTA--R4C59i?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Tomb Of The Mask" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Tomb Of The Mask</figcaption> </a>
-                 <a data-game-url="https://slope-game.github.io/rungame/tunnel-rush-2/" data-game-creator="Deer Cat Games" class="game-link Endless Skill 3D" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rTWc-IpLPXKE28ixI-sHuWA4Xpw8fQeq3_iwbhhDvprD85bYgMd1Hl1uwcLWKkoikVqO4DFZ9ym2ZUpTfJCNgF3Jmzvflob23-wLCQ43k6Q7r6nO7dFMd3dhYRiBGIe3vmqmZax-Y1O7o7RFT6dxx9w1tf9vsGi1UooVEr-Crw-bgLAc2P?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Tunnel Rush 2" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Tunnel Rush 2</figcaption> </a>
+                 <a data-game-url="https://www.mathsisfun.com/games/a/2048/index.html" data-game-creator="Gabriele Cirulli" class="game-link Puzzle Strategy" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7put38SVe1Deg0JqDmLg8HZ58mA0KmW_tYuMKUlfrCQ3SWkOLXT2lD_BSmRw-18BJMfC1FDl1L5wYd0FPxAzCgK1sDtczcyzJa1uTBSfeiv8QFz6N_0T9Js_Bved5T4tkMyn1nxqarw7Lp-ZSWriMLgjEd8VT87VgRuVRMeu67W4BuMCqGr?key=_cqGIZPHcS9nSvbhhzHuQw" alt="2048" loading="lazy"> <figcaption>2048</figcaption> </a>
+                 <a data-game-url="https://suite.saltyspamz.xyz/games/games/9007199254740992/" data-game-creator="Constructible Universes" class="game-link Puzzle Strategy Math" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7pZz0gPYRzLFGc2CfRoFFmneCupdyhaZ27IkDDFgVSlpRLf4RGmirknfFphoJzZ_mrImVIOMz81Zr-1SvjW0yGRi-eiK0e-s-uiZn12I1_1dtoro4T6Nma7WpqNCKqiGtmS-mYHKD58MEjRobVxOV5rgWrR4pf3piW5gN_6X2VhaFCoeMB8?key=_cqGIZPHcS9nSvbhhzHuQw" alt="9007199254740992" loading="lazy"> <figcaption>9007199254740992</figcaption> </a>
+                 <a data-game-url="https://asmallworldcup.com/embed/a-small-world-cup/" data-game-creator="Roody Games" class="game-link Sports Physics" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7riJk0hgmbjPFIWyDZ5-M_7RiRBgV9gGgPo1nrygI5GWkmVBZMFR1DS544OdB1xHSYhHEtWxtFq4i3-oRoKCtBJMsTmM2mpCKJPaZ8SsLyVIplMkHA3MfCqAEiVSTR2FIN3BuryTETBK8v8IezaunERekXJ1a8HeZgLOklB8DPbn57s8j3s?key=_cqGIZPHcS9nSvbhhzHuQw" alt="A Small World Cup" loading="lazy"> <figcaption>A Small World Cup</figcaption> </a>
+                 <a data-game-url="https://reunbozdo.github.io/" data-game-creator="Puzzle Dev" class="game-link Puzzle" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qrr5y2BGA815sfSQkwY9HkFAH5G8xo20uonAjEze3DVIFpviSRVeCyax2QdrrscVNT2SiLld0pMkVrWmjnk2hwJstqAnrBCwNhjU8PWAtngdkVWh6rSVaRIrblM6Ho4KV7C2axBS9cUqVf1B8bEgBNP8pBzavHVXB4rcWuOIYfRfGXtdXf?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Block Blast" loading="lazy"> <figcaption>Block Blast</figcaption> </a>
+                 <a data-game-url="https://html-classic.itch.zone/html/13185656/index.html" data-game-creator="Ninja Kiwi" class="game-link TowerDefense Strategy" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rQONyJLzuwSRLCx5pPS4VXlJz600WaXeQ4X9D3AtPxqcuCB3n0rz4nFb2G4ykyQ59fcyKw49iVqXx5H5xf83FXif1H6FN8ZxDYqIKvZeYIqhiUimt147JUBYoqYKq1sat1qN51Ps-D90AK8ZIKkE1c7ZSENKHGGVkTCwKXsIQAOi2NRx8?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Bloons TD 6" loading="lazy"> <figcaption>Bloons TD 6</figcaption> </a>
+                 <a data-game-url="https://gas.education/gams/gfiles/html5/cookieclicker/" data-game-creator="Orteil" class="game-link Clicker Idle" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7pZl7t0nmYsHYi1x81A0hAoSPEgoNJdz8zt1iZuP6b2f4UOIclYI3v0sv9HYXz9KY9CFYswbcLoPD8ENy5zFQHgpa3iCQiAW4BSZIREl9xHAkiIMwXUrkYgsNTsbHFcRW-DYJsmGWY4MnPaLRSzsCC-hMSoIADorKLmc_jk-XW_FeqpKfWE?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Cookie Clicker" loading="lazy"> <figcaption>Cookie Clicker</figcaption> </a>
+                 <a data-game-url="https://www.newgrounds.com/portal/view/812336?external=1" data-game-creator="CrazyCattle3D Devs" class="game-link Action 3D" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qZCHjKmw_w6YudN_-o2tdju7khQMGMJT9vopyn2lnfU1hXApGzZKYnsJIno-wIgNNyF7m_54CdTUsRZ8GJtftApvrvFAV9Gr_a-poi8H6E6yHq01imgpFq1sF-bwqhfmIhs2suHSJ_D-I3xbYHe4uetlhRESyhQPj-nxXmyJvVJVJZnDNV?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Crazy Cattle 3D" loading="lazy"> <figcaption>Crazy Cattle 3D</figcaption> </a>
+                 <a data-game-url="https://i.gamesgo.net/uploads/game/html5/4072/" data-game-creator="Hipster Whale" class="game-link Arcade Endless" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rOweCQcfnn78ni750PKljtv4vIfBmxtDIdtyJFJ8CV_C6O3ejV6GEbcPqnY-zGsI8OymOXaxxfcYekMA5CVBAT4uUEXhwPUonRD4NoQIyHNXPTN1H6yqY8xgProGIlfzII8G7-_udplWZHsWZ4vLKdKJ1yH-XybGNZ6DQHGwrHiwihHjki?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Crossy Road" loading="lazy"> <figcaption>Crossy Road</figcaption> </a>
+                 <a data-game-url="https://www.doodlescricket.com/#/" data-game-creator="Google" class="game-link Sports Arcade" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7q6FutmpDcRE7iP7pHpkcYHW1AXo4ysaVzskouBgVJhroaNGnjYyjCWezezk232ffG1alWFdMZsZHmQN3pQj2-M49RrjIaKb2SeCujsV3zEjmhmsEcnvxrpA9sPuxJHTW14MU-UXN-VicJuclf0SVszrgZWALWVW8S6pfMx-48RDO866Sy-?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Google Cricket" loading="lazy"> <figcaption>Google Cricket</figcaption> </a>
+                 <a data-game-url="https://playcanv.as/index/DLgXf1zr" data-game-creator="Neal Agarwal" class="game-link Arcade Skill" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7oWAHnijD3dp8BFC6ncGUfyHh8ohOscjD5wG691cabrW3sjjTSgv-RCFvY9QDvQ0FItKAZSEQb4YuvXgYzlwaxZd2X6DNkqbFrUqWn1Cb0awdBPEkMwmq52lsE9A6c31J9bcAKG8yRU6VwpBxz8Bg3ipUcSp-erFrpOu8lqpKqBZsN0VB55?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Flappy Bird" loading="lazy"> <figcaption>Flappy Bird</figcaption> </a>
+                 <a data-game-url="https://run3.io/popgame/fnaf/fnaf1/" data-game-creator="Scott Cawthon" class="game-link Horror Survival" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qxsRqfRqTXYs7sxGuW_b8bPMp3MMULiBfpDb8n9iasl8M6ITdi-MW5JMyYC0o9O_uboNa-y4qIQlMn03qOmbao6pPVbm-Hb5QAc0hX4i-v-pQF9xz8uH2w4jfBCRo1q7a25xr-TCpjAyGoDmSafeXHoZUfrT9_Wn5AqDdgV7cMop7pi9oC?key=_cqGIZPHcS9nSvbhhzHuQw" alt="FNAF 1" loading="lazy"> <figcaption>FNAF 1</figcaption> </a>
+                 <a data-game-url="https://run3.io/popgame/fnaf/fnaf2.html" data-game-creator="Scott Cawthon" class="game-link Horror Survival" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7o6scntWzvbNfuHXk8uu1pH_YbHOBw6ds4ITknP0bwNJmPWkD2qF2tubjnbpwnHOG1zFGIRBc2DOyS2iU4GyuHDqZblXJl5SqsTtibCIbKl3JAMffa2WddCRQfEfUTE_kX6zv4Aarympzm0949cxnX-Mhzz4bs-vSlHHQg0XcuJwvyMuv4?key=_cqGIZPHcS9nSvbhhzHuQw" alt="FNAF 2" loading="lazy"> <figcaption>FNAF 2</figcaption> </a>
+                 <a data-game-url="https://run3.io/popgame/fnaf/fnaf3.html" data-game-creator="Scott Cawthon" class="game-link Horror Survival" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qUdr9O8tYfMzPwYk3z6S1ets56fqkoQkIt0QmqUQ9JKSicXhUvDujDd1v-0rR9Qyt1jXp78oXAKczijMvQbCSdxkbOr7wV0VKDkG8m37rplmajZsAOKQwnY_xWVannmJeW9Yv4WRovZI0ThJ2dB7uXxi6g7PzVVAJ9C5dbGlTyyGWsh_J5?key=_cqGIZPHcS9nSvbhhzHuQw" alt="FNAF 3" loading="lazy"> <figcaption>FNAF 3</figcaption> </a>
+                 <a data-game-url="https://run3.io/popgame/fnaf/fnaf4.html" data-game-creator="Scott Cawthon" class="game-link Horror Survival" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7ocfBjnIr8FZzzBVwQmSFToA1GSsRxCzfaosFibKbByEpsKKx2RvNu0QMbunPkGqUsVaIOUXB8ScC0fs06SG3JfDZ7XHGjWkRYgq6WzttuXX-dJamW-I0UMB9M6AdmWdvZi3a7DIsw72RlBfC5lR7YMoH5MV3SFmjDLIqnEYHufQBetb7_n?key=_cqGIZPHcS9nSvbhhzHuQw" alt="FNAF 4" loading="lazy"> <figcaption>FNAF 4</figcaption> </a>
+                 <a data-game-url="https://run3.io/popgame/fnaf/fnafsl.html" data-game-creator="Scott Cawthon" class="game-link Horror Survival" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7oDEeqHYA5Pd5F6ylFWd2fcI_Kg2YOTbPYfbOoczerUGf5JYcSMPhLvfS_e0Paw4jZsGA85KKzBt8qP-rkCYKJ7cpQexYHLARWRO-wzO8DN2YoRVJPz1R1BanRLn8-2-yzkPeIlS7_VVUYK49hoUlbDhFDbiA1fLiX3HqfJjoLK-XoYfXJc?key=_cqGIZPHcS9nSvbhhzHuQw" alt="FNAF Sister Location" loading="lazy"> <figcaption>FNAF Sister Location</figcaption> </a>
+                 <a data-game-url="https://ubg365.github.io/fruit-ninja/" data-game-creator="Halfbrick Studios" class="game-link Arcade Action Skill" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rSQqThTWWv3mGPKYjKGvcJGwq8smg0uzsqqAI4Qb3pB45Lo5Js6Msyp1ElwqaSQ9kcwGr7xJnBAdxZDmSScQ9zfm1R2VsFpIptQOgz5QnsQ7abILhYYsh3LnNZS4iOEe4Sc-xrq3iBiyj6qHpzcGIO62MebNvQscrPVRN05bOjnOQQ2ABF?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Fruit Ninja" loading="lazy"> <figcaption>Fruit Ninja</figcaption> </a>
+                 <a data-game-url="https://geometrygame.org/game/geometry-dash-lite/" data-game-creator="RobTop Games" class="game-link Platformer Arcade Rhythm" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7r84NgcBmdPNZFCxNZ8TyMhAeh8RB7MB4wLFA4tsjEcBAgD3pb-9DKawHgvUwPKogqlN7jCm7wihV4PiCQcE-EJgw2vghN_MENnuaUAB7Oj39KS0YyM5CSRwEr62_XbGCc4Wg6Tvr4F-wXOglG9-SA0IdzXrE4ALGF61c-ltn-lP0ezSCvw?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Geometry Dash" loading="lazy"> <figcaption>Geometry Dash</figcaption> </a>
+                 <a data-game-url="https://iron-snout.gitlab.io/file/" data-game-creator="SnoutUp" class="game-link Action Fighting" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rFlYf0z0lM9mfibdSziu7uP1F6HsGy-GaknU5oY8duR-gOJQLHlP2vj5oDy3YimYxT_ENdfVVwtBMKkywWN2ngZ8QEwRXaUxpwOP6D9D6FqGZigeXZW8mus2OQ_oLKb_4nOokUBrDLv1DViqNat_qOKzwhevT1WdG7OyYZ7IBv8sHdvCHu?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Iron Snout" loading="lazy"> <figcaption>Iron Snout</figcaption> </a>
+                 <a data-game-url="https://ext.minijuegosgratis.com/jetpack-joyride/index.html" data-game-creator="Halfbrick Studios" class="game-link Arcade Endless Action Runner" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rTBZHw6BTCcf7wLeFm_M4snJMR8b5LgbbBaYmULeubUuBwko6OBb4T00sgQGTqk0EHcWvXqv9HKHyN8_yVT8RXrNXi94TWirscS7LtioGfMnoUmyC7dAlETpv6cH02CAYv5GVB3brQTdco9wBKAyeWz4CLN4KRfUEwuQKd4FPh60B6bgYP?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Jetpack Joyride" loading="lazy"> <figcaption>Jetpack Joyride</figcaption> </a>
+                 <a data-game-url="https://rbeesley.github.io/MicrosoftEdge-SURF/" data-game-creator="Microsoft" class="game-link Arcade Endless Sports" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7ooD61sLts6Iw2em1eMWkXX0rSHMyqMpF6m8zhqjfQxD8wF4V85UimeRJQHCliWfh66WTYDGuDBhF4WuYiRKq8XQ8lt210vidWAStA7HvSDhUUn-rlwgLRMM5_znewZajJKED4yW25OdviEY4OqLeuhS8ww3KIBgmLf6GgowhnWuUv0?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Let's Surf" loading="lazy"> <figcaption>Let's Surf</figcaption> </a>
+                 <a data-game-url="https://www.echalk.co.uk/amusements/Games/Pacman/pacman.html" data-game-creator="Bandai Namco" class="game-link Arcade Classic Maze Flash" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7r-5i4rsjjqfkWd2Cp88-WtShq9uBBWi8Ku_R2cEUyvDmSeLlwLuFP3x_xLn2OfmRUubvFhuc0OfqV26Gl4QLaL0mXXCULeE_WJP0Fe5KtKd076C3jiclAFVp5KQrmwQnelCBUjqXUSMHw7BQrAQNpW7bP6qUKy2VkHCOTSe1lH_t-kFi8A?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Pacman" loading="lazy"> <figcaption>Pacman</figcaption> </a>
+                 <a data-game-url="https://pinball.flutter.dev/#/" data-game-creator="Google" class="game-link Arcade Simulation" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7ok4o3Bc0dQJfiX1acq0roG6aIeJWZ_Hb5iVj5T1GDha2sWklJ_19zIas29gHG_D_YfKG2Hxgg8EmqTSRDVhYvNHBr8jf-ws4vMHipvvfne-2CKDJXWWBzj3Ib-FiKK1whmFQUfkFK5jcI0O0VXNncbsBikW-ugQgvO123tGzA7P5WjouJT?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Google Pinball" loading="lazy"> <figcaption>Google Pinball</figcaption> </a>
+                 <a data-game-url="https://basic-ruffle-player.vercel.app/html/polytrack/index.html" data-game-creator="Unknown" class="game-link Driving Skill" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qx0hLvolDnX2W9Q_Usg-LUG3pcPT5y_hsIke7YhBOUhZYP0sHZzMTunNY83NzvH6h2RqJa4NUjgdHG8JTL4r_s5OawyrYJeJUkI1nPEd-Voc5Pu2d0ETyrJ2oPS2uIC9PY9MkWeF30I2prksM2GCwaa4N_j32jN-Gas36rbwciCCG9Q_4?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Poly Track" loading="lazy"> <figcaption>Poly Track</figcaption> </a>
+                 <a data-game-url="https://thepizzaedition.github.io/JetpackJoyride/projects/portalflash/index.html" data-game-creator="We Create Stuff" class="game-link Puzzle Platformer Flash" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7p-gRkEDHVugliLG1jIBTbQ7es1njVrggnEdBRCz-gHNTGyIQeBa_hQifuQy7LhzHBlmNaxTL06uphva-vb_dxZKW7mEUxdHgdbhvQU8RbLi4K9VshuQNT3wO2ZSyEK6ySDbg7pmV04uH2hq9nZ-Vo7h2F8nuE_sbZ77O-UZ8XUFmYOtQMV?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Portal: The Flash Edition" loading="lazy"> <figcaption>Portal</figcaption> </a>
+                 <a data-game-url="https://crackstuff.pages.dev/games/Rocket-League/" data-game-creator="Psyonix" class="game-link Sports Action Driving Multiplayer" data-players="Multi"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rYjGQcutZiOP7kIs8uzPqu6j5EJLBKv_m0kARbulGQStq5sivxMaEVJs08ymtn-xmL_2guPsC5vA6JRiWHobOaIItPR3x0TQ12u15sJ0qa4VSXP3i1BdgabRDWt6waOhWKnzqcID9rlqi_Upku7ZXJNMFktuzfsGK3o0dqWWwTlEuMAygY?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Rocket League Sideswipe" loading="lazy"> <figcaption>Rocket League</figcaption> </a>
+                 <a data-game-url="https://linh879.github.io/run333/tn6pS9dCf37xAhkJv/" data-game-creator="Player03" class="game-link Endless Platformer Skill" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7r5DJ8wEakDCWypgROGowJMDddkNaQ1jp6GHMiY_1yRFVrv020L5l7OotqzCtZJbUbYsNrYTv8SU6Qn45GsoEFFXmd-6rME7nsNhzRkiMAQfs9ssEec0UGMlJiHMVN1PBOb0SRf5c8c1xmqKMpLzpqxm2t9U49n1U-JjWfAgVhWWfRPcb2V?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Run 3" loading="lazy"> <figcaption>Run 3</figcaption> </a>
+                 <a data-game-url="https://shalbito.vercel.app/" data-game-creator="R74n" class="game-link Simulation Sandbox Puzzle" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7q5k22Cyd3PRlgkWvTF0LZ74sdC57cTyjTXwW3OqjCDvFkIK-7E4yqqDXHGo6Egm5TBi_eOtqg_KBLSgOOCtIZ7hPTNkSZ4-lsSFkkNVZr_jkQ4v3pFNKtV_HNc17nkGltN4GsjEfwSPl8B_iVLZ9BOtP7xciE7-s2g8Wy1Pxl0PcU2ukw?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Sandboxels" loading="lazy"> <figcaption>Sandboxels</figcaption> </a>
+                 <a data-game-url="https://shellshock.io/" data-game-creator="Blue Wizard Digital" class="game-link Action FPS Multiplayer io" data-players="Multi"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7oawJnFVM9CHI0haxijICQHcBTWP-DesKDkRCRpiQaNtAgXPLmzAFEKLWW-Vn8uPmNsfYjOOnasmiAxwm6BOttgNpEXiXPw9AcgeXhGTh2-ltExLPd685UNGBmfEay2XAUMNQQTb97DqhVGnm-QWB2eIVoJ0iyAcZu4zCc2S1EMUNVorIs?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Shellshock.io" loading="lazy"> <figcaption>Shellshock.io</figcaption> </a>
+                 <a data-game-url="https://azgames.io/game/slope/" data-game-creator="Y8/Rob Kay" class="game-link Endless Skill Platformer 3D" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7ruFeRu_NYYJobl2iyufAhfnE3_OZhj8B523Qdb6fqB_AteU-AP3dwVqV__Wt6eOHTy_ZCYtCTHrSULqPOZSLaYPxdHwPI-4eGU3dvct8MuLRnuBa_Gy2iFJKrkEKRHPWBDwIKMjjkA4yLN_ntOnDRGz3BLR0RqNRS5F6IDIEp9Dv60PaMd?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Slope" loading="lazy"> <figcaption>Slope</figcaption> </a>
+                 <a data-game-url="https://snake.io/crazygames/" data-game-creator="Kooapps Games" class="game-link Arcade Multiplayer io" data-players="Multi"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7qtZwR0uAOBsDgNPm27qqC15awQXfiDeFArEWgar66wd_PkonNyfyJVWzkFzedkf_-jwBBucEqUMUnEdQraziT5m2RBL_TxIipmVPnwDzvpgN6R1fY6iRIjKj-_Vo3DgLFAv_t-xKIVBPkiCb0TP1JAY7AqkPtzy5ZPWabAs9TbyglagulV?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Snake.io" loading="lazy"> <figcaption>Snake.io</figcaption> </a>
+                 <a data-game-url="https://lagged.com/api/play2/spiral-roll3/" data-game-creator="Voodoo" class="game-link Arcade Skill" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7oA1xAplYUBwiEV9tdnQfDJrnPJsGDtPgUQvs2nXCjFRgbKiAqfr_Ep5gDYe2Em7SvFM6aMVR9DL5HqDiNnvBgE1zs2fg7lA3XZYIcXmGV-AzOKrKRZ1IFx9GG0X_Y1Mq73jnDG3WYLcLkAFLF_LNAx-a2KtrpXeU_ENKVhVix1NizQpWqZ?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Spiral Roll" loading="lazy"> <figcaption>Spiral Roll</figcaption> </a>
+                 <a data-game-url="https://jiwjfowhfusfdgfigiydgsifygdiyfgdi.netlify.app/games/stickmanhook/" data-game-creator="Madbox" class="game-link Arcade Skill Platformer" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7q2tuzgCTCvT0DgCavArC8IBUFSh7TusPVOUWpgzdQchZVh0wDYyJ1UvTlyNLqwR1eHCNqHxC7H1gHNHSgTHT3X6SwZE5Rn0iNZ4-Goy1uZDzUgJQI6xRBjLJstQ5DFz3A2iPLd-Sz_Yzy5IWgYgNixl8rehYQU6zyPjJkctZ-1CTAlmDHQ?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Stickman Hook" loading="lazy"> <figcaption>Stickman Hook</figcaption> </a>
+                 <a data-game-url="https://g.igroutka.ru/games/164/ZXLa594fek6p7nVR/10/subway_surfers_classic/" data-game-creator="SYBO/Kiloo" class="game-link Endless Action Runner" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7oJIsfHHTpbUCkoZp6jvbH0DZkqNQLC7U73QEedljFzGQRdTCH_0Elmwfhm6uESB4H34jxq82hOILTR7cJiCN_lgS6y5XWKOdrxCeoBe5O_MwMvP2L3x7EmNfxbJdlFLFfote4m7qogW32p16GZYmrTP22zUb75JsTSG5E6OXsYAuZyfCw5?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Subway Surfers" loading="lazy"> <figcaption>Subway Surfers</figcaption> </a>
+                 <a data-game-url="https://azgames.io/game/temple-run-2/" data-game-creator="Imangi Studios" class="game-link Endless Action Runner" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7pQBbWUS3X4kQ5ONbQVWfQeHyMoVnG9NvG1Q3Q6wGXoNNPgOe64MrZiDb2HDYYmscAIS_RLCPC4YWGwbqh8p3XLXoaE1w-c2JGU2DHZJwEI5k-odNID_eOwA9NYOjnffwlI2eB8JRLXIqFUxPbDfowAomu6KkW9uOdBPRhodrAryEoQpTnq?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Temple Run 2" loading="lazy"> <figcaption>Temple Run 2</figcaption> </a>
+                 <a data-game-url=https://the-impossible-quiz.game-files.crazygames.com/ruffle/theimpossiblequiz.html?v=1.328" data-game-creator="Splapp-me-do" class="game-link Puzzle Flash Funny" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rBn1tq2QDIvM6w7D3HCGvhgrNVQOrrJMZIedz21QaMja3j1R-qicxQ-nA0fP_ueq7YewLEJEpha5568WkZqg6V1AmTQ50UIQN1jpIx8oonaA8flkDCeqI2weBNZzh6WWKqvhhYQppl7aUzL15aU_9XAedUeGwEwzulqBVjG-k2zbOwQ9uZ?key=_cqGIZPHcS9nSvbhhzHuQw" alt="The Impossible Quiz" loading="lazy"> <figcaption>The Impossible Quiz</figcaption> </a>
+                 <a data-game-url="https://basic-ruffle-player.vercel.app/?file=TheImpossibleQuiz2.swf" data-game-creator="Splapp-me-do" class="game-link Puzzle Flash Funny" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7p2e5By6se7f4HZQSQ0d3qi6AGvVvxEsKVfoMrIGUbV8oBOb1yWCr0Po3c_jrPd8CWH_DZcNhH2LCWrOMlfyvWjgq-9OjJ0yFSssZvuEWIdGS_SdrK3OcSx6P57sKPaOT4pAG-0qH_iQ6GP7gzBiGEqjp4uD3cJ8XYCPSi2L9bc6G31bW1f?key=_cqGIZPHcS9nSvbhhzHuQw" alt="The Impossible Quiz 2" loading="lazy"> <figcaption>The Impossible Quiz 2</figcaption> </a>
+                 <a data-game-url="https://slope-game.github.io/new5923/tomb/" data-game-creator="Playgendary" class="game-link Arcade Maze Skill" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7ozzlud4cjKkaKjci8i9152VGO2ffO8QIO_1u6S2gCO-vqEhFDGLAfR7rjb-GHh_BjQhRXwj4AOByOfWmzrkOncsi4u56rwg3ryiZsJaHbujOFkY_nLcHqwNUEkGmiY_4GvYUG5ljLJN3nCI2NgyDj0vlh8DsAn9imul8uN6VTA--R4C59i?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Tomb Of The Mask" loading="lazy"> <figcaption>Tomb Of The Mask</figcaption> </a>
+                 <a data-game-url="https://slope-game.github.io/rungame/tunnel-rush-2/" data-game-creator="Deer Cat Games" class="game-link Endless Skill 3D" data-players="1"> <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7rTWc-IpLPXKE28ixI-sHuWA4Xpw8fQeq3_iwbhhDvprD85bYgMd1Hl1uwcLWKkoikVqO4DFZ9ym2ZUpTfJCNgF3Jmzvflob23-wLCQ43k6Q7r6nO7dFMd3dhYRiBGIe3vmqmZax-Y1O7o7RFT6dxx9w1tf9vsGi1UooVEr-Crw-bgLAc2P?key=_cqGIZPHcS9nSvbhhzHuQw" alt="Tunnel Rush 2" loading="lazy"> <figcaption>Tunnel Rush 2</figcaption> </a>
 
                  <!-- New Games (Added with 'New' class, updated/fixed icons) -->
-                 <a data-game-url="https://1000mines.com/" data-game-creator="Classic / 1000Mines" class="game-link Puzzle Strategy Classic New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://styles.redditmedia.com/t5_2r4c3/styles/communityIcon_whz4tmbb4w061.png" alt="Minesweeper" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Minesweeper</figcaption> </a>
-                 <a data-game-url="https://smashkarts.io/" data-game-creator="Tall Team" class="game-link Action Driving Multiplayer io 3D New" data-players="Multi"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/9c9e529b14731be871b07b89660bbc2a.png" alt="Smash Karts" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Smash Karts</figcaption> </a>
-                 <a data-game-url="https://cryzen.io/play" data-game-creator="Cryzen Team" class="game-link Action FPS Multiplayer io 3D Shooter New" data-players="Multi"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://imgs.search.brave.com/S2rOYG8AWcBvtR5PZqvp4yh0zYyz0ujjC53S9p8iB4E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bm93LmdnL2FwcHMt/Y29udGVudC9jb20u/bm93Z2cuaDUucHVi/NzA0LmFwcDUxNTQx/L2ljb24vY3J5emVu/LWlvLnBuZw" alt="Cryzen.io" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Cryzen.io</figcaption> </a> <!-- Updated -->
-                 <a data-game-url="https://venge.io/" data-game-creator="OnRush Studio" class="game-link Action FPS Multiplayer io 3D Shooter New" data-players="Multi"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://imgs.search.brave.com/hb8f1lTIxqQqIPyFGLBD-a7DHZ0mAj6ZodMD5kVzso0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/MS53ZWJjYXRhbG9n/LmlvL2NhdGFsb2cv/dmVuZ2UtaW8vdmVu/Z2UtaW8taWNvbi1m/aWxsZWQtMjU2LnBu/Zz92PTE3MTQ3NzYz/NDE0MjI" alt="Venge.io" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Venge.io</figcaption> </a> <!-- Updated -->
-                 <a data-game-url="https://sandstrike.io/" data-game-creator="Smusi Games" class="game-link Action FPS Multiplayer io 3D Shooter New" data-players="Multi"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://imgs.search.brave.com/O_5Lod-kaa82UiDIqldD4yT3qjoHRD40pSGwNFDyoqQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9yb2Nr/ZXRnYW1lcy5pbWdp/eC5uZXQvdXBsb2Fk/cy9nYW1lcy9zL3Nh/bmRzdHJpa2UtaW8v/c2FuZHN0cmlrZS1p/by5qcGc_YXV0bz1m/b3JtYXQsY29tcHJl/c3MsZW5oYW5jZSZ3/PTIwNCZkcHI9MQ" alt="Sandstrike.io" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Sandstrike.io</figcaption> </a> <!-- Updated -->
-                 <a data-game-url="https://ev.io/" data-game-creator="Addicting Games Inc." class="game-link Action FPS Multiplayer io 3D Shooter New" data-players="Multi"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://play-lh.googleusercontent.com/juxYvgqg-LoPrQrLW3M6xRrPlZD-k_Dms6xmzG0GJf5RhDK0fXtyAtmLRLVzHe2AQ32l=s956-rw" alt="Ev.io" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Ev.io</figcaption> </a>
-                 <a data-game-url="https://driftboss-online.github.io/file/" data-game-creator="MarketJS / Unknown" class="game-link Driving Skill Arcade Endless New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/baf55f009fd63dd63c760a5dcfe79615.png" alt="Drift Boss" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Drift Boss</figcaption> </a>
-                 <a data-game-url="https://html5.gamedistribution.com/rvvASMiM/ac6a950a44d144139dabe7837aa4aab9/index.html?gd_sdk_referrer_url=https%3A%2F%2Felifesimulation.io%2Fbitlife&gd_zone_config=eyJwYXJlbnRVUkwiOiJodHRwczovL2VsaWZlc2ltdWxhdGlvbi5pby9iaXRsaWZlIiwicGFyZW50RG9tYWluIjoiZWxpZmVzaW11bGF0aW9uLmlvIiwidG9wRG9tYWluIjoiZWxpZmVzaW11bGF0aW9uLmlvIiwiaGFzSW1wcmVzc2lvbiI6ZmFsc2UsImxvYWRlckVuYWJsZWQiOnRydWUsImhvc3QiOiJodG1sNS5nYW1lZGlzdHJpYnV0aW9uLmNvbSIsInZlcnNpb24iOiIxLjUuMTcifQ%253D%253D" data-game-creator="Candywriter" class="game-link Simulation Idle Funny New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://play-lh.googleusercontent.com/3_pJXihjGNygcDUyyUiKHObSE-LiNcM5iPWWvFDzI2IG09D4eZZ3EQzMcFSDm8P568w=w240-h480-rw" alt="BitLife" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>BitLife</figcaption> </a>
-                 <a data-game-url="https://www.coolmathgames.com/0-push-your-luck/play" data-game-creator="Coolmath Games" class="game-link Puzzle Strategy Math Skill New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://www.coolmathgames.com/sites/default/files/styles/app_icon/public/push-your-luck-game-icon.png?itok=aeT8A2NP" alt="Push Your Luck" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Push Your Luck</figcaption> </a> <!-- Updated -->
-                 <a data-game-url="https://ducklifegame.io/gg/duck-life-9/" data-game-creator="Cheetah Games" class="game-link Arcade Skill Runner New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://img.tapimg.net/market/images/0037ae1dba5b6c6264e48492b604ac13.png/appicon_m?t=1" alt="Tap Tap Dash" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Tap Tap Dash</figcaption> </a>
-                 <a data-game-url="https://kdata1.com/2020/05/22948/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/d0048d89-e4fa-4adb-9c77-adc51e4e1c6b.png" alt="Duck Life" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Duck Life</figcaption> </a>
-                 <a data-game-url="https://kdata1.com/2019/09/ducklife2/webgl/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/f2431276-8a98-4214-9a88-d0ea91fe0af2.png" alt="Duck Life 2" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Duck Life 2</figcaption> </a>
-                 <a data-game-url="https://kdata1.com/2019/09/ducklife3/webgl/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/f5671816-e95b-4d41-adb7-411708f431ba.png" alt="Duck Life 3" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Duck Life 3</figcaption> </a>
-                 <a data-game-url="https://kdata1.com/2020/05/22948/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/e0453c83-9012-44a3-8d4d-595ea0400f58.png" alt="Duck Life 4" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Duck Life 4</figcaption> </a>
-                 <a data-game-url="https://n-src66thyd5u5fsjmgyioulc37nhbtahadirzvky-0lu-script.googleusercontent.com/userCodeAppPanel" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://play-lh.googleusercontent.com/JQqSn7wuCj0SxBqpBThNI33qCR9gwY0str2TIAnu-m_xrVCgZk3IPxYK2S7zC9WG0ig=s256-rw" alt="Duck Life 5" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Duck Life 5</figcaption> </a> <!-- Updated Icon -->
-                 <a data-game-url="https://games.wixgames.co.uk/games/ducklifespace/webgl/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://play-lh.googleusercontent.com/ndILnpPIPE5Kfqmwzjlbdz2duHMjh0yvnZ31PBJ_-oZOPa9iYfh1jedpj2-td2pyrKmj=w240-h480-rw" alt="Duck Life 6: Space" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Duck Life: Space</figcaption> </a>
-                 <a data-game-url="https://games.wixgames.co.uk/games/ducklifebattledemo/webgl/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny Action New" data-players="1"> <button class="favorite-btn" title="Add to Favorites"><i class="far fa-star"></i></button> <img src="https://play-lh.googleusercontent.com/epeBd8ftLXNHy9TjcB4k2Ip0KzcMT-4oTjDUt_DwMjgDwrbSTuVI77ccVWMdoDMXDQ=s256-rw" alt="Duck Life 7: Battle (Demo)" loading="lazy"> <div class="rating-stars"><i class="far fa-star" data-value="1"></i><i class="far fa-star" data-value="2"></i><i class="far fa-star" data-value="3"></i><i class="far fa-star" data-value="4"></i><i class="far fa-star" data-value="5"></i></div> <figcaption>Duck Life: Battle (Demo)</figcaption> </a> <!-- Updated Icon -->
+                 <a data-game-url="https://1000mines.com/" data-game-creator="Classic / 1000Mines" class="game-link Puzzle Strategy Classic New" data-players="1"> <img src="https://styles.redditmedia.com/t5_2r4c3/styles/communityIcon_whz4tmbb4w061.png" alt="Minesweeper" loading="lazy"> <figcaption>Minesweeper</figcaption> </a>
+                 <a data-game-url="https://smashkarts.io/" data-game-creator="Tall Team" class="game-link Action Driving Multiplayer io 3D New" data-players="Multi"> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/9c9e529b14731be871b07b89660bbc2a.png" alt="Smash Karts" loading="lazy"> <figcaption>Smash Karts</figcaption> </a>
+                 <a data-game-url="https://cryzen.io/play" data-game-creator="Cryzen Team" class="game-link Action FPS Multiplayer io 3D Shooter New" data-players="Multi"> <img src="https://imgs.search.brave.com/S2rOYG8AWcBvtR5PZqvp4yh0zYyz0ujjC53S9p8iB4E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bm93LmdnL2FwcHMt/Y29udGVudC9jb20u/bm93Z2cuaDUucHVi/NzA0LmFwcDUxNTQx/L2ljb24vY3J5emVu/LWlvLnBuZw" alt="Cryzen.io" loading="lazy"> <figcaption>Cryzen.io</figcaption> </a> <!-- Updated -->
+                 <a data-game-url="https://venge.io/" data-game-creator="OnRush Studio" class="game-link Action FPS Multiplayer io 3D Shooter New" data-players="Multi"> <img src="https://imgs.search.brave.com/hb8f1lTIxqQqIPyFGLBD-a7DHZ0mAj6ZodMD5kVzso0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/MS53ZWJjYXRhbG9n/LmlvL2NhdGFsb2cv/dmVuZ2UtaW8vdmVu/Z2UtaW8taWNvbi1m/aWxsZWQtMjU2LnBu/Zz92PTE3MTQ3NzYz/NDE0MjI" alt="Venge.io" loading="lazy"> <figcaption>Venge.io</figcaption> </a> <!-- Updated -->
+                 <a data-game-url="https://sandstrike.io/" data-game-creator="Smusi Games" class="game-link Action FPS Multiplayer io 3D Shooter New" data-players="Multi"> <img src="https://imgs.search.brave.com/O_5Lod-kaa82UiDIqldD4yT3qjoHRD40pSGwNFDyoqQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9yb2Nr/ZXRnYW1lcy5pbWdp/eC5uZXQvdXBsb2Fk/cy9nYW1lcy9zL3Nh/bmRzdHJpa2UtaW8v/c2FuZHN0cmlrZS1p/by5qcGc_YXV0bz1m/b3JtYXQsY29tcHJl/c3MsZW5oYW5jZSZ3/PTIwNCZkcHI9MQ" alt="Sandstrike.io" loading="lazy"> <figcaption>Sandstrike.io</figcaption> </a> <!-- Updated -->
+                 <a data-game-url="https://ev.io/" data-game-creator="Addicting Games Inc." class="game-link Action FPS Multiplayer io 3D Shooter New" data-players="Multi"> <img src="https://play-lh.googleusercontent.com/juxYvgqg-LoPrQrLW3M6xRrPlZD-k_Dms6xmzG0GJf5RhDK0fXtyAtmLRLVzHe2AQ32l=s956-rw" alt="Ev.io" loading="lazy"> <figcaption>Ev.io</figcaption> </a>
+                 <a data-game-url="https://driftboss-online.github.io/file/" data-game-creator="MarketJS / Unknown" class="game-link Driving Skill Arcade Endless New" data-players="1"> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/baf55f009fd63dd63c760a5dcfe79615.png" alt="Drift Boss" loading="lazy"> <figcaption>Drift Boss</figcaption> </a>
+                 <a data-game-url="https://html5.gamedistribution.com/rvvASMiM/ac6a950a44d144139dabe7837aa4aab9/index.html?gd_sdk_referrer_url=https%3A%2F%2Felifesimulation.io%2Fbitlife&gd_zone_config=eyJwYXJlbnRVUkwiOiJodHRwczovL2VsaWZlc2ltdWxhdGlvbi5pby9iaXRsaWZlIiwicGFyZW50RG9tYWluIjoiZWxpZmVzaW11bGF0aW9uLmlvIiwidG9wRG9tYWluIjoiZWxpZmVzaW11bGF0aW9uLmlvIiwiaGFzSW1wcmVzc2lvbiI6ZmFsc2UsImxvYWRlckVuYWJsZWQiOnRydWUsImhvc3QiOiJodG1sNS5nYW1lZGlzdHJpYnV0aW9uLmNvbSIsInZlcnNpb24iOiIxLjUuMTcifQ%253D%253D" data-game-creator="Candywriter" class="game-link Simulation Idle Funny New" data-players="1"> <img src="https://play-lh.googleusercontent.com/3_pJXihjGNygcDUyyUiKHObSE-LiNcM5iPWWvFDzI2IG09D4eZZ3EQzMcFSDm8P568w=w240-h480-rw" alt="BitLife" loading="lazy"> <figcaption>BitLife</figcaption> </a>
+                 <a data-game-url="https://www.coolmathgames.com/0-push-your-luck/play" data-game-creator="Coolmath Games" class="game-link Puzzle Strategy Math Skill New" data-players="1"> <img src="https://www.coolmathgames.com/sites/default/files/styles/app_icon/public/push-your-luck-game-icon.png?itok=aeT8A2NP" alt="Push Your Luck" loading="lazy"> <figcaption>Push Your Luck</figcaption> </a> <!-- Updated -->
+                 <a data-game-url="https://ducklifegame.io/gg/duck-life-9/" data-game-creator="Cheetah Games" class="game-link Arcade Skill Runner New" data-players="1"> <img src="https://img.tapimg.net/market/images/0037ae1dba5b6c6264e48492b604ac13.png/appicon_m?t=1" alt="Tap Tap Dash" loading="lazy"> <figcaption>Tap Tap Dash</figcaption> </a>
+                 <a data-game-url="https://kdata1.com/2020/05/22948/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/d0048d89-e4fa-4adb-9c77-adc51e4e1c6b.png" alt="Duck Life" loading="lazy"> <figcaption>Duck Life</figcaption> </a>
+                 <a data-game-url="https://kdata1.com/2019/09/ducklife2/webgl/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/f2431276-8a98-4214-9a88-d0ea91fe0af2.png" alt="Duck Life 2" loading="lazy"> <figcaption>Duck Life 2</figcaption> </a>
+                 <a data-game-url="https://kdata1.com/2019/09/ducklife3/webgl/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/f5671816-e95b-4d41-adb7-411708f431ba.png" alt="Duck Life 3" loading="lazy"> <figcaption>Duck Life 3</figcaption> </a>
+                 <a data-game-url="https://kdata1.com/2020/05/22948/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=204,height=204,fit=cover,f=auto/e0453c83-9012-44a3-8d4d-595ea0400f58.png" alt="Duck Life 4" loading="lazy"> <figcaption>Duck Life 4</figcaption> </a>
+                 <a data-game-url="https://n-src66thyd5u5fsjmgyioulc37nhbtahadirzvky-0lu-script.googleusercontent.com/userCodeAppPanel" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <img src="https://imgs.search.brave.com/yGRkGT4cALvpFmae-x67frkAEfGHYLlW51DbblvsuL8/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9kdWNr/bGlmZS5vbmxpbmUv/dXBsb2FkL2ltZ3Mv/ZHVjay1saWZlLXRy/ZWFzdXJlLWh1bnQu/anBn" alt="Duck Life 5" loading="lazy"> <figcaption>Duck Life 5</figcaption> </a> <!-- Updated Icon -->
+                 <a data-game-url="https://games.wixgames.co.uk/games/ducklifespace/webgl/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny New" data-players="1"> <img src="https://play-lh.googleusercontent.com/ndILnpPIPE5Kfqmwzjlbdz2duHMjh0yvnZ31PBJ_-oZOPa9iYfh1jedpj2-td2pyrKmj=w240-h480-rw" alt="Duck Life 6: Space" loading="lazy"> <figcaption>Duck Life: Space</figcaption> </a>
+                 <a data-game-url="https://games.wixgames.co.uk/games/ducklifebattledemo/webgl/" data-game-creator="Wix Games / 5Games" class="game-link Simulation Sports Arcade Skill Funny Action New" data-players="1"> <img src="https://imgs.search.brave.com/shlrreksc8OZ3h_ymxtJrD5zbXLBd_s0JV_XcP2v_KE/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWdz/LnNlYXJjaC5icmF2/ZS5jb20vR2g0dndZ/S3FvU0JhcmprSkM4/LTVldGVrZmo5ZldW/OU5PWGY2NlA2QjNV/WS9yczpmaXQ6NTYw/OjMyMDoxOjAvZzpj/ZS9hSFIwY0hNNkx5/OW5ZVzFsL2N5NTNh/WGhuWVcxbGN5NWov/Ynk1MWF5OW5ZVzFs/Y3k5ay9kV05yYkds/bVpXSmhkSFJzL1pT/OXBZMjl1TG5CdVp3.jpeg" alt="Duck Life 7: Battle (Demo)" loading="lazy"> <figcaption>Duck Life: Battle (Demo)</figcaption> </a> <!-- Updated Icon -->
              </div>
              <p id="noGamesMessage" style="display: none; color: var(--secondary-blue); margin-top: 30px; width: 100%; text-align: center;"></p>
         </section>
@@ -942,11 +808,7 @@
                <div id="gameTestResults" style="background-color: var(--box-bg); border: 1px solid var(--box-border); padding: 15px; border-radius: 8px; max-height: 40vh; overflow-y: auto; font-size: 0.8rem; display: none;">
                    <!-- Test results will appear here -->
                </div>
-                <button id="viewSubmissionsBtn" class="settings-button" style="background-color: var(--secondary-blue); color: var(--bg-color);">View Support Submissions</button>
-                <div id="submissionsDisplayArea" style="background-color: var(--box-bg); border: 1px solid var(--box-border); padding: 15px; border-radius: 8px; max-height: 40vh; overflow-y: auto; font-size: 0.8rem; display: none; white-space: pre-wrap; word-wrap: break-word;">
-                     <!-- Submissions will appear here -->
-                </div>
-                <button id="clearLocalStorageBtn" class="settings-button" style="background-color: var(--button-bg); color: var(--highlight-yellow);">Clear Local Storage (Testing)</button>
+               <!-- Add other admin buttons/forms here -->
            </div>
        </section>
 
@@ -964,47 +826,13 @@
             <div class="settings-section">
                 <h3>Tab Cloak</h3>
                 <div id="tabCloakOptions" class="tab-cloak-options">
-                    <!-- Preset options -->
-                     <div class="tab-cloak-option">
-                        <input type="radio" id="cloak-custom" name="tab-cloak" value="custom">
-                        <label for="cloak-custom">
-                             Custom
-                        </label>
-                    </div>
-                </div>
-                 <div id="customCloakInputs" style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed var(--box-border); display: none;">
-                     <div style="margin-bottom: 10px;">
-                         <label for="customTitle" style="display: block; font-size: 0.8rem; margin-bottom: 3px;">Custom Title:</label>
-                         <input type="text" id="customTitle" placeholder="e.g., Google Docs" style="width: 100%; font-size: 0.8rem; padding: 5px 8px;">
-                     </div>
-                     <div>
-                         <label for="customIcon" style="display: block; font-size: 0.8rem; margin-bottom: 3px;">Custom Icon URL:</label>
-                         <input type="url" id="customIcon" placeholder="https://example.com/favicon.ico" style="width: 100%; font-size: 0.8rem; padding: 5px 8px;">
-                     </div>
-                 </div>
-            </div>
-            <div class="settings-section">
-                <h3>Theme</h3>
-                <div id="themeOptions" class="tab-cloak-options">
-                     <div class="tab-cloak-option">
-                        <input type="radio" id="theme-default" name="theme-select" value="default" checked>
-                        <label for="theme-default">
-                             Default (Cyber Blue)
-                        </label>
-                    </div>
-                     <div class="tab-cloak-option">
-                        <input type="radio" id="theme-neon-dusk" name="theme-select" value="theme-neon-dusk">
-                        <label for="theme-neon-dusk">
-                             Neon Dusk (Purple/Pink)
-                        </label>
-                    </div>
-                    <!-- Add more theme options here -->
+                    <!-- Options dynamically added by JS -->
                 </div>
             </div>
         </div>
         <div class="settings-actions">
-            <button id="resetCloakButton" class="settings-button">Reset Cloak</button>
-            <button id="applySettingsButton" class="settings-button">Apply Settings</button> <!-- Renamed -->
+            <button id="resetCloakButton" class="settings-button">Reset to Default</button>
+            <button id="applyCloakButton" class="settings-button">Apply Cloak</button>
         </div>
     </div>
 
@@ -1107,7 +935,7 @@
             }
         }
 
-        // --- UI Update Function (GLOBAL SCOPE) ---
+        // --- UI Update Function (GLOBAL SCOPE - MOVED HERE) ---
         function updateSignInUI(isSignedIn) {
             const buttonDiv = document.getElementById('buttonDiv');
             const userInfoDiv = document.getElementById('userInfo');
@@ -1194,14 +1022,10 @@
             const settingsPopup = document.getElementById('settingsPopup');
             const closeSettingsButton = document.getElementById('closeSettingsButton');
             const tabCloakOptionsContainer = document.getElementById('tabCloakOptions');
-            const applySettingsButton = document.getElementById('applySettingsButton'); // Renamed
+            const applyCloakButton = document.getElementById('applyCloakButton');
             const resetCloakButton = document.getElementById('resetCloakButton');
             const originalTitleElement = document.getElementById('originalTitle');
             const originalFaviconElement = document.getElementById('originalFavicon');
-            const customCloakInputsDiv = document.getElementById('customCloakInputs');
-            const customTitleInput = document.getElementById('customTitle');
-            const customIconInput = document.getElementById('customIcon');
-            const themeOptionsContainer = document.getElementById('themeOptions');
             // Help Section & Support Form Popup
             const helpButton = document.getElementById('helpButton');
             const requestGameBtn = document.getElementById('requestGameBtn');
@@ -1235,25 +1059,7 @@
             // Admin Elements
             const testAllGamesBtn = document.getElementById('testAllGamesBtn');
             const gameTestResultsDiv = document.getElementById('gameTestResults');
-            const viewSubmissionsBtn = document.getElementById('viewSubmissionsBtn');
-            const submissionsDisplayArea = document.getElementById('submissionsDisplayArea');
-            const clearLocalStorageBtn = document.getElementById('clearLocalStorageBtn');
-            // Search Input
-            const searchInput = document.getElementById('searchInput');
 
-
-             // --- Local Storage Keys ---
-             const LS_KEYS = {
-                tabCloakTitle: 'tabCloakTitle',
-                tabCloakFavicon: 'tabCloakFavicon',
-                customCloakTitle: 'customCloakTitle',
-                customCloakIcon: 'customCloakIcon',
-                activeCloakType: 'activeCloakType', // 'default', 'preset', 'custom'
-                favorites: 'gameFavorites',
-                recentGames: 'recentGames',
-                gameRatings: 'gameRatings',
-                theme: 'siteTheme'
-             };
 
              // --- Finder State Variables ---
              let selectedPlayerCount = null;
@@ -1261,7 +1067,7 @@
 
 
             // --- Verify Crucial Elements ---
-             if (!homeButton || !launchButton || !gameIconsContainer || !gamePlayerSection || !helpSection || !suggestionsSection || !adminSection || !fullscreenButton || !backButton || !transitionOverlay || !homeContent || !gameSection || !sortDropdown || !categoryFiltersContainer || !settingsButton || !helpButton || !suggestionsButton || !adminButton || !settingsOverlay || !settingsPopup || !closeSettingsButton || !tabCloakOptionsContainer || !applySettingsButton || !resetCloakButton || !originalTitleElement || !originalFaviconElement || !customCloakInputsDiv || !customTitleInput || !customIconInput || !themeOptionsContainer || !requestGameBtn || !reportIssueBtn || !supportFormOverlay || !supportFormPopup || !closeSupportFormBtn || !supportForm || !supportFormTitle || !supportType || !supportTopic || !supportMessage || !submitSupportButton || !supportMessageStatus || !gameRequestFields || !topicLabel || !detailsLabel || !gameUrlInput || !iconUrlInput || !gameUrlPreview || !iconUrlPreview || !playerCountStep || !categorySelectStep || !resultsStep || !finderCategoriesContainer || !playerCountOptionsContainer || !finderResultsContainer || !finderNoResults || !restartFinderBtn || !testAllGamesBtn || !gameTestResultsDiv || !viewSubmissionsBtn || !submissionsDisplayArea || !clearLocalStorageBtn || !searchInput ) {
+             if (!homeButton || !launchButton || !gameIconsContainer || !gamePlayerSection || !helpSection || !suggestionsSection || !adminSection || !fullscreenButton || !backButton || !transitionOverlay || !homeContent || !gameSection || !sortDropdown || !categoryFiltersContainer || !settingsButton || !helpButton || !suggestionsButton || !adminButton || !settingsOverlay || !settingsPopup || !closeSettingsButton || !tabCloakOptionsContainer || !applyCloakButton || !resetCloakButton || !originalTitleElement || !originalFaviconElement || !requestGameBtn || !reportIssueBtn || !supportFormOverlay || !supportFormPopup || !closeSupportFormBtn || !supportForm || !supportFormTitle || !supportType || !supportTopic || !supportMessage || !submitSupportButton || !supportMessageStatus || !gameRequestFields || !topicLabel || !detailsLabel || !gameUrlInput || !iconUrlInput || !gameUrlPreview || !iconUrlPreview || !playerCountStep || !categorySelectStep || !resultsStep || !finderCategoriesContainer || !playerCountOptionsContainer || !finderResultsContainer || !finderNoResults || !restartFinderBtn || !testAllGamesBtn || !gameTestResultsDiv ) {
                  console.error("CRITICAL STARTUP ERROR: Cannot find essential page structure elements. Verify IDs in HTML.");
                  alert("Critical page element missing. Site may not function correctly. Check console (F12).");
                  return;
@@ -1287,7 +1093,7 @@
             const ORIGINAL_FAVICON_HREF = originalFaviconElement.href;
 
             const cloakPresets = [
-                // Default is handled separately now
+                { id: 'cloak-default', title: ORIGINAL_TITLE, favicon: ORIGINAL_FAVICON_HREF, name: 'Default (The Unblocked Zone)' },
                 { id: 'cloak-classroom', title: 'Classes', favicon: 'https://ssl.gstatic.com/classroom/favicon.ico', name: 'Google Classroom' },
                 { id: 'cloak-drive', title: 'My Drive - Google Drive', favicon: 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png', name: 'Google Drive' },
                 { id: 'cloak-google', title: 'Google', favicon: 'https://google.com/favicon.ico', name: 'Google Search' },
@@ -1306,251 +1112,47 @@
             }
 
             function getGameTitle(linkElement) { const caption = linkElement?.querySelector('figcaption'); const img = linkElement?.querySelector('img'); return caption?.textContent.trim() || img?.alt.trim() || ''; }
-
-            // --- Local Storage Helpers ---
-            function getLocalStorageItem(key, defaultValue = null) {
-                try {
-                    const item = localStorage.getItem(key);
-                    return item ? JSON.parse(item) : defaultValue;
-                } catch (e) {
-                    console.error(`Error reading localStorage key "${key}":`, e);
-                    return defaultValue;
-                }
-            }
-
-            function setLocalStorageItem(key, value) {
-                try {
-                    localStorage.setItem(key, JSON.stringify(value));
-                } catch (e) {
-                    console.error(`Error setting localStorage key "${key}":`, e);
-                }
-            }
-
-            // --- Tab Cloaking ---
             function populateCloakOptions() {
-                 tabCloakOptionsContainer.innerHTML = ''; // Clear existing preset radios
-                 const activeCloakType = getLocalStorageItem(LS_KEYS.activeCloakType, 'default');
-                 const currentCustomTitle = getLocalStorageItem(LS_KEYS.customCloakTitle, '');
-                 const currentCustomIcon = getLocalStorageItem(LS_KEYS.customCloakIcon, '');
-
-                 // Add Default Radio
-                 const defaultOptionDiv = document.createElement('div'); defaultOptionDiv.className = 'tab-cloak-option';
-                 const defaultRadioInput = document.createElement('input'); defaultRadioInput.type = 'radio'; defaultRadioInput.id = 'cloak-default'; defaultRadioInput.name = 'tab-cloak'; defaultRadioInput.value = 'default'; defaultRadioInput.checked = (activeCloakType === 'default');
-                 const defaultLabel = document.createElement('label'); defaultLabel.htmlFor = 'cloak-default'; defaultLabel.textContent = ' Default (The Unblocked Zone)';
-                 const defaultImg = document.createElement('img'); defaultImg.src = ORIGINAL_FAVICON_HREF; defaultImg.alt = ''; defaultImg.onerror = () => { defaultImg.style.display = 'none'; }; defaultLabel.prepend(defaultImg); // Add icon before text
-                 defaultOptionDiv.appendChild(defaultRadioInput); defaultOptionDiv.appendChild(defaultLabel);
-                 defaultOptionDiv.addEventListener('click', () => { if (!defaultRadioInput.checked) defaultRadioInput.checked = true; toggleCustomCloakInputs(false); });
-                 tabCloakOptionsContainer.appendChild(defaultOptionDiv);
-
-                 // Add Presets
+                 tabCloakOptionsContainer.innerHTML = '';
+                 const currentTitle = document.title;
+                 const currentFavicon = document.querySelector("link[rel*='icon']")?.href || '';
                  cloakPresets.forEach(preset => {
-                    const isChecked = (activeCloakType === 'preset' && getLocalStorageItem(LS_KEYS.tabCloakTitle) === preset.title);
+                    const isChecked = (preset.title === currentTitle && preset.favicon === currentFavicon);
                     const optionDiv = document.createElement('div'); optionDiv.className = 'tab-cloak-option';
                     const radioInput = document.createElement('input'); radioInput.type = 'radio'; radioInput.id = preset.id; radioInput.name = 'tab-cloak'; radioInput.value = preset.id; radioInput.checked = isChecked; radioInput.dataset.title = preset.title; radioInput.dataset.favicon = preset.favicon;
                     const label = document.createElement('label'); label.htmlFor = preset.id;
                     const img = document.createElement('img'); img.src = preset.favicon; img.alt = ''; img.onerror = () => { img.style.display = 'none'; }; label.appendChild(img);
                     label.appendChild(document.createTextNode(` ${preset.name}`));
                     optionDiv.appendChild(radioInput); optionDiv.appendChild(label);
-                    optionDiv.addEventListener('click', () => { if (!radioInput.checked) radioInput.checked = true; toggleCustomCloakInputs(false); });
+                    optionDiv.addEventListener('click', () => { if (!radioInput.checked) radioInput.checked = true; });
                     tabCloakOptionsContainer.appendChild(optionDiv);
                  });
-
-                 // Add Custom Radio
-                 const customOptionDiv = document.createElement('div'); customOptionDiv.className = 'tab-cloak-option';
-                 const customRadioInput = document.getElementById('cloak-custom'); // Get existing one
-                 customRadioInput.checked = (activeCloakType === 'custom');
-                 customOptionDiv.appendChild(customRadioInput);
-                 const customLabel = document.createElement('label'); customLabel.htmlFor = 'cloak-custom'; customLabel.textContent = ' Custom';
-                 const customIcon = document.createElement('i'); customIcon.className = 'fas fa-pencil-alt'; customIcon.style.marginLeft = '8px'; customLabel.prepend(customIcon);
-                 customOptionDiv.appendChild(customLabel);
-                 customOptionDiv.addEventListener('click', () => { if (!customRadioInput.checked) customRadioInput.checked = true; toggleCustomCloakInputs(true); });
-                 tabCloakOptionsContainer.appendChild(customOptionDiv);
-
-                 // Populate custom inputs and show if active
-                 customTitleInput.value = currentCustomTitle;
-                 customIconInput.value = currentCustomIcon;
-                 toggleCustomCloakInputs(activeCloakType === 'custom');
+                 if (!cloakPresets.some(p => p.title === currentTitle && p.favicon === currentFavicon)) {
+                     const defaultRadio = tabCloakOptionsContainer.querySelector('#cloak-default');
+                     if (defaultRadio) defaultRadio.checked = true;
+                 }
              }
-
-             function toggleCustomCloakInputs(show) {
-                customCloakInputsDiv.style.display = show ? 'block' : 'none';
-             }
-
              function setTabCloak(title, faviconUrl) {
                  console.log(`Applying cloak: Title="${title}", Favicon="${faviconUrl}"`);
                  document.title = title;
                  let faviconLink = document.querySelector("link[rel*='icon']");
                  if (!faviconLink) { faviconLink = document.createElement('link'); faviconLink.rel = 'icon'; document.head.appendChild(faviconLink); console.log("Created new favicon link element."); }
                  faviconLink.href = faviconUrl;
+                 localStorage.setItem('tabCloakTitle', title);
+                 localStorage.setItem('tabCloakFavicon', faviconUrl);
             }
-
-            function applySelectedCloak() {
-                const selectedRadio = tabCloakOptionsContainer.querySelector('input[name="tab-cloak"]:checked');
-                if (!selectedRadio) return;
-
-                const type = selectedRadio.value;
-                let titleToSet = ORIGINAL_TITLE;
-                let iconToSet = ORIGINAL_FAVICON_HREF;
-                let activeTypeToSave = 'default';
-
-                if (type === 'custom') {
-                    titleToSet = customTitleInput.value.trim() || ORIGINAL_TITLE;
-                    iconToSet = customIconInput.value.trim() || ORIGINAL_FAVICON_HREF;
-                    setLocalStorageItem(LS_KEYS.customCloakTitle, titleToSet);
-                    setLocalStorageItem(LS_KEYS.customCloakIcon, iconToSet);
-                    activeTypeToSave = 'custom';
-                } else if (type !== 'default') { // It's a preset
-                    const preset = cloakPresets.find(p => p.id === type);
-                    if (preset) {
-                        titleToSet = preset.title;
-                        iconToSet = preset.favicon;
-                        activeTypeToSave = 'preset';
-                    }
-                }
-
-                setTabCloak(titleToSet, iconToSet);
-                setLocalStorageItem(LS_KEYS.activeCloakType, activeTypeToSave);
-                setLocalStorageItem(LS_KEYS.tabCloakTitle, titleToSet); // Save actual applied title/icon
-                setLocalStorageItem(LS_KEYS.tabCloakFavicon, iconToSet);
-            }
-
             function resetTabCloak() {
                  console.log("Resetting cloak to default.");
                  setTabCloak(ORIGINAL_TITLE, ORIGINAL_FAVICON_HREF);
-                 setLocalStorageItem(LS_KEYS.activeCloakType, 'default');
-                 setLocalStorageItem(LS_KEYS.tabCloakTitle, ORIGINAL_TITLE);
-                 setLocalStorageItem(LS_KEYS.tabCloakFavicon, ORIGINAL_FAVICON_HREF);
-                 populateCloakOptions(); // Re-populate to select default radio
+                 localStorage.setItem('tabCloakTitle', ORIGINAL_TITLE);
+                 localStorage.setItem('tabCloakFavicon', ORIGINAL_FAVICON_HREF);
+                 const radios = tabCloakOptionsContainer.querySelectorAll('input[type="radio"]');
+                 radios.forEach(radio => radio.checked = false);
+                 const defaultRadio = tabCloakOptionsContainer.querySelector('#cloak-default');
+                 if (defaultRadio) defaultRadio.checked = true;
             }
-
-            // --- Theme Management ---
-            function applyTheme(themeName) {
-                document.body.className = themeName || ''; // Remove class if themeName is empty/null (default)
-                setLocalStorageItem(LS_KEYS.theme, themeName);
-                console.log("Applied theme:", themeName || 'default');
-            }
-
-            function populateThemeOptions() {
-                const currentTheme = getLocalStorageItem(LS_KEYS.theme, 'default'); // Use '' for default theme value
-                const themeRadio = themeOptionsContainer.querySelector(`input[name="theme-select"][value="${currentTheme || 'default'}"]`);
-                if (themeRadio) {
-                    themeRadio.checked = true;
-                }
-            }
-
-            function applySelectedTheme() {
-                 const selectedThemeRadio = themeOptionsContainer.querySelector('input[name="theme-select"]:checked');
-                 const themeValue = selectedThemeRadio ? selectedThemeRadio.value : 'default';
-                 applyTheme(themeValue === 'default' ? '' : themeValue); // Apply empty class for default
-            }
-
-            // --- Favorites Management ---
-            let favorites = getLocalStorageItem(LS_KEYS.favorites, []);
-
-            function isFavorite(gameUrl) {
-                return favorites.includes(gameUrl);
-            }
-
-            function toggleFavorite(gameUrl, buttonElement) {
-                if (!gameUrl) return;
-                const index = favorites.indexOf(gameUrl);
-                if (index > -1) { // Is favorite, remove it
-                    favorites.splice(index, 1);
-                    buttonElement.classList.remove('favorited');
-                    buttonElement.title = "Add to Favorites";
-                    buttonElement.innerHTML = '<i class="far fa-star"></i>'; // Empty star
-                    console.log("Removed favorite:", gameUrl);
-                } else { // Not favorite, add it
-                    favorites.push(gameUrl);
-                    buttonElement.classList.add('favorited');
-                    buttonElement.title = "Remove from Favorites";
-                    buttonElement.innerHTML = '<i class="fas fa-star"></i>'; // Filled star
-                    console.log("Added favorite:", gameUrl);
-                }
-                setLocalStorageItem(LS_KEYS.favorites, favorites);
-
-                // If currently viewing favorites, re-filter
-                const activeCategoryButton = categoryFiltersContainer.querySelector('.category-button.active-category');
-                if (activeCategoryButton && activeCategoryButton.dataset.filter === 'Favorites') {
-                    filterGames('Favorites', searchInput.value); // Include search term
-                }
-            }
-
-            function updateFavoriteButtonsUI() {
-                gameIconsContainer.querySelectorAll('a.game-link').forEach(link => {
-                    const gameUrl = link.dataset.gameUrl;
-                    const favButton = link.querySelector('.favorite-btn');
-                    if (favButton && isFavorite(gameUrl)) {
-                        favButton.classList.add('favorited');
-                        favButton.title = "Remove from Favorites";
-                        favButton.innerHTML = '<i class="fas fa-star"></i>';
-                    } else if (favButton) {
-                         favButton.classList.remove('favorited');
-                         favButton.title = "Add to Favorites";
-                         favButton.innerHTML = '<i class="far fa-star"></i>';
-                    }
-                });
-            }
-
-            // --- Recently Played ---
-            const MAX_RECENT = 10;
-            let recentGames = getLocalStorageItem(LS_KEYS.recentGames, []);
-
-            function addRecentGame(gameUrl) {
-                if (!gameUrl) return;
-                recentGames = recentGames.filter(url => url !== gameUrl);
-                recentGames.unshift(gameUrl);
-                if (recentGames.length > MAX_RECENT) {
-                    recentGames.pop();
-                }
-                setLocalStorageItem(LS_KEYS.recentGames, recentGames);
-                console.log("Updated recent games:", recentGames);
-            }
-
-            // --- Game Ratings ---
-            let gameRatings = getLocalStorageItem(LS_KEYS.gameRatings, {}); // Object: { gameUrl: rating }
-
-            function setRating(gameUrl, rating) {
-                if (!gameUrl || rating < 1 || rating > 5) return;
-                gameRatings[gameUrl] = rating;
-                setLocalStorageItem(LS_KEYS.gameRatings, gameRatings);
-                console.log(`Rated ${gameUrl}: ${rating} stars`);
-                updateRatingStarsUI(gameUrl, rating); // Update specific game's stars
-            }
-
-            function getRating(gameUrl) {
-                return gameRatings[gameUrl] || 0; // Return 0 if not rated
-            }
-
-            function updateRatingStarsUI(gameUrl, rating) {
-                const gameLink = gameIconsContainer.querySelector(`a.game-link[data-game-url="${CSS.escape(gameUrl)}"]`);
-                if (!gameLink) return;
-                const starsContainer = gameLink.querySelector('.rating-stars');
-                if (!starsContainer) return;
-
-                starsContainer.querySelectorAll('i').forEach(star => {
-                    if (parseInt(star.dataset.value) <= rating) {
-                        star.classList.remove('far');
-                        star.classList.add('fas', 'rated');
-                    } else {
-                        star.classList.remove('fas', 'rated');
-                        star.classList.add('far');
-                    }
-                });
-            }
-
-            function updateAllRatingStarsUI() {
-                 gameIconsContainer.querySelectorAll('a.game-link').forEach(link => {
-                     const gameUrl = link.dataset.gameUrl;
-                     const rating = getRating(gameUrl);
-                     updateRatingStarsUI(gameUrl, rating);
-                 });
-            }
-
-             function openSettingsPopup() { console.log("Opening settings popup."); populateCloakOptions(); populateThemeOptions(); settingsOverlay.classList.add('visible'); settingsPopup.classList.add('visible'); }
+             function openSettingsPopup() { console.log("Opening settings popup."); populateCloakOptions(); settingsOverlay.classList.add('visible'); settingsPopup.classList.add('visible'); }
              function closeSettingsPopup() { console.log("Closing settings popup."); settingsOverlay.classList.remove('visible'); settingsPopup.classList.remove('visible'); }
-
-            // --- Support Form Popup Functions ---
             function openSupportFormPopup(type) {
                 console.log(`Opening support form for: ${type}`);
                 supportForm.reset(); // Clear previous input
@@ -1582,17 +1184,37 @@
                 supportFormPopup.classList.add('visible');
                 supportTopic.focus(); // Focus the first input field
             }
-
             function closeSupportFormPopup() {
                  console.log("Closing support form popup.");
                  supportFormOverlay.classList.remove('visible');
                  supportFormPopup.classList.remove('visible');
             }
+            function sortGames() { /* ... */ } // Keep implementation
+            function filterGames(filter) {
+                console.log(`--- filterGames called with filter: ${filter} ---`);
+                if (!gameIconsContainer) { console.error("Filter Error: Cannot find #icon_image"); return; }
 
-            // --- Finder Functions ---
-             function populateFinderCategories() {
+                // Clear search input when category changes
+                if (searchInput) {
+                    searchInput.value = '';
+                }
+
+                const gameLinks = gameIconsContainer.querySelectorAll('.game-link'); let visibleCount = 0;
+                gameLinks.forEach(link => { const shouldShow = (filter === 'All' || link.classList.contains(filter)); link.style.display = shouldShow ? 'block' : 'none'; if (shouldShow) visibleCount++; });
+
+                // Update no games message based ONLY on category first
+                if (noGamesMessageElement) {
+                     noGamesMessageElement.style.display = (visibleCount === 0 && filter !== 'All') ? 'block' : 'none';
+                     if(visibleCount === 0 && filter !== 'All') noGamesMessageElement.textContent = `No games found in "${filter}".`;
+                     else if (visibleCount > 0) noGamesMessageElement.style.display = 'none'; // Hide if category has games
+                 }
+
+                sortGames(); // Apply sort order
+                console.log(`--- filterGames finished for filter: ${filter}, visible: ${visibleCount} ---`);
+            }
+            function populateFinderCategories() {
                 if (!categoryFiltersContainer || !finderCategoriesContainer) return;
-                const originalButtons = categoryFiltersContainer.querySelectorAll('.category-button:not([data-filter="All"]):not([data-filter="Favorites"]):not([data-filter="Recent"])'); // Exclude special filters
+                const originalButtons = categoryFiltersContainer.querySelectorAll('.category-button:not([data-filter="All"])');
                  finderCategoriesContainer.innerHTML = ''; // Clear previous if any
                  const anyButton = document.createElement('button');
                  anyButton.className = 'category-button active-category'; // Default active
@@ -1608,7 +1230,6 @@
                  console.log(`Copied ${originalButtons.length} categories to finder.`);
              }
              populateFinderCategories(); // Call it once during initialization
-
              function showFinderStep(stepId) {
                 document.querySelectorAll('.finder-step').forEach(step => {
                     step.classList.remove('active-step');
@@ -1621,7 +1242,6 @@
                      console.error("Finder step not found:", stepId);
                 }
              }
-
              function filterGamesForFinder() {
                  console.log(`Filtering for: Players=${selectedPlayerCount}, Category=${selectedFinderCategory}`);
                  const allGames = Array.from(gameIconsContainer.querySelectorAll('a.game-link'));
@@ -1652,7 +1272,6 @@
 
                  return filteredGames;
              }
-
              function displayFinderResults(games) {
                 finderResultsContainer.innerHTML = ''; // Clear previous results
                 finderNoResults.style.display = 'none';
@@ -1727,10 +1346,38 @@
                  displayFinderResults(filteredGames);
                  showFinderStep('results-step');
              }
+            // --- Search Filtering Function ---
+            function filterGamesBySearch(searchTerm) {
+                const searchTermLower = searchTerm.toLowerCase().trim();
+                const gameLinks = gameIconsContainer.querySelectorAll('.game-link');
+                let visibleCount = 0;
+
+                gameLinks.forEach(link => {
+                    const title = getGameTitle(link).toLowerCase();
+                    const creator = (link.dataset.gameCreator || '').toLowerCase();
+                    const isMatch = title.includes(searchTermLower) || creator.includes(searchTermLower);
+                    const currentCategoryFilter = categoryFiltersContainer?.querySelector('.active-category')?.dataset.filter || 'All';
+                    const isInCurrentCategory = (currentCategoryFilter === 'All' || link.classList.contains(currentCategoryFilter));
+                    const shouldShow = isMatch && isInCurrentCategory;
+
+                    link.style.display = shouldShow ? 'block' : 'none';
+                    if (shouldShow) visibleCount++;
+                });
+
+                if (noGamesMessageElement) {
+                     const currentCategoryFilter = categoryFiltersContainer?.querySelector('.active-category')?.dataset.filter || 'All';
+                     const categoryText = currentCategoryFilter === 'All' ? '' : ` in "${currentCategoryFilter}"`;
+                     noGamesMessageElement.style.display = (visibleCount === 0) ? 'block' : 'none';
+                     if (visibleCount === 0) {
+                        noGamesMessageElement.textContent = `No games found matching "${searchTerm}"${categoryText}.`;
+                     }
+                 }
+                 sortGames();
+            }
 
 
              // --- Event Listeners ---
-             if(launchButton) { launchButton.addEventListener('click', () => { const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { /* Optional cleanup if needed */ } showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All', searchInput.value); }); console.log("Launch Button listener attached."); }
+             if(launchButton) { launchButton.addEventListener('click', () => { const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { /* Optional cleanup if needed */ } showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All'); }); console.log("Launch Button listener attached."); }
              if (homeButton) { homeButton.addEventListener('click', () => { console.log("Home clicked."); const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') ) { console.log("   Cleaning player/state before going home"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } if(homeContent) showView('home-content'); }); console.log("Home button listener attached."); }
             // Suggestions Button (NOW triggers the finder steps)
             if (suggestionsButton) { suggestionsButton.addEventListener('click', () => { console.log("Suggestions clicked, starting finder."); const playerView = document.getElementById('game-player-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (playerView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing suggestions"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } selectedPlayerCount = null; selectedFinderCategory = null; finderResultsContainer.innerHTML = ''; finderNoResults.style.display = 'none'; finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category'); showView('suggestions-section'); showFinderStep('player-count-step'); }); console.log("Suggestions button listener attached."); }
@@ -1739,67 +1386,19 @@
              // Admin Button Listener
              if (adminButton) { adminButton.addEventListener('click', () => { if (googleUser && googleUser.email === ADMIN_EMAIL) { console.log("Admin button clicked."); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing admin panel"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } showView('admin-section'); } else { console.warn("Non-admin tried to access admin panel via button click?"); adminButton.style.display = 'none'; } }); console.log("Admin button listener attached."); }
              // Game Section Specific Filters
-             if (categoryFiltersContainer) { categoryFiltersContainer.addEventListener('click', (event) => { if (event.target.classList.contains('category-button')) { const filterValue = event.target.dataset.filter; categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); event.target.classList.add('active-category'); filterGames(filterValue, searchInput.value); } }); console.log("Category filter listener attached."); } // Pass search value
+             if (categoryFiltersContainer) { categoryFiltersContainer.addEventListener('click', (event) => { if (event.target.classList.contains('category-button')) { const filterValue = event.target.dataset.filter; categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); event.target.classList.add('active-category'); filterGames(filterValue); } }); console.log("Category filter listener attached."); }
              if (sortDropdown) { sortDropdown.addEventListener('change', sortGames); console.log("Sort dropdown listener attached."); }
-             // Search Input Listener
-             if (searchInput) {
-                 searchInput.addEventListener('input', () => {
-                     const currentFilter = categoryFiltersContainer.querySelector('.active-category')?.dataset.filter || 'All';
-                     filterGames(currentFilter, searchInput.value); // Filter with current category and search term
-                 });
-                 console.log("Search input listener attached.");
-             }
-             // Game Icon Click (Grid) - Handles launch, favorite, rating
-             if (gameIconsContainer) { gameIconsContainer.addEventListener('click', (event) => {
-                const gameLink = event.target.closest('a.game-link');
-                const favButton = event.target.closest('.favorite-btn');
-                const ratingStar = event.target.closest('.rating-stars i');
-
-                if (favButton && gameLink) { // Handle favorite click
-                    event.preventDefault();
-                    event.stopPropagation();
-                    toggleFavorite(gameLink.dataset.gameUrl, favButton);
-                } else if (ratingStar && gameLink) { // Handle rating click
-                     event.preventDefault();
-                     event.stopPropagation();
-                     const ratingValue = parseInt(ratingStar.dataset.value);
-                     setRating(gameLink.dataset.gameUrl, ratingValue);
-                } else if (gameLink && !favButton && !ratingStar && window.getComputedStyle(gameLink).display !== 'none') { // Handle game launch click
-                     event.preventDefault();
-                     console.log("Game icon clicked");
-                     const gameUrl = gameLink.dataset.gameUrl;
-                     const gameTitle = getGameTitle(gameLink);
-                     const gameCreator = gameLink.dataset.gameCreator || 'Unknown';
-                     console.log(`    Processing game: ${gameTitle}`);
-                     addRecentGame(gameUrl); // Add to recently played
-                     const titleElement = document.getElementById('currentGameTitle'); const creatorElement = document.getElementById('currentGameCreator'); const frameElement = document.getElementById('gameFrame'); const playerViewElement = document.getElementById('game-player-section');
-                     if (gameUrl && titleElement && creatorElement && frameElement && playerViewElement) { titleElement.textContent = gameTitle; creatorElement.textContent = `by ${gameCreator}`; frameElement.src = 'about:blank'; requestAnimationFrame(() => { frameElement.src = gameUrl; }); showView(playerViewElement.id); console.log("    Game player view activated."); } else { console.error("    CLICK ERROR: Missing Player Elements!", { titleEl:!!titleElement, creatorEl:!!creatorElement, frameEl:!!frameElement, playerViewEl:!!playerViewElement }); alert("Error loading game components. Check console (F12)."); }
-                }
-             }); console.log("Game icon container listener attached (handles launch, favorite, rating)."); }
+             if (gameIconsContainer) { gameIconsContainer.addEventListener('click', (event) => { console.log("Game icon clicked"); const gameLink = event.target.closest('a.game-link'); if (!gameLink || window.getComputedStyle(gameLink).display === 'none') return; event.preventDefault(); const gameUrl = gameLink.dataset.gameUrl; const gameTitle = getGameTitle(gameLink); const gameCreator = gameLink.dataset.gameCreator || 'Unknown'; console.log(`    Processing game: ${gameTitle}`); const titleElement = document.getElementById('currentGameTitle'); const creatorElement = document.getElementById('currentGameCreator'); const frameElement = document.getElementById('gameFrame'); const playerViewElement = document.getElementById('game-player-section'); if (gameUrl && titleElement && creatorElement && frameElement && playerViewElement) { titleElement.textContent = gameTitle; creatorElement.textContent = `by ${gameCreator}`; frameElement.src = 'about:blank'; requestAnimationFrame(() => { frameElement.src = gameUrl; }); showView(playerViewElement.id); console.log("    Game player view activated."); } else { console.error("    CLICK ERROR: Missing Player Elements!", { titleEl:!!titleElement, creatorEl:!!creatorElement, frameEl:!!frameElement, playerViewEl:!!playerViewElement }); alert("Error loading game components. Check console (F12)."); } }); console.log("Game icon listener attached."); }
              // Game Player Controls
-             if (backButton) { backButton.addEventListener('click', () => { console.log("Back clicked."); const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if(gameSection) { showView('game-section'); const currentFilter = categoryFiltersContainer?.querySelector('.active-category')?.dataset.filter || 'All'; filterGames(currentFilter, searchInput.value); } }); console.log("Back Button listener attached."); } // Pass search value
+             if (backButton) { backButton.addEventListener('click', () => { console.log("Back clicked."); const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if(gameSection) { showView('game-section'); const currentFilter = categoryFiltersContainer?.querySelector('.active-category')?.dataset.filter || 'All'; filterGames(currentFilter); } }); console.log("Back Button listener attached."); }
              const fullscreenButtonRef = document.getElementById('fullscreenButton'); if (fullscreenButtonRef) { fullscreenButtonRef.addEventListener('click', () => { const iframe = document.getElementById('gameFrame'); const playerBox = document.querySelector('.game-player-box'); if(!iframe) { console.error("FS Error: iframe missing"); return; }; if (!document.fullscreenElement) { (iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen)?.call(iframe).catch(e => { console.warn(`iframe FS failed: ${e.message}, trying box`); (playerBox?.requestFullscreen || playerBox?.webkitRequestFullscreen || playerBox?.msRequestFullscreen)?.call(playerBox).catch(e2 => {console.error(`Box FS failed`,e2); alert("FS mode failed.");}); });} else { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } }); function handleFullscreenChange() { const isInFullscreen = !!(document.fullscreenElement || document.webkitIsFullScreen || document.msFullscreenElement); const fsBtn = document.getElementById('fullscreenButton'); if(fsBtn) { if (isInFullscreen) { fsBtn.innerHTML = '<i class="fas fa-compress"></i>'; fsBtn.title = "Exit Fullscreen"; } else { fsBtn.innerHTML = '<i class="fas fa-expand"></i>'; fsBtn.title = "Toggle Fullscreen"; } } } document.addEventListener('fullscreenchange', handleFullscreenChange); document.addEventListener('webkitfullscreenchange', handleFullscreenChange); document.addEventListener('msfullscreenchange', handleFullscreenChange); console.log("Fullscreen listeners attached."); }
              // Settings Popup Listeners
              if (settingsButton) { settingsButton.addEventListener('click', openSettingsPopup); console.log("Settings button listener attached."); }
              if (closeSettingsButton) { closeSettingsButton.addEventListener('click', closeSettingsPopup); console.log("Close Settings button listener attached."); }
              if (settingsOverlay) { settingsOverlay.addEventListener('click', closeSettingsPopup); console.log("Settings overlay listener attached."); }
              if (settingsPopup) { settingsPopup.addEventListener('click', (event) => { event.stopPropagation(); }); }
-             // Listener for showing/hiding custom cloak inputs
-             if (tabCloakOptionsContainer) {
-                tabCloakOptionsContainer.addEventListener('change', (event) => {
-                    if (event.target.name === 'tab-cloak') {
-                        toggleCustomCloakInputs(event.target.value === 'custom');
-                    }
-                });
-             }
-             // Combined Apply Settings Button
-             if (applySettingsButton) { applySettingsButton.addEventListener('click', () => { applySelectedCloak(); applySelectedTheme(); closeSettingsPopup(); }); console.log("Apply Settings button listener attached."); }
+             if (applyCloakButton) { applyCloakButton.addEventListener('click', () => { const selectedRadio = tabCloakOptionsContainer.querySelector('input[name="tab-cloak"]:checked'); if (selectedRadio) { const title = selectedRadio.dataset.title; const favicon = selectedRadio.dataset.favicon; setTabCloak(title, favicon); closeSettingsPopup(); } else { console.warn("Apply Cloak: No option selected."); } }); console.log("Apply Cloak button listener attached."); }
              if (resetCloakButton) { resetCloakButton.addEventListener('click', () => { resetTabCloak(); }); console.log("Reset Cloak button listener attached."); }
-             // Theme selection change
-             if (themeOptionsContainer) {
-                 themeOptionsContainer.addEventListener('change', applySelectedTheme);
-                 console.log("Theme options listener attached.");
-             }
 
              // --- Attach Listeners for Help Section Buttons ---
              if (requestGameBtn) { requestGameBtn.addEventListener('click', (e) => { e.preventDefault(); openSupportFormPopup('Game Request'); }); console.log("Request Game button listener attached."); }
@@ -1811,43 +1410,247 @@
              if (supportFormPopup) { supportFormPopup.addEventListener('click', (event) => { event.stopPropagation(); }); }
 
             // --- URL Preview Listeners ---
-            if (gameUrlInput && gameUrlPreview) { gameUrlInput.addEventListener('input', () => { const url = gameUrlInput.value.trim(); if (url && (url.startsWith('http://') || url.startsWith('https://'))) { clearTimeout(gameUrlInput.previewTimeout); gameUrlInput.previewTimeout = setTimeout(() => { console.log("Attempting to preview game URL:", url); gameUrlPreview.src = 'about:blank'; requestAnimationFrame(() => { gameUrlPreview.src = url; }); }, 500); } else { clearTimeout(gameUrlInput.previewTimeout); gameUrlPreview.src = 'about:blank'; } }); console.log("Game URL preview listener attached."); }
-            if (iconUrlInput && iconUrlPreview) { iconUrlInput.addEventListener('input', () => { const url = iconUrlInput.value.trim(); if (url && (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:image'))) { console.log("Attempting to preview icon URL:", url); iconUrlPreview.src = url; iconUrlPreview.onerror = () => { console.warn("Icon preview failed to load:", url); iconUrlPreview.src = ''; }; } else { iconUrlPreview.src = ''; } }); console.log("Icon URL preview listener attached."); }
+            if (gameUrlInput && gameUrlPreview) {
+                gameUrlInput.addEventListener('input', () => {
+                    const url = gameUrlInput.value.trim();
+                    if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+                        clearTimeout(gameUrlInput.previewTimeout);
+                        gameUrlInput.previewTimeout = setTimeout(() => {
+                             console.log("Attempting to preview game URL:", url);
+                             gameUrlPreview.src = 'about:blank'; // Clear first
+                             requestAnimationFrame(() => { gameUrlPreview.src = url; });
+                        }, 500); // Delay in ms
+                    } else {
+                        clearTimeout(gameUrlInput.previewTimeout);
+                        gameUrlPreview.src = 'about:blank'; // Clear preview if invalid/empty
+                    }
+                });
+                 console.log("Game URL preview listener attached.");
+            }
+
+            if (iconUrlInput && iconUrlPreview) {
+                iconUrlInput.addEventListener('input', () => {
+                     const url = iconUrlInput.value.trim();
+                     if (url && (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:image'))) {
+                        console.log("Attempting to preview icon URL:", url);
+                         iconUrlPreview.src = url;
+                         iconUrlPreview.onerror = () => { // Handle broken image links
+                            console.warn("Icon preview failed to load:", url);
+                            iconUrlPreview.src = ''; // Clear src on error
+                         };
+                     } else {
+                         iconUrlPreview.src = ''; // Clear preview if invalid/empty
+                     }
+                });
+                 console.log("Icon URL preview listener attached.");
+            }
 
             // --- Finder Event Listeners ---
-             if (playerCountOptionsContainer) { playerCountOptionsContainer.addEventListener('click', (event) => { const button = event.target.closest('.step-button'); if (button && button.dataset.players) { event.preventDefault(); selectedPlayerCount = button.dataset.players; console.log("Player count selected:", selectedPlayerCount); finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category'); selectedFinderCategory = 'Any'; showFinderStep('category-select-step'); } }); console.log("Player count listener attached."); }
-             if (finderCategoriesContainer) { finderCategoriesContainer.addEventListener('click', (event) => { if (event.target.classList.contains('category-button')) { const filterValue = event.target.dataset.filter; console.log("Finder category selected:", filterValue); selectedFinderCategory = filterValue; finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); event.target.classList.add('active-category'); runFinder(); } }); console.log("Finder category listener attached."); }
-             if (restartFinderBtn) { restartFinderBtn.addEventListener('click', () => { console.log("Restarting finder."); selectedPlayerCount = null; selectedFinderCategory = null; finderResultsContainer.innerHTML = ''; finderNoResults.style.display = 'none'; finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category'); showFinderStep('player-count-step'); }); console.log("Restart Finder button listener attached."); }
-             if (finderResultsContainer) { finderResultsContainer.addEventListener('click', (event) => { const playButton = event.target.closest('.finder-result-play-btn'); if (playButton) { console.log("Finder result play clicked."); const gameUrl = playButton.dataset.gameUrl; const gameTitle = playButton.dataset.gameTitle; const gameCreator = playButton.dataset.gameCreator || 'Unknown'; addRecentGame(gameUrl); const titleElement = document.getElementById('currentGameTitle'); const creatorElement = document.getElementById('currentGameCreator'); const frameElement = document.getElementById('gameFrame'); const playerViewElement = document.getElementById('game-player-section'); if (gameUrl && titleElement && creatorElement && frameElement && playerViewElement) { titleElement.textContent = gameTitle; creatorElement.textContent = `by ${gameCreator}`; frameElement.src = 'about:blank'; requestAnimationFrame(() => { frameElement.src = gameUrl; }); showView(playerViewElement.id); console.log("    Launched game from finder."); } else { console.error("    FINDER PLAY CLICK ERROR: Missing Player Elements!", { titleEl:!!titleElement, creatorEl:!!creatorElement, frameEl:!!frameElement, playerViewEl:!!playerViewElement }); alert("Error loading game components. Check console (F12)."); } } }); console.log("Finder results play button listener attached."); }
+             if (playerCountOptionsContainer) {
+                 playerCountOptionsContainer.addEventListener('click', (event) => {
+                     const button = event.target.closest('.step-button');
+                     if (button && button.dataset.players) {
+                         event.preventDefault();
+                         selectedPlayerCount = button.dataset.players; // Includes "3+" now
+                         console.log("Player count selected:", selectedPlayerCount);
+                         // Ensure 'Any' category is active when moving to next step
+                         finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category'));
+                         finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category');
+                         selectedFinderCategory = 'Any'; // Reset category selection
+                         showFinderStep('category-select-step'); // Move to next step
+                     }
+                 });
+                 console.log("Player count listener attached.");
+             }
+             if (finderCategoriesContainer) {
+                 finderCategoriesContainer.addEventListener('click', (event) => {
+                      if (event.target.classList.contains('category-button')) {
+                        const filterValue = event.target.dataset.filter;
+                         console.log("Finder category selected:", filterValue);
+                         selectedFinderCategory = filterValue;
+                         finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category'));
+                         event.target.classList.add('active-category');
+                         runFinder(); // Filter and display results
+                    }
+                 });
+                 console.log("Finder category listener attached.");
+             }
+             if (restartFinderBtn) {
+                 restartFinderBtn.addEventListener('click', () => {
+                     console.log("Restarting finder.");
+                     selectedPlayerCount = null;
+                     selectedFinderCategory = null;
+                     finderResultsContainer.innerHTML = '';
+                     finderNoResults.style.display = 'none';
+                     finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category'));
+                     finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category');
+                     showFinderStep('player-count-step');
+                 });
+                 console.log("Restart Finder button listener attached.");
+             }
+             if (finderResultsContainer) {
+                 finderResultsContainer.addEventListener('click', (event) => {
+                    const playButton = event.target.closest('.finder-result-play-btn');
+                    if (playButton) {
+                         console.log("Finder result play clicked.");
+                        const gameUrl = playButton.dataset.gameUrl;
+                         const gameTitle = playButton.dataset.gameTitle;
+                         const gameCreator = playButton.dataset.gameCreator || 'Unknown';
+                        const titleElement = document.getElementById('currentGameTitle');
+                        const creatorElement = document.getElementById('currentGameCreator');
+                        const frameElement = document.getElementById('gameFrame');
+                        const playerViewElement = document.getElementById('game-player-section');
+
+                        if (gameUrl && titleElement && creatorElement && frameElement && playerViewElement) {
+                            titleElement.textContent = gameTitle;
+                             creatorElement.textContent = `by ${gameCreator}`;
+                             frameElement.src = 'about:blank';
+                             requestAnimationFrame(() => { frameElement.src = gameUrl; });
+                            showView(playerViewElement.id);
+                            console.log("    Launched game from finder.");
+                         } else {
+                             console.error("    FINDER PLAY CLICK ERROR: Missing Player Elements!", { titleEl:!!titleElement, creatorEl:!!creatorElement, frameEl:!!frameElement, playerViewEl:!!playerViewElement });
+                            alert("Error loading game components. Check console (F12).");
+                        }
+                    }
+                });
+                 console.log("Finder results play button listener attached.");
+             }
 
             // Apps Script Form Submission Listener
-            if (supportForm) { supportForm.addEventListener('submit', (event) => { event.preventDefault(); console.log("Support form submitted via JS to Apps Script."); supportMessageStatus.textContent = 'Submitting...'; submitSupportButton.disabled = true; const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-oAR3GGVgCkzbpe5rLXq_U4c_eVx2n5W1Ih-lN0fF5fwE11fubZ3R2OGgBcVvQeR7vw/exec'; if (!SCRIPT_URL || SCRIPT_URL === 'PASTE_YOUR_WEB_APP_URL_HERE') { supportMessageStatus.textContent = 'Error: Web App URL issue!'; submitSupportButton.disabled = false; console.error("Google Apps Script Web App URL issue in the script."); return; } const formData = new FormData(supportForm); fetch(SCRIPT_URL, { method: 'POST', body: formData, }) .then(response => response.json()) .then(data => { console.log('Response from Apps Script:', data); if (data.result === 'success') { supportMessageStatus.textContent = 'Request Submitted Successfully!'; supportForm.reset(); setTimeout(closeSupportFormPopup, 1500); } else { supportMessageStatus.textContent = 'Submission Failed: ' + (data.message || 'Unknown error'); console.error('Apps Script Error:', data.message); } }) .catch(error => { console.error('Error submitting form to Apps Script:', error); supportMessageStatus.textContent = 'Network Error: Could not submit request. Please try again.'; }) .finally(() => { submitSupportButton.disabled = false; setTimeout(() => { if (supportMessageStatus.textContent === 'Request Submitted Successfully!') { supportMessageStatus.textContent = ''; } }, 5000); }); }); console.log("Apps Script support form listener attached."); }
+            if (supportForm) {
+                supportForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    console.log("Support form submitted via JS to Apps Script.");
+                    supportMessageStatus.textContent = 'Submitting...';
+                    submitSupportButton.disabled = true;
 
-             // --- Admin Button Listeners ---
-            if (testAllGamesBtn && gameTestResultsDiv) { testAllGamesBtn.addEventListener('click', async () => { console.log("Starting parallel game link test..."); gameTestResultsDiv.innerHTML = 'Testing games... Please wait.<br>'; gameTestResultsDiv.style.display = 'block'; testAllGamesBtn.disabled = true; const gameLinks = Array.from(gameIconsContainer.querySelectorAll('a.game-link')); let promises = []; let gameData = []; gameLinks.forEach(link => { const url = link.dataset.gameUrl; const title = getGameTitle(link); gameData.push({ title: title, url: url }); if (!url) { promises.push(Promise.reject({ reason: 'Missing URL' })); } else { const fetchPromise = fetch(url, { method: 'HEAD', mode: 'no-cors' }) .then(response => ({ status: 'fulfilled' })) .catch(error => { console.warn(`Test Error: ${title} - ${url}`, error); throw new Error('Network Error/CORS?'); }); promises.push(fetchPromise); } }); console.log(`Created ${promises.length} test promises.`); const results = await Promise.allSettled(promises); console.log("All promises settled."); let resultsHTML = ''; let successCount = 0; let errorCount = 0; results.forEach((result, index) => { const title = gameData[index].title; let statusHTML = ''; if (result.status === 'fulfilled') { statusHTML = '<span class="status-ok">OK (Network)</span>'; successCount++; } else { const reason = result.reason?.message || result.reason?.reason || 'Unknown Error'; statusHTML = `<span class="status-error">${reason}</span>`; errorCount++; } resultsHTML += `<div>${title}: ${statusHTML}</div>`; }); gameTestResultsDiv.innerHTML = `<b>Test Complete (${successCount} OK, ${errorCount} Errors):</b><br>` + resultsHTML; testAllGamesBtn.disabled = false; console.log("Game link test finished."); }); console.log("Test All Games button listener attached."); }
-            if (viewSubmissionsBtn && submissionsDisplayArea) { viewSubmissionsBtn.addEventListener('click', async () => { console.log("Fetching support submissions..."); submissionsDisplayArea.textContent = 'Loading submissions...'; submissionsDisplayArea.style.display = 'block'; viewSubmissionsBtn.disabled = true; const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-oAR3GGVgCkzbpe5rLXq_U4c_eVx2n5W1Ih-lN0fF5fwE11fubZ3R2OGgBcVvQeR7vw/exec'; // Use same URL try { const response = await fetch(SCRIPT_URL); // Default is GET if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); } const result = await response.json(); if (result.result === 'success') { if (result.data && result.data.length > 0) { submissionsDisplayArea.textContent = JSON.stringify(result.data, null, 2); } else { submissionsDisplayArea.textContent = 'No submissions found.'; } } else { throw new Error(result.message || 'Failed to fetch data from script.'); } } catch (error) { console.error('Error fetching submissions:', error); submissionsDisplayArea.textContent = `Error loading submissions: ${error.message}`; } finally { viewSubmissionsBtn.disabled = false; } }); console.log("View Submissions button listener attached."); }
-            if (clearLocalStorageBtn) { clearLocalStorageBtn.addEventListener('click', () => { if (confirm('Are you sure you want to clear all saved settings, favorites, ratings, and recent games from your browser? This cannot be undone.')) { console.log("Clearing local storage..."); Object.values(LS_KEYS).forEach(key => localStorage.removeItem(key)); alert('Local storage cleared!'); location.reload(); } }); console.log("Clear Local Storage button listener attached."); }
+                    // --- YOUR DEPLOYED WEB APP URL ---
+                    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-oAR3GGVgCkzbpe5rLXq_U4c_eVx2n5W1Ih-lN0fF5fwE11fubZ3R2OGgBcVvQeR7vw/exec';
+                    // ---------------------------------
+
+                    if (!SCRIPT_URL || SCRIPT_URL === 'PASTE_YOUR_WEB_APP_URL_HERE') { // Keep check
+                         supportMessageStatus.textContent = 'Error: Web App URL issue!';
+                         submitSupportButton.disabled = false;
+                         console.error("Google Apps Script Web App URL issue in the script.");
+                         return;
+                    }
+
+                    const formData = new FormData(supportForm);
+
+                    fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Response from Apps Script:', data);
+                        if (data.result === 'success') {
+                            supportMessageStatus.textContent = 'Request Submitted Successfully!';
+                            supportForm.reset();
+                            // Close the popup after a short delay
+                            setTimeout(closeSupportFormPopup, 1500);
+                        } else {
+                             supportMessageStatus.textContent = 'Submission Failed: ' + (data.message || 'Unknown error');
+                             console.error('Apps Script Error:', data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error submitting form to Apps Script:', error);
+                        supportMessageStatus.textContent = 'Network Error: Could not submit request. Please try again.';
+                    })
+                    .finally(() => {
+                         submitSupportButton.disabled = false;
+                         setTimeout(() => {
+                             // Clear status only if it hasn't changed to an error message again
+                             if (supportMessageStatus.textContent === 'Request Submitted Successfully!') {
+                                 supportMessageStatus.textContent = '';
+                             }
+                         }, 5000); // Longer delay before clearing success message
+                    });
+                });
+                console.log("Apps Script support form listener attached.");
+            }
+
+             // --- Admin Button Test Games Listener (Optimized with Parallel Requests) ---
+            if (testAllGamesBtn && gameTestResultsDiv) {
+                testAllGamesBtn.addEventListener('click', async () => {
+                    console.log("Starting parallel game link test...");
+                    gameTestResultsDiv.innerHTML = 'Testing games... Please wait.<br>';
+                    gameTestResultsDiv.style.display = 'block';
+                    testAllGamesBtn.disabled = true;
+
+                    const gameLinks = Array.from(gameIconsContainer.querySelectorAll('a.game-link')); // Convert NodeList to Array
+                    let promises = [];
+                    let gameData = []; // Store info to match results later
+
+                    // 1. Create all fetch promises
+                    gameLinks.forEach(link => {
+                        const url = link.dataset.gameUrl;
+                        const title = getGameTitle(link);
+                        gameData.push({ title: title, url: url }); // Store data for later reference
+
+                        if (!url) {
+                            // Create a promise that immediately rejects for missing URLs
+                            promises.push(Promise.reject({ reason: 'Missing URL' }));
+                        } else {
+                            // Create the fetch promise
+                            const fetchPromise = fetch(url, { method: 'HEAD', mode: 'no-cors' })
+                                .then(response => {
+                                    // With no-cors, we can't read status, assume OK if fetch itself didn't throw
+                                    return { status: 'fulfilled' }; // Simulate fulfilled status
+                                })
+                                .catch(error => {
+                                    // Network error or potentially CORS preflight failure
+                                    console.warn(`Test Error: ${title} - ${url}`, error);
+                                    // Simulate rejected status with a reason
+                                    throw new Error('Network Error/CORS?');
+                                });
+                            promises.push(fetchPromise);
+                        }
+                    });
+
+                    console.log(`Created ${promises.length} test promises.`);
+
+                    // 2. Wait for all promises to settle (succeed or fail)
+                    const results = await Promise.allSettled(promises);
+                    console.log("All promises settled.");
+
+                    // 3. Process results and build HTML
+                    let resultsHTML = '';
+                    let successCount = 0;
+                    let errorCount = 0;
+
+                    results.forEach((result, index) => {
+                        const title = gameData[index].title; // Get title using index
+                        let statusHTML = '';
+
+                        if (result.status === 'fulfilled') {
+                            statusHTML = '<span class="status-ok">OK (Network)</span>';
+                            successCount++;
+                        } else {
+                            // result.reason will contain the Error object or our custom object
+                            const reason = result.reason?.message || result.reason?.reason || 'Unknown Error';
+                            statusHTML = `<span class="status-error">${reason}</span>`;
+                            errorCount++;
+                        }
+                        resultsHTML += `<div>${title}: ${statusHTML}</div>`;
+                    });
+
+                    gameTestResultsDiv.innerHTML = `<b>Test Complete (${successCount} OK, ${errorCount} Errors):</b><br>` + resultsHTML;
+                    testAllGamesBtn.disabled = false;
+                    console.log("Game link test finished.");
+                });
+                console.log("Test All Games button listener attached.");
+            }
 
 
             // --- Initial Load Logic ---
-             const savedTheme = getLocalStorageItem(LS_KEYS.theme, '');
-             applyTheme(savedTheme); // Apply saved theme first
+             const savedTitle = localStorage.getItem('tabCloakTitle'); const savedFavicon = localStorage.getItem('tabCloakFavicon');
+             if (savedTitle && savedFavicon) { console.log("Found saved cloak in localStorage. Applying."); setTabCloak(savedTitle, savedFavicon); }
+             else { console.log("No saved cloak found, using default."); resetTabCloak(); }
 
-             const savedCloakType = getLocalStorageItem(LS_KEYS.activeCloakType, 'default');
-             let titleToApply = ORIGINAL_TITLE;
-             let iconToApply = ORIGINAL_FAVICON_HREF;
-             if (savedCloakType === 'custom') {
-                 titleToApply = getLocalStorageItem(LS_KEYS.customCloakTitle, ORIGINAL_TITLE);
-                 iconToApply = getLocalStorageItem(LS_KEYS.customCloakIcon, ORIGINAL_FAVICON_HREF);
-             } else if (savedCloakType === 'preset') {
-                 titleToApply = getLocalStorageItem(LS_KEYS.tabCloakTitle, ORIGINAL_TITLE); // Get saved preset title
-                 iconToApply = getLocalStorageItem(LS_KEYS.tabCloakFavicon, ORIGINAL_FAVICON_HREF); // Get saved preset icon
-             }
-             console.log(`Applying initial cloak (Type: ${savedCloakType})`);
-             setTabCloak(titleToApply, iconToApply);
-
-             updateFavoriteButtonsUI(); // Set initial state of favorite buttons
-             updateAllRatingStarsUI(); // Set initial state of rating stars
+             // Initial UI update for sign-in is now handled in window.onload
 
 
             console.log("--- DOMContentLoaded Initial Setup Complete ---");
