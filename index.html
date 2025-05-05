@@ -352,8 +352,8 @@
         .tab-cloak-option label img { width: 16px; height: 16px; vertical-align: middle; }
         .settings-actions { display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--box-border); }
         .settings-button { font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; font-weight: 600; padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; border: 1px solid var(--box-border); }
-        #applyCloakButton { background-color: var(--button-active-bg); color: var(--bg-color); border-color: var(--button-active-bg); }
-        #applyCloakButton:hover { background-color: var(--accent-color); box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); }
+        #applySettingsButton { background-color: var(--button-active-bg); color: var(--bg-color); border-color: var(--button-active-bg); } /* Renamed */
+        #applySettingsButton:hover { background-color: var(--accent-color); box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); }
         #resetCloakButton { background-color: var(--button-bg); color: var(--secondary-blue); }
         #resetCloakButton:hover { background-color: var(--button-hover-bg); color: var(--text-color); border-color: var(--accent-color); }
 
@@ -685,14 +685,24 @@
             padding: 10px 20px;
             font-size: 1rem;
         }
-        #gameTestResults {
+        #gameTestResults, #submissionsDisplayArea {
             line-height: 1.6;
+            background-color: var(--box-bg);
+            border: 1px solid var(--box-border);
+            padding: 15px;
+            border-radius: 8px;
+            max-height: 40vh;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            display: none;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
-        #gameTestResults div {
+        #gameTestResults div, #submissionsDisplayArea div /* If formatting submissions line by line */ {
             padding: 3px 0;
             border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
         }
-        #gameTestResults div:last-child {
+        #gameTestResults div:last-child, #submissionsDisplayArea div:last-child {
             border-bottom: none;
         }
         #gameTestResults .status-ok { color: #8fbc8f; } /* DarkSeaGreen */
@@ -761,7 +771,7 @@
        <section id="game-section" class="view-section">
            <h2>Select Your Game</h2>
            <div class="controls-container">
-                <div class="search-container">
+                 <div class="search-container">
                      <i class="fas fa-search"></i>
                      <input type="text" id="searchInput" placeholder="Search games...">
                  </div>
@@ -1087,8 +1097,7 @@
             const adminSection = document.getElementById('admin-section');
             if (adminSection?.classList.contains('active')) {
                  console.log("Admin signed out, UI updated.");
-                 // Need showView, which is inside DOMContentLoaded.
-                 // Check if it's available and call it, otherwise just update UI
+                 // Find showView function - make it global if needed here
                  if (typeof showView === 'function') {
                     showView('home-content');
                  } else {
@@ -1288,7 +1297,7 @@
 
             // --- Helper Functions (Defined within DOMContentLoaded) ---
 
-            function showView(viewId) {
+            function showView(viewId) { // Keep inside if only called by listeners inside
                 const viewToShow = document.getElementById(viewId);
                 if (!viewToShow) { console.error(`showView Error: Element '${viewId}' not found!`); return; }
                  console.log(`--> Activating view: ${viewId}`);
@@ -1373,8 +1382,6 @@
                  let faviconLink = document.querySelector("link[rel*='icon']");
                  if (!faviconLink) { faviconLink = document.createElement('link'); faviconLink.rel = 'icon'; document.head.appendChild(faviconLink); console.log("Created new favicon link element."); }
                  faviconLink.href = faviconUrl;
-                 // Don't save presets to main cloak keys, only type matters
-                 // localStorage will store custom values separately if needed
             }
 
             function applySelectedCloak() {
@@ -1387,8 +1394,8 @@
                 let activeTypeToSave = 'default';
 
                 if (type === 'custom') {
-                    titleToSet = customTitleInput.value.trim() || ORIGINAL_TITLE; // Fallback to default if empty
-                    iconToSet = customIconInput.value.trim() || ORIGINAL_FAVICON_HREF; // Fallback
+                    titleToSet = customTitleInput.value.trim() || ORIGINAL_TITLE;
+                    iconToSet = customIconInput.value.trim() || ORIGINAL_FAVICON_HREF;
                     setLocalStorageItem(LS_KEYS.customCloakTitle, titleToSet);
                     setLocalStorageItem(LS_KEYS.customCloakIcon, iconToSet);
                     activeTypeToSave = 'custom';
@@ -1400,14 +1407,11 @@
                         activeTypeToSave = 'preset';
                     }
                 }
-                // Else: type is 'default', values already set
 
                 setTabCloak(titleToSet, iconToSet);
                 setLocalStorageItem(LS_KEYS.activeCloakType, activeTypeToSave);
-                // Save the actual applied title/icon for persistence
-                setLocalStorageItem(LS_KEYS.tabCloakTitle, titleToSet);
+                setLocalStorageItem(LS_KEYS.tabCloakTitle, titleToSet); // Save actual applied title/icon
                 setLocalStorageItem(LS_KEYS.tabCloakFavicon, iconToSet);
-                closeSettingsPopup();
             }
 
             function resetTabCloak() {
@@ -1416,9 +1420,6 @@
                  setLocalStorageItem(LS_KEYS.activeCloakType, 'default');
                  setLocalStorageItem(LS_KEYS.tabCloakTitle, ORIGINAL_TITLE);
                  setLocalStorageItem(LS_KEYS.tabCloakFavicon, ORIGINAL_FAVICON_HREF);
-                 // Also clear custom values if desired on reset
-                 // setLocalStorageItem(LS_KEYS.customCloakTitle, '');
-                 // setLocalStorageItem(LS_KEYS.customCloakIcon, '');
                  populateCloakOptions(); // Re-populate to select default radio
             }
 
@@ -1430,12 +1431,10 @@
             }
 
             function populateThemeOptions() {
-                const currentTheme = getLocalStorageItem(LS_KEYS.theme, 'default');
-                const themeRadio = themeOptionsContainer.querySelector(`input[name="theme-select"][value="${currentTheme}"]`);
+                const currentTheme = getLocalStorageItem(LS_KEYS.theme, 'default'); // Use '' for default theme value
+                const themeRadio = themeOptionsContainer.querySelector(`input[name="theme-select"][value="${currentTheme || 'default'}"]`);
                 if (themeRadio) {
                     themeRadio.checked = true;
-                } else { // Fallback if saved theme is invalid
-                    themeOptionsContainer.querySelector(`input[name="theme-select"][value="default"]`).checked = true;
                 }
             }
 
@@ -1473,7 +1472,7 @@
                 // If currently viewing favorites, re-filter
                 const activeCategoryButton = categoryFiltersContainer.querySelector('.category-button.active-category');
                 if (activeCategoryButton && activeCategoryButton.dataset.filter === 'Favorites') {
-                    filterGames('Favorites');
+                    filterGames('Favorites', searchInput.value); // Include search term
                 }
             }
 
@@ -1499,11 +1498,8 @@
 
             function addRecentGame(gameUrl) {
                 if (!gameUrl) return;
-                // Remove if already exists to move it to the front
                 recentGames = recentGames.filter(url => url !== gameUrl);
-                // Add to the front
                 recentGames.unshift(gameUrl);
-                // Limit the list size
                 if (recentGames.length > MAX_RECENT) {
                     recentGames.pop();
                 }
@@ -1534,11 +1530,11 @@
 
                 starsContainer.querySelectorAll('i').forEach(star => {
                     if (parseInt(star.dataset.value) <= rating) {
-                        star.classList.remove('far'); // Use regular if needed
-                        star.classList.add('fas', 'rated'); // Use solid, mark as rated
+                        star.classList.remove('far');
+                        star.classList.add('fas', 'rated');
                     } else {
                         star.classList.remove('fas', 'rated');
-                        star.classList.add('far'); // Use regular for empty
+                        star.classList.add('far');
                     }
                 });
             }
@@ -1551,106 +1547,190 @@
                  });
             }
 
+             function openSettingsPopup() { console.log("Opening settings popup."); populateCloakOptions(); populateThemeOptions(); settingsOverlay.classList.add('visible'); settingsPopup.classList.add('visible'); }
+             function closeSettingsPopup() { console.log("Closing settings popup."); settingsOverlay.classList.remove('visible'); settingsPopup.classList.remove('visible'); }
 
-            // --- Game Filtering & Display Functions (Updated) ---
-             function sortGames() { // Updated to include rating sort
-                if (!sortDropdown || !gameIconsContainer) return;
-                const sortValue = sortDropdown.value; console.log(`    Sorting by: ${sortValue}`);
-                const linksToSort = Array.from(gameIconsContainer.querySelectorAll('a.game-link:not([style*="display: none"])')); // Only sort visible links
+            // --- Support Form Popup Functions ---
+            function openSupportFormPopup(type) {
+                console.log(`Opening support form for: ${type}`);
+                supportForm.reset(); // Clear previous input
+                supportMessageStatus.textContent = ''; // Clear status
+                gameUrlPreview.src = 'about:blank'; // Clear previews
+                iconUrlPreview.src = '';
+                supportType.value = type; // Set the hidden input value
 
-                if (sortValue === 'rating') {
-                    linksToSort.sort((a, b) => {
-                        const ratingA = getRating(a.dataset.gameUrl);
-                        const ratingB = getRating(b.dataset.gameUrl);
-                        // Sort descending (higher rating first), unrated (0) last
-                        if (ratingB === 0 && ratingA !== 0) return -1;
-                        if (ratingA === 0 && ratingB !== 0) return 1;
-                        return ratingB - ratingA; // Higher rating first
-                    });
-                } else if (sortValue !== 'default') { // Handle A-Z, Z-A
-                    linksToSort.sort((a, b) => {
-                        const titleA = getGameTitle(a).toLowerCase();
-                        const titleB = getGameTitle(b).toLowerCase();
-                        if (sortValue === 'az') return titleA.localeCompare(titleB);
-                        if (sortValue === 'za') return titleB.localeCompare(titleA);
-                        return 0;
-                    });
-                }
-                // Re-append sorted visible links
-                linksToSort.forEach(link => gameIconsContainer.appendChild(link));
-                console.log(`    Sorted and re-appended ${linksToSort.length} items by ${sortValue}`);
-             }
-
-             function filterGames(filter, searchTerm = '') { // Added searchTerm parameter
-                console.log(`--- filterGames called with filter: ${filter}, search: "${searchTerm}" ---`);
-                if (!gameIconsContainer) { console.error("Filter Error: Cannot find #icon_image"); return; }
-                const gameLinks = gameIconsContainer.querySelectorAll('.game-link');
-                const lowerSearchTerm = searchTerm.toLowerCase().trim();
-                let visibleCount = 0;
-
-                gameLinks.forEach(link => {
-                    let show = false;
-                    const gameUrl = link.dataset.gameUrl;
-
-                    // 1. Check Category/Special Filter
-                    if (filter === 'All') {
-                        show = true;
-                    } else if (filter === 'Favorites') {
-                        show = isFavorite(gameUrl);
-                    } else if (filter === 'Recent') {
-                        show = recentGames.includes(gameUrl);
-                    } else {
-                        show = link.classList.contains(filter);
-                    }
-
-                    // 2. Check Search Term (if category check passed)
-                    if (show && lowerSearchTerm) {
-                        const title = getGameTitle(link).toLowerCase();
-                        const creator = (link.dataset.gameCreator || '').toLowerCase();
-                        show = title.includes(lowerSearchTerm) || creator.includes(lowerSearchTerm);
-                    }
-
-                    link.style.display = show ? 'block' : 'none';
-                    if (show) visibleCount++;
-                });
-
-                // Reorder recent games if that filter is active
-                if (filter === 'Recent') {
-                    recentGames.forEach(url => {
-                        const recentLink = gameIconsContainer.querySelector(`a.game-link[data-game-url="${CSS.escape(url)}"]`);
-                        if (recentLink && recentLink.style.display !== 'none') { // Ensure it wasn't hidden by search
-                            gameIconsContainer.appendChild(recentLink); // Move to end to maintain order
-                        }
-                    });
-                } else {
-                     sortGames(); // Apply current sort order only if not 'Recent'
+                if (type === 'Game Request') {
+                    supportFormTitle.textContent = 'Request a Game';
+                    topicLabel.textContent = 'Game Name:'; // Change label
+                    detailsLabel.textContent = 'Reason for Request / Other Details:'; // Change label
+                    supportTopic.placeholder = 'Enter the name of the game';
+                    supportMessage.placeholder = 'Why do you want this game? Any additional info?';
+                    gameUrlInput.required = true; // Make Game URL required
+                    iconUrlInput.required = false; // Icon URL is optional
+                    gameRequestFields.style.display = 'block'; // Show game fields
+                } else { // For 'Issue Report' or other types
+                    supportFormTitle.textContent = 'Report an Issue';
+                    topicLabel.textContent = 'Topic / Game Name:'; // Reset label
+                    detailsLabel.textContent = 'Details:'; // Reset label
+                    supportTopic.placeholder = 'e.g., Issue with Slope Game or Suggestion';
+                    supportMessage.placeholder = 'Please describe the issue or suggestion.';
+                    gameUrlInput.required = false; // Not required for issues
+                    gameRequestFields.style.display = 'none'; // Hide game fields
                 }
 
-                if (noGamesMessageElement) {
-                    noGamesMessageElement.style.display = (visibleCount === 0) ? 'block' : 'none';
-                    if (visibleCount === 0) {
-                        let msg = `No games found`;
-                        if (filter !== 'All' && filter !== 'Recent' && filter !== 'Favorites') msg += ` in "${filter}"`;
-                        if (searchTerm) msg += ` matching "${searchTerm}"`;
-                        if (filter === 'Favorites') msg = `You haven't favorited any games yet!`;
-                        if (filter === 'Recent' && !searchTerm) msg = `No recently played games found.`;
-                        noGamesMessageElement.textContent = msg + '.';
-                    }
-                }
-                console.log(`--- filterGames finished, visible: ${visibleCount} ---`);
+                supportFormOverlay.classList.add('visible');
+                supportFormPopup.classList.add('visible');
+                supportTopic.focus(); // Focus the first input field
             }
 
-            // --- Finder Functions (Keep as before) ---
-             function populateFinderCategories() { /* ... */ }
-             populateFinderCategories();
-             function showFinderStep(stepId) { /* ... */ }
-             function filterGamesForFinder() { /* ... */ }
-             function displayFinderResults(games) { /* ... */ }
-             function runFinder() { /* ... */ }
+            function closeSupportFormPopup() {
+                 console.log("Closing support form popup.");
+                 supportFormOverlay.classList.remove('visible');
+                 supportFormPopup.classList.remove('visible');
+            }
+
+            // --- Finder Functions ---
+             function populateFinderCategories() {
+                if (!categoryFiltersContainer || !finderCategoriesContainer) return;
+                const originalButtons = categoryFiltersContainer.querySelectorAll('.category-button:not([data-filter="All"]):not([data-filter="Favorites"]):not([data-filter="Recent"])'); // Exclude special filters
+                 finderCategoriesContainer.innerHTML = ''; // Clear previous if any
+                 const anyButton = document.createElement('button');
+                 anyButton.className = 'category-button active-category'; // Default active
+                 anyButton.dataset.filter = 'Any';
+                 anyButton.textContent = 'Any Category';
+                 finderCategoriesContainer.appendChild(anyButton);
+
+                originalButtons.forEach(btn => {
+                    const clone = btn.cloneNode(true);
+                    clone.classList.remove('active-category');
+                    finderCategoriesContainer.appendChild(clone);
+                });
+                 console.log(`Copied ${originalButtons.length} categories to finder.`);
+             }
+             populateFinderCategories(); // Call it once during initialization
+
+             function showFinderStep(stepId) {
+                document.querySelectorAll('.finder-step').forEach(step => {
+                    step.classList.remove('active-step');
+                });
+                const stepToShow = document.getElementById(stepId);
+                if (stepToShow) {
+                    stepToShow.classList.add('active-step');
+                    if (suggestionsSection) suggestionsSection.scrollTop = 0; // Scroll suggestions view
+                } else {
+                     console.error("Finder step not found:", stepId);
+                }
+             }
+
+             function filterGamesForFinder() {
+                 console.log(`Filtering for: Players=${selectedPlayerCount}, Category=${selectedFinderCategory}`);
+                 const allGames = Array.from(gameIconsContainer.querySelectorAll('a.game-link'));
+                 let filteredGames = allGames;
+
+                // 1. Filter by Player Count
+                 if (selectedPlayerCount) { // No "Any" button for players
+                     filteredGames = filteredGames.filter(gameLink => {
+                         const players = gameLink.dataset.players || '1'; // Default to 1 if missing
+
+                        if (selectedPlayerCount === '1') {
+                             return players === '1';
+                        } else if (selectedPlayerCount === '2') {
+                             return players === '2' || players === 'Multi'; // Show 2 and Multi
+                         } else if (selectedPlayerCount === '3+') { // Handles 3 and 3+ from buttons
+                            return players === 'Multi'; // Only show games marked as Multi
+                         }
+                         return false; // Should not happen if buttons are clicked
+                    });
+                 }
+                 console.log(` After player filter (${selectedPlayerCount}): ${filteredGames.length} games`);
+
+                 // 2. Filter by Category
+                 if (selectedFinderCategory && selectedFinderCategory !== 'Any') {
+                     filteredGames = filteredGames.filter(gameLink => gameLink.classList.contains(selectedFinderCategory));
+                 }
+                 console.log(` After category filter (${selectedFinderCategory}): ${filteredGames.length} games`);
+
+                 return filteredGames;
+             }
+
+             function displayFinderResults(games) {
+                finderResultsContainer.innerHTML = ''; // Clear previous results
+                finderNoResults.style.display = 'none';
+
+                if (!games || games.length === 0) {
+                    finderNoResults.style.display = 'block';
+                     console.log("No matching games found.");
+                    return;
+                }
+
+                console.log(`Displaying ${games.length} results.`);
+                games.forEach(gameLink => {
+                     const gameUrl = gameLink.dataset.gameUrl;
+                     const gameTitle = getGameTitle(gameLink);
+                     const gameCreator = gameLink.dataset.gameCreator || 'Unknown';
+                     const iconSrc = gameLink.querySelector('img')?.src || '';
+                      const categories = Array.from(gameLink.classList).filter(c =>
+                          !['game-link', 'New'].includes(c) // Exclude base and temporary classes
+                          && !c.startsWith('data-') // Exclude data attributes potentially added as classes somewhere
+                          && c !== '1' && c !== '2' && c !== 'Multi' // Exclude player count if used as class
+                      );
+
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'finder-result-item';
+
+                    const img = document.createElement('img');
+                     img.src = iconSrc;
+                     img.alt = gameTitle;
+                     img.loading = 'lazy';
+                     img.onerror = () => { img.style.display = 'none'; }; // Hide if icon fails
+
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'finder-result-info';
+
+                    const titleH4 = document.createElement('h4');
+                     titleH4.className = 'finder-result-title';
+                     titleH4.textContent = gameTitle;
+
+                    const creatorSmall = document.createElement('small');
+                     creatorSmall.className = 'finder-result-creator';
+                     creatorSmall.textContent = `by ${gameCreator}`;
+
+                     // Create Category Tags
+                     const categoriesDiv = document.createElement('div');
+                     categoriesDiv.className = 'finder-result-categories';
+                     categories.forEach(cat => {
+                         const catSpan = document.createElement('span');
+                         catSpan.textContent = cat;
+                         categoriesDiv.appendChild(catSpan);
+                     });
+
+                    const playBtn = document.createElement('button');
+                     playBtn.className = 'finder-result-play-btn';
+                     playBtn.textContent = 'Play';
+                     playBtn.dataset.gameUrl = gameUrl;
+                     playBtn.dataset.gameTitle = gameTitle;
+                     playBtn.dataset.gameCreator = gameCreator;
+
+                     infoDiv.appendChild(titleH4);
+                     infoDiv.appendChild(creatorSmall);
+                     infoDiv.appendChild(categoriesDiv); // Add categories div
+
+                     resultDiv.appendChild(img);
+                     resultDiv.appendChild(infoDiv);
+                     resultDiv.appendChild(playBtn);
+
+                     finderResultsContainer.appendChild(resultDiv);
+                 });
+            }
+            function runFinder() {
+                 const filteredGames = filterGamesForFinder();
+                 displayFinderResults(filteredGames);
+                 showFinderStep('results-step');
+             }
 
 
              // --- Event Listeners ---
-             if(launchButton) { launchButton.addEventListener('click', () => { const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { /* Optional cleanup */ } showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All', searchInput.value); }); console.log("Launch Button listener attached."); }
+             if(launchButton) { launchButton.addEventListener('click', () => { const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { /* Optional cleanup if needed */ } showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All', searchInput.value); }); console.log("Launch Button listener attached."); }
              if (homeButton) { homeButton.addEventListener('click', () => { console.log("Home clicked."); const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') ) { console.log("   Cleaning player/state before going home"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } if(homeContent) showView('home-content'); }); console.log("Home button listener attached."); }
             // Suggestions Button (NOW triggers the finder steps)
             if (suggestionsButton) { suggestionsButton.addEventListener('click', () => { console.log("Suggestions clicked, starting finder."); const playerView = document.getElementById('game-player-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (playerView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing suggestions"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } selectedPlayerCount = null; selectedFinderCategory = null; finderResultsContainer.innerHTML = ''; finderNoResults.style.display = 'none'; finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category'); showView('suggestions-section'); showFinderStep('player-count-step'); }); console.log("Suggestions button listener attached."); }
@@ -1669,7 +1749,7 @@
                  });
                  console.log("Search input listener attached.");
              }
-             // Game Icon Click (Grid) - Added Recent Game Logic
+             // Game Icon Click (Grid) - Handles launch, favorite, rating
              if (gameIconsContainer) { gameIconsContainer.addEventListener('click', (event) => {
                 const gameLink = event.target.closest('a.game-link');
                 const favButton = event.target.closest('.favorite-btn');
@@ -1738,7 +1818,7 @@
              if (playerCountOptionsContainer) { playerCountOptionsContainer.addEventListener('click', (event) => { const button = event.target.closest('.step-button'); if (button && button.dataset.players) { event.preventDefault(); selectedPlayerCount = button.dataset.players; console.log("Player count selected:", selectedPlayerCount); finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category'); selectedFinderCategory = 'Any'; showFinderStep('category-select-step'); } }); console.log("Player count listener attached."); }
              if (finderCategoriesContainer) { finderCategoriesContainer.addEventListener('click', (event) => { if (event.target.classList.contains('category-button')) { const filterValue = event.target.dataset.filter; console.log("Finder category selected:", filterValue); selectedFinderCategory = filterValue; finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); event.target.classList.add('active-category'); runFinder(); } }); console.log("Finder category listener attached."); }
              if (restartFinderBtn) { restartFinderBtn.addEventListener('click', () => { console.log("Restarting finder."); selectedPlayerCount = null; selectedFinderCategory = null; finderResultsContainer.innerHTML = ''; finderNoResults.style.display = 'none'; finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category'); showFinderStep('player-count-step'); }); console.log("Restart Finder button listener attached."); }
-             if (finderResultsContainer) { finderResultsContainer.addEventListener('click', (event) => { const playButton = event.target.closest('.finder-result-play-btn'); if (playButton) { console.log("Finder result play clicked."); const gameUrl = playButton.dataset.gameUrl; const gameTitle = playButton.dataset.gameTitle; const gameCreator = playButton.dataset.gameCreator || 'Unknown'; addRecentGame(gameUrl); // Add to recent on play click const titleElement = document.getElementById('currentGameTitle'); const creatorElement = document.getElementById('currentGameCreator'); const frameElement = document.getElementById('gameFrame'); const playerViewElement = document.getElementById('game-player-section'); if (gameUrl && titleElement && creatorElement && frameElement && playerViewElement) { titleElement.textContent = gameTitle; creatorElement.textContent = `by ${gameCreator}`; frameElement.src = 'about:blank'; requestAnimationFrame(() => { frameElement.src = gameUrl; }); showView(playerViewElement.id); console.log("    Launched game from finder."); } else { console.error("    FINDER PLAY CLICK ERROR: Missing Player Elements!", { titleEl:!!titleElement, creatorEl:!!creatorElement, frameEl:!!frameElement, playerViewEl:!!playerViewElement }); alert("Error loading game components. Check console (F12)."); } } }); console.log("Finder results play button listener attached."); }
+             if (finderResultsContainer) { finderResultsContainer.addEventListener('click', (event) => { const playButton = event.target.closest('.finder-result-play-btn'); if (playButton) { console.log("Finder result play clicked."); const gameUrl = playButton.dataset.gameUrl; const gameTitle = playButton.dataset.gameTitle; const gameCreator = playButton.dataset.gameCreator || 'Unknown'; addRecentGame(gameUrl); const titleElement = document.getElementById('currentGameTitle'); const creatorElement = document.getElementById('currentGameCreator'); const frameElement = document.getElementById('gameFrame'); const playerViewElement = document.getElementById('game-player-section'); if (gameUrl && titleElement && creatorElement && frameElement && playerViewElement) { titleElement.textContent = gameTitle; creatorElement.textContent = `by ${gameCreator}`; frameElement.src = 'about:blank'; requestAnimationFrame(() => { frameElement.src = gameUrl; }); showView(playerViewElement.id); console.log("    Launched game from finder."); } else { console.error("    FINDER PLAY CLICK ERROR: Missing Player Elements!", { titleEl:!!titleElement, creatorEl:!!creatorElement, frameEl:!!frameElement, playerViewEl:!!playerViewElement }); alert("Error loading game components. Check console (F12)."); } } }); console.log("Finder results play button listener attached."); }
 
             // Apps Script Form Submission Listener
             if (supportForm) { supportForm.addEventListener('submit', (event) => { event.preventDefault(); console.log("Support form submitted via JS to Apps Script."); supportMessageStatus.textContent = 'Submitting...'; submitSupportButton.disabled = true; const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-oAR3GGVgCkzbpe5rLXq_U4c_eVx2n5W1Ih-lN0fF5fwE11fubZ3R2OGgBcVvQeR7vw/exec'; if (!SCRIPT_URL || SCRIPT_URL === 'PASTE_YOUR_WEB_APP_URL_HERE') { supportMessageStatus.textContent = 'Error: Web App URL issue!'; submitSupportButton.disabled = false; console.error("Google Apps Script Web App URL issue in the script."); return; } const formData = new FormData(supportForm); fetch(SCRIPT_URL, { method: 'POST', body: formData, }) .then(response => response.json()) .then(data => { console.log('Response from Apps Script:', data); if (data.result === 'success') { supportMessageStatus.textContent = 'Request Submitted Successfully!'; supportForm.reset(); setTimeout(closeSupportFormPopup, 1500); } else { supportMessageStatus.textContent = 'Submission Failed: ' + (data.message || 'Unknown error'); console.error('Apps Script Error:', data.message); } }) .catch(error => { console.error('Error submitting form to Apps Script:', error); supportMessageStatus.textContent = 'Network Error: Could not submit request. Please try again.'; }) .finally(() => { submitSupportButton.disabled = false; setTimeout(() => { if (supportMessageStatus.textContent === 'Request Submitted Successfully!') { supportMessageStatus.textContent = ''; } }, 5000); }); }); console.log("Apps Script support form listener attached."); }
@@ -1746,7 +1826,7 @@
              // --- Admin Button Listeners ---
             if (testAllGamesBtn && gameTestResultsDiv) { testAllGamesBtn.addEventListener('click', async () => { console.log("Starting parallel game link test..."); gameTestResultsDiv.innerHTML = 'Testing games... Please wait.<br>'; gameTestResultsDiv.style.display = 'block'; testAllGamesBtn.disabled = true; const gameLinks = Array.from(gameIconsContainer.querySelectorAll('a.game-link')); let promises = []; let gameData = []; gameLinks.forEach(link => { const url = link.dataset.gameUrl; const title = getGameTitle(link); gameData.push({ title: title, url: url }); if (!url) { promises.push(Promise.reject({ reason: 'Missing URL' })); } else { const fetchPromise = fetch(url, { method: 'HEAD', mode: 'no-cors' }) .then(response => ({ status: 'fulfilled' })) .catch(error => { console.warn(`Test Error: ${title} - ${url}`, error); throw new Error('Network Error/CORS?'); }); promises.push(fetchPromise); } }); console.log(`Created ${promises.length} test promises.`); const results = await Promise.allSettled(promises); console.log("All promises settled."); let resultsHTML = ''; let successCount = 0; let errorCount = 0; results.forEach((result, index) => { const title = gameData[index].title; let statusHTML = ''; if (result.status === 'fulfilled') { statusHTML = '<span class="status-ok">OK (Network)</span>'; successCount++; } else { const reason = result.reason?.message || result.reason?.reason || 'Unknown Error'; statusHTML = `<span class="status-error">${reason}</span>`; errorCount++; } resultsHTML += `<div>${title}: ${statusHTML}</div>`; }); gameTestResultsDiv.innerHTML = `<b>Test Complete (${successCount} OK, ${errorCount} Errors):</b><br>` + resultsHTML; testAllGamesBtn.disabled = false; console.log("Game link test finished."); }); console.log("Test All Games button listener attached."); }
             if (viewSubmissionsBtn && submissionsDisplayArea) { viewSubmissionsBtn.addEventListener('click', async () => { console.log("Fetching support submissions..."); submissionsDisplayArea.textContent = 'Loading submissions...'; submissionsDisplayArea.style.display = 'block'; viewSubmissionsBtn.disabled = true; const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-oAR3GGVgCkzbpe5rLXq_U4c_eVx2n5W1Ih-lN0fF5fwE11fubZ3R2OGgBcVvQeR7vw/exec'; // Use same URL try { const response = await fetch(SCRIPT_URL); // Default is GET if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); } const result = await response.json(); if (result.result === 'success') { if (result.data && result.data.length > 0) { submissionsDisplayArea.textContent = JSON.stringify(result.data, null, 2); } else { submissionsDisplayArea.textContent = 'No submissions found.'; } } else { throw new Error(result.message || 'Failed to fetch data from script.'); } } catch (error) { console.error('Error fetching submissions:', error); submissionsDisplayArea.textContent = `Error loading submissions: ${error.message}`; } finally { viewSubmissionsBtn.disabled = false; } }); console.log("View Submissions button listener attached."); }
-            if (clearLocalStorageBtn) { clearLocalStorageBtn.addEventListener('click', () => { if (confirm('Are you sure you want to clear all saved settings, favorites, ratings, and recent games from your browser? This cannot be undone.')) { console.log("Clearing local storage..."); Object.values(LS_KEYS).forEach(key => localStorage.removeItem(key)); alert('Local storage cleared!'); location.reload(); // Reload to apply default state } }); console.log("Clear Local Storage button listener attached."); }
+            if (clearLocalStorageBtn) { clearLocalStorageBtn.addEventListener('click', () => { if (confirm('Are you sure you want to clear all saved settings, favorites, ratings, and recent games from your browser? This cannot be undone.')) { console.log("Clearing local storage..."); Object.values(LS_KEYS).forEach(key => localStorage.removeItem(key)); alert('Local storage cleared!'); location.reload(); } }); console.log("Clear Local Storage button listener attached."); }
 
 
             // --- Initial Load Logic ---
