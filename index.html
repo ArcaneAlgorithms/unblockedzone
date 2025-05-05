@@ -8,6 +8,8 @@
     <link id="originalFavicon" rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>"> <!-- Placeholder Favicon -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- ADD CHART.JS LIBRARY -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <!-- Google Sign-In Library -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
@@ -635,7 +637,8 @@
             border-color: var(--accent-color); /* White border */
             display: block;
             margin-left: auto;
-            font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; font-weight: 600; padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; border: 1px solid var(--box-border);
+            /* Re-apply base settings-button styles */
+            font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; font-weight: 600; padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; border: 1px solid var(--accent-color);
         }
         #submitSupportButton:hover {
             background-color: #f0f0f0; /* Slightly off-white hover */
@@ -843,28 +846,125 @@
             background-color: #f0f0f0; /* Slightly off-white hover */
          }
 
-         /* Media Query for smaller screens */
-         @media (max-width: 768px) { /* Adjust breakpoint as needed */
-             .finder-result-item {
-                  width: calc(100% - 10px); /* Full width on smaller screens */
-                  max-width: none;
-              }
-         }
-         @media (max-width: 480px) {
-             .step-button {
-                  width: calc(50% - 15px); /* Two buttons per row */
-                  min-width: 140px; /* Allow smaller buttons */
-              }
-         }
 
          /* Admin Section Styles */
         #admin-section {
             justify-content: flex-start;
+            align-items: center; /* Center content vertically */
+            width: 100%; /* Ensure section takes full width */
         }
         #admin-section h2 {
              text-shadow: 0 0 8px var(--highlight-yellow); /* Add yellow glow to admin title */
              font-family: 'Orbitron', sans-serif;
              color: var(--highlight-yellow); /* Yellow title */
+             width: 100%; /* Make title take full width */
+             max-width: 1100px; /* Align with dashboard max-width */
+             text-align: center; /* Center title */
+             margin-bottom: 10px; /* Adjust spacing */
+        }
+         #admin-section > p { /* Target the main paragraph */
+            width: 100%; /* Make paragraph take full width */
+            max-width: 1100px; /* Align with dashboard max-width */
+            text-align: center; /* Center paragraph */
+         }
+
+         /* --- Admin Dashboard Styles --- */
+         #admin-dashboard {
+             display: flex;
+             flex-wrap: wrap; /* Allow wrapping on smaller screens */
+             gap: 25px;
+             width: 100%;
+             max-width: 1100px; /* Adjust max width as needed */
+             margin-bottom: 40px; /* Space below dashboard */
+             padding: 20px;
+             background-color: rgba(26, 35, 58, 0.5); /* Slightly different background */
+             border: 1px solid var(--box-border); /* White border */
+             border-radius: 10px;
+         }
+
+         #admin-stats,
+         #admin-chart-container {
+             flex: 1 1 400px; /* Allow flex grow/shrink, base width 400px */
+             min-width: 300px; /* Prevent getting too small */
+         }
+
+         #admin-stats h3,
+         #admin-chart-container h3 {
+             font-family: 'Orbitron', sans-serif;
+             color: var(--secondary-blue); /* Light gray */
+             font-size: 1.2rem;
+             margin-top: 0;
+             margin-bottom: 20px;
+             padding-bottom: 8px;
+             border-bottom: 1px solid var(--box-border); /* White border */
+         }
+
+         .stat-item {
+             background-color: var(--box-bg); /* Use standard box background */
+             border: 1px solid var(--icon-border); /* Slightly dimmer white border */
+             border-radius: 8px;
+             padding: 12px 15px;
+             margin-bottom: 12px;
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             flex-wrap: wrap; /* Allow wrapping inside item */
+             gap: 10px;
+         }
+
+         .stat-label {
+             font-weight: 600;
+             color: var(--text-color);
+             font-size: 0.9rem;
+         }
+         .stat-label i {
+             margin-right: 8px;
+             color: var(--accent-color); /* White icon */
+             width: 15px; /* Align icons */
+             text-align: center;
+         }
+
+
+         .stat-value {
+             font-family: 'Orbitron', sans-serif;
+             font-size: 1.3rem;
+             font-weight: 700;
+             color: var(--highlight-yellow); /* Yellow for value */
+             margin-left: auto; /* Push value to the right */
+             padding-left: 10px; /* Space before value */
+         }
+
+         .stat-item small {
+            font-size: 0.7rem;
+            color: var(--description-color);
+            width: 100%; /* Make small text take full width */
+            text-align: right; /* Align small text to the right */
+            margin-top: -5px; /* Adjust spacing */
+         }
+
+         #admin-chart-container {
+             background-color: var(--box-bg);
+             padding: 20px;
+             border-radius: 8px;
+             border: 1px solid var(--icon-border);
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+         }
+
+         #categoryChartCanvas {
+             max-width: 100%;
+             max-height: 350px; /* Limit chart height */
+         }
+         /* End Admin Dashboard Styles */
+
+
+        .admin-actions { /* Now below dashboard */
+             margin-top: 30px;
+             width: 100%;
+             max-width: 500px; /* Keep actions centered below */
+             margin-left: auto;
+             margin-right: auto;
         }
         .admin-actions button {
             padding: 10px 20px;
@@ -874,6 +974,11 @@
         #testAllGamesBtn {
            background-color: var(--secondary-blue) !important; /* Override default button style slightly */
            color: var(--bg-color) !important;
+           border-color: var(--secondary-blue) !important;
+        }
+        #testAllGamesBtn:hover {
+           background-color: #cccccc !important; /* Slightly darker gray hover */
+           box-shadow: 0 0 10px rgba(221, 221, 221, 0.5) !important;
         }
         #gameTestResults {
             line-height: 1.6;
@@ -895,6 +1000,16 @@
         /* --- Responsive Adjustments --- */
          @media (max-width: 1100px) {
              .info-box { flex-basis: 45%; min-width: 220px; }
+         }
+         @media (max-width: 900px) {
+            #admin-dashboard {
+                flex-direction: column; /* Stack elements */
+            }
+            #admin-stats,
+            #admin-chart-container {
+                flex-basis: auto; /* Reset flex basis */
+                width: 100%;
+            }
          }
          @media (max-width: 768px) {
              .header-content { padding: 0 15px; }
@@ -928,6 +1043,9 @@
              .icon_image a { width: 110px; height: 110px; border-radius: 10px; }
              .icon_image img { border-radius: 9px; }
              .icon_image figcaption { font-size: 0.7rem; bottom: 5px; padding: 4px 8px; }
+             .finder-result-item { width: calc(100% - 10px); max-width: none; } /* Finder results full width */
+             #admin-dashboard { padding: 15px; } /* Reduce padding */
+             #admin-stats h3, #admin-chart-container h3 { font-size: 1.1rem; }
          }
          @media (max-width: 480px) {
             :root { --header-height: 45px; --footer-height: 45px;} /* Slightly reduce heights */
@@ -948,6 +1066,10 @@
              .icon_image a:hover figcaption { display: none; } /* Ensure hover doesn't show it */
              .game-player-box { border-width: 1px; border-radius: 10px; }
              .settings-popup, #supportFormPopup { max-width: 98%; }
+             .step-button { width: calc(50% - 15px); min-width: 140px; } /* Finder step buttons */
+             .stat-item { flex-direction: column; align-items: flex-start; gap: 5px; } /* Stack stats vertically */
+             .stat-value { margin-left: 0; padding-left: 0; margin-top: 5px; font-size: 1.2rem; }
+             .stat-item small { text-align: left; margin-top: 0; }
          }
 
     </style>
@@ -1180,9 +1302,41 @@
         <!-- ADMIN VIEW (NEW) -->
        <section id="admin-section" class="view-section">
            <h2>Admin Panel</h2> <!-- Title style applied via CSS -->
-           <p style="color: var(--secondary-blue); margin-bottom: 30px;">Admin-specific actions.</p>
+           <p style="color: var(--secondary-blue); margin-bottom: 30px;">Site overview and management tools.</p>
 
-           <div class="admin-actions" style="display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 500px;">
+            <!-- ===== NEW: Admin Dashboard ===== -->
+            <div id="admin-dashboard">
+                <div id="admin-stats">
+                    <h3>Site Statistics</h3>
+                    <div class="stat-item">
+                        <span class="stat-label"><i class="fas fa-gamepad"></i> Total Games:</span>
+                        <span class="stat-value" id="stat-total-games">--</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label"><i class="fas fa-tags"></i> Total Categories:</span>
+                        <span class="stat-value" id="stat-total-categories">--</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label"><i class="fas fa-exclamation-triangle"></i> Games with Errors:</span>
+                        <span class="stat-value" id="stat-games-with-errors">--</span>
+                        <small>(Run "Test All Games")</small>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label"><i class="fas fa-envelope"></i> Total Submissions:</span>
+                        <span class="stat-value" id="stat-total-submissions">N/A</span>
+                        <small>(Requires Backend)</small>
+                    </div>
+                    <!-- Add more stats here as needed -->
+                </div>
+                <div id="admin-chart-container">
+                    <h3>Games by Category</h3>
+                    <canvas id="categoryChartCanvas"></canvas>
+                </div>
+            </div>
+            <!-- ============================== -->
+
+
+           <div class="admin-actions"> <!-- Moved margin-top to CSS -->
                <button id="testAllGamesBtn" class="settings-button">Test All Game Links</button>
                <div id="gameTestResults">
                    <!-- Test results will appear here -->
@@ -1403,14 +1557,14 @@
             const helpSection = document.getElementById('help-section');
             const suggestionsButton = document.getElementById('suggestionsButton');
             const suggestionsSection = document.getElementById('suggestions-section');
-            const adminButton = document.getElementById('adminButton'); // Admin button ref needed here too
-            const adminSection = document.getElementById('admin-section'); // Admin section
+            const adminButton = document.getElementById('adminButton');
+            const adminSection = document.getElementById('admin-section');
             const categoryFiltersContainer = document.querySelector('.category-filters');
             const sortDropdown = document.getElementById('sortOptions');
             const gameIconsContainer = document.getElementById('icon_image');
             const fullscreenButton = document.getElementById('fullscreenButton');
             const backButton = document.getElementById('backButton');
-            const viewSections = document.querySelectorAll('.view-section'); // Query here now
+            const viewSections = document.querySelectorAll('.view-section');
             const transitionOverlay = document.getElementById('transitionOverlay');
             const noGamesMessageElement = document.getElementById('noGamesMessage');
             // Settings Popup
@@ -1432,8 +1586,8 @@
             const closeSupportFormBtn = document.getElementById('closeSupportFormBtn');
             const supportForm = document.getElementById('supportForm');
             const supportFormTitle = document.getElementById('supportFormTitle');
-            const supportType = document.getElementById('supportType'); // Hidden input
-            const supportTopic = document.getElementById('supportTopic'); // Topic/Game Name input
+            const supportType = document.getElementById('supportType');
+            const supportTopic = document.getElementById('supportTopic');
             const supportMessage = document.getElementById('supportMessage');
             const submitSupportButton = document.getElementById('submitSupportButton');
             const supportMessageStatus = document.getElementById('supportMessageStatus');
@@ -1444,7 +1598,7 @@
             const iconUrlInput = document.getElementById('iconUrl');
             const gameUrlPreview = document.getElementById('gameUrlPreview').querySelector('iframe');
             const iconUrlPreview = document.getElementById('iconUrlPreview').querySelector('img');
-             // Finder elements (now inside suggestions)
+             // Finder elements
             const playerCountStep = document.getElementById('player-count-step');
             const categorySelectStep = document.getElementById('category-select-step');
             const resultsStep = document.getElementById('results-step');
@@ -1458,16 +1612,26 @@
             const gameTestResultsDiv = document.getElementById('gameTestResults');
             // Search Input
             const searchInput = document.getElementById('searchInput');
+             // Admin Dashboard Elements
+            const adminDashboard = document.getElementById('admin-dashboard');
+            const statTotalGames = document.getElementById('stat-total-games');
+            const statTotalCategories = document.getElementById('stat-total-categories');
+            const statGamesWithErrors = document.getElementById('stat-games-with-errors');
+            const statTotalSubmissions = document.getElementById('stat-total-submissions'); // Placeholder
+            const categoryChartCanvas = document.getElementById('categoryChartCanvas');
 
 
              // --- Finder State Variables ---
              let selectedPlayerCount = null;
              let selectedFinderCategory = null;
 
+             // --- Chart Instance Variable ---
+             let categoryChartInstance = null; // To hold the chart object
 
-            // --- Verify Crucial Elements ---
-             if (!homeButton || !launchButton || !gameIconsContainer || !gamePlayerSection || !helpSection || !suggestionsSection || !adminSection || !fullscreenButton || !backButton || !transitionOverlay || !homeContent || !gameSection || !sortDropdown || !categoryFiltersContainer || !settingsButton || !helpButton || !suggestionsButton || !adminButton || !settingsOverlay || !settingsPopup || !closeSettingsButton || !tabCloakOptionsContainer || !applyCloakButton || !resetCloakButton || !originalTitleElement || !originalFaviconElement || !requestGameBtn || !reportIssueBtn || !supportFormOverlay || !supportFormPopup || !closeSupportFormBtn || !supportForm || !supportFormTitle || !supportType || !supportTopic || !supportMessage || !submitSupportButton || !supportMessageStatus || !gameRequestFields || !topicLabel || !detailsLabel || !gameUrlInput || !iconUrlInput || !gameUrlPreview || !iconUrlPreview || !playerCountStep || !categorySelectStep || !resultsStep || !finderCategoriesContainer || !playerCountOptionsContainer || !finderResultsContainer || !finderNoResults || !restartFinderBtn || !testAllGamesBtn || !gameTestResultsDiv || !searchInput ) {
-                 console.error("CRITICAL STARTUP ERROR: Cannot find essential page structure elements. Verify IDs in HTML.");
+
+            // --- Verify Crucial Elements (Add new dashboard elements) ---
+             if (!homeButton || !launchButton || !gameIconsContainer || !gamePlayerSection || !helpSection || !suggestionsSection || !adminSection || !fullscreenButton || !backButton || !transitionOverlay || !homeContent || !gameSection || !sortDropdown || !categoryFiltersContainer || !settingsButton || !helpButton || !suggestionsButton || !adminButton || !settingsOverlay || !settingsPopup || !closeSettingsButton || !tabCloakOptionsContainer || !applyCloakButton || !resetCloakButton || !originalTitleElement || !originalFaviconElement || !requestGameBtn || !reportIssueBtn || !supportFormOverlay || !supportFormPopup || !closeSupportFormBtn || !supportForm || !supportFormTitle || !supportType || !supportTopic || !supportMessage || !submitSupportButton || !supportMessageStatus || !gameRequestFields || !topicLabel || !detailsLabel || !gameUrlInput || !iconUrlInput || !gameUrlPreview || !iconUrlPreview || !playerCountStep || !categorySelectStep || !resultsStep || !finderCategoriesContainer || !playerCountOptionsContainer || !finderResultsContainer || !finderNoResults || !restartFinderBtn || !testAllGamesBtn || !gameTestResultsDiv || !searchInput || !adminDashboard || !statTotalGames || !statTotalCategories || !statGamesWithErrors || !statTotalSubmissions || !categoryChartCanvas ) {
+                 console.error("CRITICAL STARTUP ERROR: Cannot find essential page structure elements (including dashboard). Verify IDs in HTML.");
                  alert("Critical page element missing. Site may not function correctly. Check console (F12).");
                  return;
              }
@@ -1477,7 +1641,7 @@
             if (document.getElementById('particles-js-container')) {
                 console.log("Initializing Particles.js");
                 particlesJS('particles-js-container', {
-                    "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#ffffff" }, /* MODIFIED: White particles */ "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" }, "polygon": { "nb_sides": 5 } }, "opacity": { "value": 0.5, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 1.5, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } }, /* <-- SIZE UPDATED */ "line_linked": { "enable": true, "distance": 150, "color": "#dddddd", /* MODIFIED: Light gray lines */ "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 100, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } } }, "retina_detect": true
+                    "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#ffffff" }, /* MODIFIED: White particles */ "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" }, "polygon": { "nb_sides": 5 } }, "opacity": { "value": 0.5, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 1.5, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } }, "line_linked": { "enable": true, "distance": 150, "color": "#dddddd", /* MODIFIED: Light gray lines */ "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 100, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } } }, "retina_detect": true
                 });
             } else {
                 console.warn("Particles.js container not found.");
@@ -1692,7 +1856,8 @@
                       const categories = Array.from(gameLink.classList).filter(c =>
                           !['game-link', 'New'].includes(c) // Exclude base and temporary classes
                           && !c.startsWith('data-') // Exclude data attributes potentially added as classes somewhere
-                          && c !== '1' && c !== '2' && c !== 'Multi' // Exclude player count if used as class
+                          && !/^\d+$/.test(c) &&                  // Exclude simple numbers (like player counts if used as class)
+                          c !== 'Multi'                         // Exclude specific player keywords
                       );
 
                     const resultDiv = document.createElement('div');
@@ -1781,6 +1946,143 @@
                  console.log(`Search for "${searchTerm}" finished, visible: ${visibleCount}`);
             }
 
+            // ===== NEW: Update Admin Dashboard Function =====
+            function updateAdminDashboard() {
+                if (!adminSection.classList.contains('active')) return; // Only update if visible
+                console.log("Updating Admin Dashboard...");
+
+                // --- Calculate Stats ---
+                const totalGames = gameIconsContainer.querySelectorAll('a.game-link').length;
+                const totalCategories = categoryFiltersContainer.querySelectorAll('.category-button:not([data-filter="All"]):not([data-filter="New"])').length;
+
+                // Games with Errors (Check if results are visible and contain errors)
+                let gamesWithErrors = '--';
+                 if (gameTestResultsDiv.style.display === 'block' && gameTestResultsDiv.innerHTML.includes('status-error')) {
+                     gamesWithErrors = gameTestResultsDiv.querySelectorAll('.status-error').length;
+                 } else if (gameTestResultsDiv.style.display === 'block') {
+                    gamesWithErrors = 0; // Test ran, no errors found
+                 }
+
+                // Placeholder for submissions - Replace with actual fetching logic later
+                const totalSubmissions = 'N/A'; // Update this if you implement submission fetching
+
+                // --- Update Stat Display ---
+                statTotalGames.textContent = totalGames;
+                statTotalCategories.textContent = totalCategories;
+                statGamesWithErrors.textContent = gamesWithErrors;
+                statTotalSubmissions.textContent = totalSubmissions;
+
+                // --- Prepare Chart Data ---
+                const categoryCounts = {};
+                const gameLinks = gameIconsContainer.querySelectorAll('a.game-link');
+
+                gameLinks.forEach(link => {
+                    const categories = Array.from(link.classList).filter(c =>
+                        !['game-link', 'New'].includes(c) && // Exclude base/temp classes
+                        !c.startsWith('data-') &&             // Exclude data attributes
+                        !/^\d+$/.test(c) &&                  // Exclude simple numbers (like player counts if used as class)
+                        c !== 'Multi' &&                      // Exclude specific player keywords
+                        c !== '1' && c !== '2'                // Exclude player numbers if used as classes
+                    );
+                    categories.forEach(cat => {
+                         if (cat) { // Ensure category is not empty string
+                            categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+                         }
+                    });
+                });
+
+                const chartLabels = Object.keys(categoryCounts);
+                const chartData = Object.values(categoryCounts);
+
+                // Generate colors dynamically (simple example)
+                const chartColors = chartLabels.map((_, index) => {
+                    const hue = (index * (360 / (chartLabels.length * 1.5))) % 360; // Distribute hues
+                    return `hsla(${hue}, 70%, 60%, 0.7)`; // Use HSLA for transparency
+                });
+                 const chartBorderColors = chartLabels.map((_, index) => {
+                    const hue = (index * (360 / (chartLabels.length * 1.5))) % 360; // Distribute hues
+                    return `hsl(${hue}, 70%, 50%)`; // Solid border
+                });
+
+
+                // --- Render Chart ---
+                if (categoryChartCanvas) {
+                    const ctx = categoryChartCanvas.getContext('2d');
+
+                    // Destroy previous chart instance if it exists
+                    if (categoryChartInstance) {
+                        categoryChartInstance.destroy();
+                        categoryChartInstance = null;
+                         console.log("Previous chart instance destroyed.");
+                    }
+
+                    // Only create chart if there's data
+                     if (chartLabels.length > 0) {
+                         console.log(`Creating chart with ${chartLabels.length} categories.`);
+                        try {
+                            Chart.defaults.color = 'rgba(224, 224, 224, 0.8)'; // Set default text color for Chart.js
+                            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)'; // Default border for elements
+
+                            categoryChartInstance = new Chart(ctx, {
+                                type: 'pie', // Or 'doughnut'
+                                data: {
+                                    labels: chartLabels,
+                                    datasets: [{
+                                        label: 'Games',
+                                        data: chartData,
+                                        backgroundColor: chartColors,
+                                        borderColor: chartBorderColors, // Use brighter borders
+                                        borderWidth: 1,
+                                        hoverOffset: 4
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false, // Allow height limiting
+                                    plugins: {
+                                        legend: {
+                                            position: 'top', // Or 'bottom', 'left', 'right'
+                                            labels: {
+                                                 boxWidth: 15,
+                                                 padding: 15
+                                            }
+                                        },
+                                        title: {
+                                            display: false, // Title is already in the container H3
+                                            // text: 'Games per Category'
+                                        },
+                                        tooltip: {
+                                            backgroundColor: 'rgba(10, 15, 26, 0.9)',
+                                            titleColor: '#ffffff',
+                                            bodyColor: '#e0e0e0',
+                                            borderColor: 'rgba(255, 255, 255, 0.5)',
+                                            borderWidth: 1
+                                        }
+                                    }
+                                }
+                            });
+                        } catch(error) {
+                            console.error("Error creating chart:", error);
+                             // Optional: Display error message to user on canvas
+                             ctx.clearRect(0, 0, categoryChartCanvas.width, categoryChartCanvas.height);
+                             ctx.fillStyle = 'rgba(224, 224, 224, 0.5)';
+                             ctx.textAlign = 'center';
+                             ctx.fillText("Error rendering chart", categoryChartCanvas.width / 2, categoryChartCanvas.height / 2);
+                        }
+                    } else {
+                         console.log("No category data to create chart.");
+                         // Optional: Display a message on the canvas if no data
+                         ctx.clearRect(0, 0, categoryChartCanvas.width, categoryChartCanvas.height);
+                         ctx.fillStyle = 'rgba(224, 224, 224, 0.5)';
+                         ctx.textAlign = 'center';
+                         ctx.fillText("No category data available", categoryChartCanvas.width / 2, categoryChartCanvas.height / 2);
+                    }
+                } else {
+                    console.error("Category chart canvas not found!");
+                }
+                 console.log("Admin Dashboard update complete.");
+            } // ===== End updateAdminDashboard Function =====
+
 
              // --- Event Listeners ---
              if(launchButton) { launchButton.addEventListener('click', () => { const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { /* Optional cleanup if needed */ } showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All'); }); console.log("Launch Button listener attached."); }
@@ -1790,7 +2092,10 @@
              // Help Button (Main)
              if (helpButton) { helpButton.addEventListener('click', () => { console.log("Help clicked."); const playerView = document.getElementById('game-player-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); if (playerView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing help"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } if (helpSection) showView('help-section'); }); console.log("Help button listener attached."); }
              // Admin Button Listener
-             if (adminButton) { adminButton.addEventListener('click', () => { if (googleUser && googleUser.email === ADMIN_EMAIL) { console.log("Admin button clicked."); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing admin panel"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } showView('admin-section'); } else { console.warn("Non-admin tried to access admin panel via button click?"); adminButton.style.display = 'none'; } }); console.log("Admin button listener attached."); }
+             if (adminButton) { adminButton.addEventListener('click', () => { if (googleUser && googleUser.email === ADMIN_EMAIL) { console.log("Admin button clicked."); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing admin panel"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } }
+                 showView('admin-section');
+                 updateAdminDashboard(); // <<< CALL DASHBOARD UPDATE HERE
+             } else { console.warn("Non-admin tried to access admin panel via button click?"); adminButton.style.display = 'none'; } }); console.log("Admin button listener attached."); }
              // Game Section Specific Filters
              if (categoryFiltersContainer) { categoryFiltersContainer.addEventListener('click', (event) => { if (event.target.classList.contains('category-button')) { const filterValue = event.target.dataset.filter; categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); event.target.classList.add('active-category'); filterGames(filterValue); } }); console.log("Category filter listener attached."); }
              if (sortDropdown) { sortDropdown.addEventListener('change', sortGames); console.log("Sort dropdown listener attached."); }
@@ -2054,6 +2359,7 @@
 
                     gameTestResultsDiv.innerHTML = `<b>Test Complete (${successCount} OK, ${errorCount} Errors):</b><br>` + resultsHTML;
                     testAllGamesBtn.disabled = false;
+                    updateAdminDashboard(); // <<< CALL DASHBOARD UPDATE HERE TOO
                     console.log("Game link test finished.");
                 });
                 console.log("Test All Games button listener attached.");
@@ -2075,4 +2381,3 @@
 
 </body>
 </html>
-```
