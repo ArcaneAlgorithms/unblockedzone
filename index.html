@@ -917,14 +917,18 @@
             updateSignInUI(false); // CALL the global function
             const adminSection = document.getElementById('admin-section');
             if (adminSection?.classList.contains('active')) {
-                 // For simplicity, just update UI. View change happens on next navigation.
                  console.log("Admin signed out, UI updated.");
+                 // Find showView function - make it global if needed here
+                 if (typeof showView === 'function') {
+                    showView('home-content');
+                 } else {
+                    console.warn('showView function not available globally for sign out redirect.');
+                 }
             }
         }
 
-        // --- UI Update Function (GLOBAL SCOPE - MOVED HERE) ---
+        // --- UI Update Function (GLOBAL SCOPE) ---
         function updateSignInUI(isSignedIn) {
-            // Ensure elements exist before trying to access them. Might run before DOMContentLoaded in some scenarios.
             const buttonDiv = document.getElementById('buttonDiv');
             const userInfoDiv = document.getElementById('userInfo');
             const userNameSpan = document.getElementById('userName');
@@ -934,7 +938,6 @@
 
             if (!buttonDiv || !userInfoDiv || !userNameSpan || !userPictureImg || !signOutButton || !adminButton) {
                  console.warn("updateSignInUI called before all UI elements were ready.");
-                 // Attempt to run again slightly later if DOM isn't ready yet
                  if (document.readyState !== 'complete') {
                     document.addEventListener('DOMContentLoaded', () => updateSignInUI(isSignedIn), { once: true });
                  }
@@ -947,26 +950,23 @@
                 userNameSpan.textContent = googleUser.given_name || googleUser.name || 'User';
                 userPictureImg.src = googleUser.picture || '';
                 userPictureImg.alt = userNameSpan.textContent;
-                signOutButton.onclick = handleSignOut; // Attach sign out handler
+                signOutButton.onclick = handleSignOut;
 
-                // Check for Admin
                 if (googleUser.email === ADMIN_EMAIL) {
                     console.log("Admin user detected.");
-                    adminButton.style.display = 'inline-block'; // Show admin button
+                    adminButton.style.display = 'inline-block';
                 } else {
                     console.log("Regular user detected.");
-                    adminButton.style.display = 'none'; // Hide admin button
+                    adminButton.style.display = 'none';
                 }
-
             } else {
                 buttonDiv.style.display = 'block';
                 userInfoDiv.style.display = 'none';
                 userNameSpan.textContent = '';
                 userPictureImg.src = '';
-                adminButton.style.display = 'none'; // Hide admin button on sign out
+                adminButton.style.display = 'none';
             }
         }
-
 
         // --- Google Library Initialization (GLOBAL SCOPE) ---
         window.onload = function () {
@@ -978,9 +978,8 @@
             document.getElementById("buttonDiv"),
             { theme: "outline", size: "medium", type: "standard" }
           );
-          // Update UI based on any existing session *after* Google init AND DOM is likely ready
-          updateSignInUI(!!googleUser); // <-- Initial call here
-          // google.accounts.id.prompt(); // Optional: show one-tap prompt
+          updateSignInUI(!!googleUser); // Initial check
+          // google.accounts.id.prompt();
         };
 
 
@@ -998,7 +997,7 @@
             const helpSection = document.getElementById('help-section');
             const suggestionsButton = document.getElementById('suggestionsButton');
             const suggestionsSection = document.getElementById('suggestions-section');
-            const adminButton = document.getElementById('adminButton'); // Admin button
+            const adminButton = document.getElementById('adminButton'); // Admin button ref needed here too
             const adminSection = document.getElementById('admin-section'); // Admin section
             const categoryFiltersContainer = document.querySelector('.category-filters');
             const sortDropdown = document.getElementById('sortOptions');
@@ -1070,7 +1069,7 @@
             if (document.getElementById('particles-js-container')) {
                 console.log("Initializing Particles.js");
                 particlesJS('particles-js-container', {
-                    "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00ffff" }, "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" }, "polygon": { "nb_sides": 5 } }, "opacity": { "value": 0.5, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } }, "line_linked": { "enable": true, "distance": 150, "color": "#a0c0ff", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 100, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } } }, "retina_detect": true
+                    "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00ffff" }, "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" }, "polygon": { "nb_sides": 5 } }, "opacity": { "value": 0.5, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 1.5, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } }, /* <-- SIZE UPDATED */ "line_linked": { "enable": true, "distance": 150, "color": "#a0c0ff", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 100, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } } }, "retina_detect": true
                 });
             } else {
                 console.warn("Particles.js container not found.");
@@ -1104,23 +1103,222 @@
             }
 
             function getGameTitle(linkElement) { const caption = linkElement?.querySelector('figcaption'); const img = linkElement?.querySelector('img'); return caption?.textContent.trim() || img?.alt.trim() || ''; }
-            function populateCloakOptions() { /* ... */ } // Keep implementation
-            function setTabCloak(title, faviconUrl) { /* ... */ } // Keep implementation
-            function resetTabCloak() { /* ... */ } // Keep implementation
-            function openSettingsPopup() { /* ... */ } // Keep implementation
-            function closeSettingsPopup() { /* ... */ } // Keep implementation
-            function openSupportFormPopup(type) { /* ... */ } // Keep implementation
-            function closeSupportFormPopup() { /* ... */ } // Keep implementation
+            function populateCloakOptions() {
+                 tabCloakOptionsContainer.innerHTML = '';
+                 const currentTitle = document.title;
+                 const currentFavicon = document.querySelector("link[rel*='icon']")?.href || '';
+                 cloakPresets.forEach(preset => {
+                    const isChecked = (preset.title === currentTitle && preset.favicon === currentFavicon);
+                    const optionDiv = document.createElement('div'); optionDiv.className = 'tab-cloak-option';
+                    const radioInput = document.createElement('input'); radioInput.type = 'radio'; radioInput.id = preset.id; radioInput.name = 'tab-cloak'; radioInput.value = preset.id; radioInput.checked = isChecked; radioInput.dataset.title = preset.title; radioInput.dataset.favicon = preset.favicon;
+                    const label = document.createElement('label'); label.htmlFor = preset.id;
+                    const img = document.createElement('img'); img.src = preset.favicon; img.alt = ''; img.onerror = () => { img.style.display = 'none'; }; label.appendChild(img);
+                    label.appendChild(document.createTextNode(` ${preset.name}`));
+                    optionDiv.appendChild(radioInput); optionDiv.appendChild(label);
+                    optionDiv.addEventListener('click', () => { if (!radioInput.checked) radioInput.checked = true; });
+                    tabCloakOptionsContainer.appendChild(optionDiv);
+                 });
+                 if (!cloakPresets.some(p => p.title === currentTitle && p.favicon === currentFavicon)) {
+                     const defaultRadio = tabCloakOptionsContainer.querySelector('#cloak-default');
+                     if (defaultRadio) defaultRadio.checked = true;
+                 }
+             }
+             function setTabCloak(title, faviconUrl) {
+                 console.log(`Applying cloak: Title="${title}", Favicon="${faviconUrl}"`);
+                 document.title = title;
+                 let faviconLink = document.querySelector("link[rel*='icon']");
+                 if (!faviconLink) { faviconLink = document.createElement('link'); faviconLink.rel = 'icon'; document.head.appendChild(faviconLink); console.log("Created new favicon link element."); }
+                 faviconLink.href = faviconUrl;
+                 localStorage.setItem('tabCloakTitle', title);
+                 localStorage.setItem('tabCloakFavicon', faviconUrl);
+            }
+            function resetTabCloak() {
+                 console.log("Resetting cloak to default.");
+                 setTabCloak(ORIGINAL_TITLE, ORIGINAL_FAVICON_HREF);
+                 localStorage.setItem('tabCloakTitle', ORIGINAL_TITLE);
+                 localStorage.setItem('tabCloakFavicon', ORIGINAL_FAVICON_HREF);
+                 const radios = tabCloakOptionsContainer.querySelectorAll('input[type="radio"]');
+                 radios.forEach(radio => radio.checked = false);
+                 const defaultRadio = tabCloakOptionsContainer.querySelector('#cloak-default');
+                 if (defaultRadio) defaultRadio.checked = true;
+            }
+             function openSettingsPopup() { console.log("Opening settings popup."); populateCloakOptions(); settingsOverlay.classList.add('visible'); settingsPopup.classList.add('visible'); }
+             function closeSettingsPopup() { console.log("Closing settings popup."); settingsOverlay.classList.remove('visible'); settingsPopup.classList.remove('visible'); }
+            function openSupportFormPopup(type) {
+                console.log(`Opening support form for: ${type}`);
+                supportForm.reset(); // Clear previous input
+                supportMessageStatus.textContent = ''; // Clear status
+                gameUrlPreview.src = 'about:blank'; // Clear previews
+                iconUrlPreview.src = '';
+                supportType.value = type; // Set the hidden input value
+
+                if (type === 'Game Request') {
+                    supportFormTitle.textContent = 'Request a Game';
+                    topicLabel.textContent = 'Game Name:'; // Change label
+                    detailsLabel.textContent = 'Reason for Request / Other Details:'; // Change label
+                    supportTopic.placeholder = 'Enter the name of the game';
+                    supportMessage.placeholder = 'Why do you want this game? Any additional info?';
+                    gameUrlInput.required = true; // Make Game URL required
+                    iconUrlInput.required = false; // Icon URL is optional
+                    gameRequestFields.style.display = 'block'; // Show game fields
+                } else { // For 'Issue Report' or other types
+                    supportFormTitle.textContent = 'Report an Issue';
+                    topicLabel.textContent = 'Topic / Game Name:'; // Reset label
+                    detailsLabel.textContent = 'Details:'; // Reset label
+                    supportTopic.placeholder = 'e.g., Issue with Slope Game or Suggestion';
+                    supportMessage.placeholder = 'Please describe the issue or suggestion.';
+                    gameUrlInput.required = false; // Not required for issues
+                    gameRequestFields.style.display = 'none'; // Hide game fields
+                }
+
+                supportFormOverlay.classList.add('visible');
+                supportFormPopup.classList.add('visible');
+                supportTopic.focus(); // Focus the first input field
+            }
+            function closeSupportFormPopup() {
+                 console.log("Closing support form popup.");
+                 supportFormOverlay.classList.remove('visible');
+                 supportFormPopup.classList.remove('visible');
+            }
             function sortGames() { /* ... */ } // Keep implementation
             function filterGames(filter) { /* ... */ } // Keep implementation
-            function populateFinderCategories() { /* ... */ } // Keep implementation
-            function showFinderStep(stepId) { /* ... */ } // Keep implementation
-            function filterGamesForFinder() { /* ... */ } // Keep implementation
-            function displayFinderResults(games) { /* ... */ } // Keep implementation
-            function runFinder() { /* ... */ } // Keep implementation
+            function populateFinderCategories() {
+                if (!categoryFiltersContainer || !finderCategoriesContainer) return;
+                const originalButtons = categoryFiltersContainer.querySelectorAll('.category-button:not([data-filter="All"])');
+                 finderCategoriesContainer.innerHTML = ''; // Clear previous if any
+                 const anyButton = document.createElement('button');
+                 anyButton.className = 'category-button active-category'; // Default active
+                 anyButton.dataset.filter = 'Any';
+                 anyButton.textContent = 'Any Category';
+                 finderCategoriesContainer.appendChild(anyButton);
+
+                originalButtons.forEach(btn => {
+                    const clone = btn.cloneNode(true);
+                    clone.classList.remove('active-category');
+                    finderCategoriesContainer.appendChild(clone);
+                });
+                 console.log(`Copied ${originalButtons.length} categories to finder.`);
+             }
+             populateFinderCategories(); // Call it once during initialization
+             function showFinderStep(stepId) {
+                document.querySelectorAll('.finder-step').forEach(step => {
+                    step.classList.remove('active-step');
+                });
+                const stepToShow = document.getElementById(stepId);
+                if (stepToShow) {
+                    stepToShow.classList.add('active-step');
+                    if (suggestionsSection) suggestionsSection.scrollTop = 0; // Scroll suggestions view
+                } else {
+                     console.error("Finder step not found:", stepId);
+                }
+             }
+             function filterGamesForFinder() {
+                 console.log(`Filtering for: Players=${selectedPlayerCount}, Category=${selectedFinderCategory}`);
+                 const allGames = Array.from(gameIconsContainer.querySelectorAll('a.game-link'));
+                 let filteredGames = allGames;
+
+                // 1. Filter by Player Count
+                 if (selectedPlayerCount) { // No "Any" button for players
+                     filteredGames = filteredGames.filter(gameLink => {
+                         const players = gameLink.dataset.players || '1'; // Default to 1 if missing
+
+                        if (selectedPlayerCount === '1') {
+                             return players === '1';
+                        } else if (selectedPlayerCount === '2') {
+                             return players === '2' || players === 'Multi'; // Show 2 and Multi
+                         } else if (selectedPlayerCount === '3+') { // Handles 3 and 3+ from buttons
+                            return players === 'Multi'; // Only show games marked as Multi
+                         }
+                         return false; // Should not happen if buttons are clicked
+                    });
+                 }
+                 console.log(` After player filter (${selectedPlayerCount}): ${filteredGames.length} games`);
+
+                 // 2. Filter by Category
+                 if (selectedFinderCategory && selectedFinderCategory !== 'Any') {
+                     filteredGames = filteredGames.filter(gameLink => gameLink.classList.contains(selectedFinderCategory));
+                 }
+                 console.log(` After category filter (${selectedFinderCategory}): ${filteredGames.length} games`);
+
+                 return filteredGames;
+             }
+             function displayFinderResults(games) {
+                finderResultsContainer.innerHTML = ''; // Clear previous results
+                finderNoResults.style.display = 'none';
+
+                if (!games || games.length === 0) {
+                    finderNoResults.style.display = 'block';
+                     console.log("No matching games found.");
+                    return;
+                }
+
+                console.log(`Displaying ${games.length} results.`);
+                games.forEach(gameLink => {
+                     const gameUrl = gameLink.dataset.gameUrl;
+                     const gameTitle = getGameTitle(gameLink);
+                     const gameCreator = gameLink.dataset.gameCreator || 'Unknown';
+                     const iconSrc = gameLink.querySelector('img')?.src || '';
+                      const categories = Array.from(gameLink.classList).filter(c =>
+                          !['game-link', 'New'].includes(c) // Exclude base and temporary classes
+                          && !c.startsWith('data-') // Exclude data attributes potentially added as classes somewhere
+                          && c !== '1' && c !== '2' && c !== 'Multi' // Exclude player count if used as class
+                      );
+
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'finder-result-item';
+
+                    const img = document.createElement('img');
+                     img.src = iconSrc;
+                     img.alt = gameTitle;
+                     img.loading = 'lazy';
+                     img.onerror = () => { img.style.display = 'none'; }; // Hide if icon fails
+
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'finder-result-info';
+
+                    const titleH4 = document.createElement('h4');
+                     titleH4.className = 'finder-result-title';
+                     titleH4.textContent = gameTitle;
+
+                    const creatorSmall = document.createElement('small');
+                     creatorSmall.className = 'finder-result-creator';
+                     creatorSmall.textContent = `by ${gameCreator}`;
+
+                     // Create Category Tags
+                     const categoriesDiv = document.createElement('div');
+                     categoriesDiv.className = 'finder-result-categories';
+                     categories.forEach(cat => {
+                         const catSpan = document.createElement('span');
+                         catSpan.textContent = cat;
+                         categoriesDiv.appendChild(catSpan);
+                     });
+
+                    const playBtn = document.createElement('button');
+                     playBtn.className = 'finder-result-play-btn';
+                     playBtn.textContent = 'Play';
+                     playBtn.dataset.gameUrl = gameUrl;
+                     playBtn.dataset.gameTitle = gameTitle;
+                     playBtn.dataset.gameCreator = gameCreator;
+
+                     infoDiv.appendChild(titleH4);
+                     infoDiv.appendChild(creatorSmall);
+                     infoDiv.appendChild(categoriesDiv); // Add categories div
+
+                     resultDiv.appendChild(img);
+                     resultDiv.appendChild(infoDiv);
+                     resultDiv.appendChild(playBtn);
+
+                     finderResultsContainer.appendChild(resultDiv);
+                 });
+            }
+            function runFinder() {
+                 const filteredGames = filterGamesForFinder();
+                 displayFinderResults(filteredGames);
+                 showFinderStep('results-step');
+             }
 
 
-             // --- Event Listeners (All listeners remain inside DOMContentLoaded) ---
+             // --- Event Listeners ---
              if(launchButton) { launchButton.addEventListener('click', () => { const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { /* Optional cleanup if needed */ } showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All'); }); console.log("Launch Button listener attached."); }
              if (homeButton) { homeButton.addEventListener('click', () => { console.log("Home clicked."); const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') ) { console.log("   Cleaning player/state before going home"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } if(homeContent) showView('home-content'); }); console.log("Home button listener attached."); }
             // Suggestions Button (NOW triggers the finder steps)
