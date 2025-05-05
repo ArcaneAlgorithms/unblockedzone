@@ -918,11 +918,13 @@
             const adminSection = document.getElementById('admin-section');
             if (adminSection?.classList.contains('active')) {
                  console.log("Admin signed out, UI updated.");
-                 // Find showView function - make it global if needed here
+                 // Need showView, which is inside DOMContentLoaded.
+                 // Check if it's available and call it, otherwise just update UI
                  if (typeof showView === 'function') {
                     showView('home-content');
                  } else {
-                    console.warn('showView function not available globally for sign out redirect.');
+                     // If DOMContentLoaded hasn't run yet, the button will be hidden by updateSignInUI anyway
+                     console.warn('showView function not available globally during sign out.');
                  }
             }
         }
@@ -967,6 +969,7 @@
                 adminButton.style.display = 'none';
             }
         }
+
 
         // --- Google Library Initialization (GLOBAL SCOPE) ---
         window.onload = function () {
@@ -1514,7 +1517,7 @@
                 console.log("Apps Script support form listener attached.");
             }
 
-             // --- Admin Button Test Games Listener ---
+             // --- Admin Button Test Games Listener (Optimized with Parallel Requests) ---
             if (testAllGamesBtn && gameTestResultsDiv) {
                 testAllGamesBtn.addEventListener('click', async () => {
                     console.log("Starting parallel game link test...");
@@ -1602,4 +1605,3 @@
 
 </body>
 </html>
-```
