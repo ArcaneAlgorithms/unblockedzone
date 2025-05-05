@@ -935,7 +935,7 @@
             }
         }
 
-        // --- UI Update Function (GLOBAL SCOPE - MOVED HERE) ---
+        // --- UI Update Function (GLOBAL SCOPE) ---
         function updateSignInUI(isSignedIn) {
             const buttonDiv = document.getElementById('buttonDiv');
             const userInfoDiv = document.getElementById('userInfo');
@@ -975,7 +975,6 @@
                 adminButton.style.display = 'none';
             }
         }
-
 
         // --- Google Library Initialization (GLOBAL SCOPE) ---
         window.onload = function () {
@@ -1103,11 +1102,13 @@
 
             // --- Helper Functions (Defined within DOMContentLoaded) ---
 
-            function showView(viewId) { // Keep inside if only called by listeners inside
+            // Make showView global for handleSignOut
+            window.showView = function(viewId) {
                 const viewToShow = document.getElementById(viewId);
                 if (!viewToShow) { console.error(`showView Error: Element '${viewId}' not found!`); return; }
                  console.log(`--> Activating view: ${viewId}`);
-                 viewSections.forEach(section => section.classList.remove('active'));
+                 // Ensure viewSections is accessible or query it here
+                 document.querySelectorAll('.view-section').forEach(section => section.classList.remove('active'));
                  requestAnimationFrame(() => { viewToShow.classList.add('active'); viewToShow.scrollTop = 0; });
             }
 
