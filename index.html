@@ -136,89 +136,65 @@
         #sortOptions:hover { border-color: var(--accent-color); }
 
         /* --- Search Bar Styles (Updated) --- */
-        .search-container {
-            position: relative; /* For positioning the icon */
-            width: 100%;
-            max-width: 450px; /* Increased max-width slightly */
-            margin-bottom: 15px; /* Add some space below */
-            margin-left: auto; /* Center it roughly if container allows */
-            margin-right: auto;
-        }
-        #searchInput {
-            width: 100%;
-            padding: 10px 20px 10px 45px; /* Increased left padding for icon */
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1rem; /* Slightly larger font */
-            background-color: rgba(10, 15, 26, 0.8); /* Darker, similar to header */
-            color: var(--text-color);
-            border: 1px solid var(--box-border);
-            border-radius: 25px; /* Fully rounded */
-            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-            backdrop-filter: blur(2px); /* Subtle blur */
-        }
-        #searchInput:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
-            background-color: rgba(26, 35, 58, 0.7); /* Slightly lighter on focus */
-        }
-        #searchInput::placeholder {
-            color: var(--description-color);
-            opacity: 0.6;
-        }
-        .search-icon {
-            position: absolute;
-            left: 18px; /* Adjusted position */
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--secondary-blue);
-            font-size: 1.1rem; /* Slightly larger icon */
-            pointer-events: none; /* Prevent icon from blocking input clicks */
-            opacity: 0.7;
-            transition: color 0.2s ease;
-        }
-        #searchInput:focus + .search-icon { /* Change icon color on focus */
-             color: var(--accent-color);
-             opacity: 1;
-        }
-        #searchInput::-webkit-search-cancel-button {
-            appearance: none;
-        }
+.search-container {
+    position: relative; /* For positioning the icon */
+    width: 100%;
+    max-width: 450px; /* Increased max-width slightly for better spacing */
+    margin-bottom: 15px; /* Add some space below */
+    /* You might want to adjust centering based on the .controls-container flex setup */
+    /* If .controls-container has justify-content: center, this might not need auto margins */
+    /* margin-left: auto;  Optional: Try uncommenting if centering is off */
+    /* margin-right: auto; Optional: Try uncommenting if centering is off */
+}
 
-        .icon_image { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 25px; row-gap: 15px; padding: 0 20px 20px 20px; width: 100%; max-width: 1200px; flex-grow: 1; overflow-y: auto; align-content: flex-start; }
-        .icon_image a { position: relative; display: block; text-decoration: none; background-color: var(--icon-bg); border: 1px solid var(--icon-border); border-radius: 12px; width: 140px; height: 140px; transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease; overflow: hidden; cursor: pointer; }
-        .icon_image a:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 8px 20px rgba(0, 255, 255, 0.3); border-color: rgba(0, 255, 255, 0.6); }
-        .icon_image img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 11px; background-color: rgba(255,255,255,0.1); }
-        .icon_image figcaption { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%) translateY(5px); width: auto; max-width: 90%; padding: 5px 10px; background-color: var(--caption-bg); color: var(--text-color); border-radius: 6px; font-size: 0.75rem; font-weight: 600; text-align: center; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; z-index: 10; opacity: 0; visibility: hidden; transition: opacity 0.25s ease-out, visibility 0s linear 0.25s, transform 0.25s ease-out; }
-        .icon_image a:hover figcaption { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); transition-delay: 0s; }
+#searchInput {
+    width: 100%;
+    padding: 10px 20px 10px 45px; /* Top/Bottom, Right, Left (Increased left for icon) */
+    font-family: 'Rajdhani', sans-serif; /* Match theme font */
+    font-size: 1rem; /* Standard readable size */
+    background-color: rgba(10, 15, 26, 0.8); /* Dark, slightly transparent, like header */
+    color: var(--text-color); /* Use theme text color */
+    border: 1px solid var(--box-border); /* Use theme subtle border */
+    border-radius: 25px; /* <<< Makes it fully rounded (pill shape) */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease; /* Smooth transitions */
+    backdrop-filter: blur(2px); /* Subtle blur effect matching theme */
+}
 
-        /* --- Custom Scrollbar for Game Grid (Fully Rounded) --- */
-        #icon_image {
-            /* Firefox */
-            scrollbar-width: thin;
-            scrollbar-color: var(--secondary-blue) var(--icon-bg);
-        }
-        /* Webkit (Chrome, Safari, Edge, Opera) */
-        #icon_image::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        #icon_image::-webkit-scrollbar-track {
-            background: var(--icon-bg);
-            border-radius: 10px;
-            margin-block: 2px; /* Optional spacing */
-        }
-        #icon_image::-webkit-scrollbar-thumb {
-            background-color: var(--secondary-blue);
-            border-radius: 10px;
-            border: 1px solid var(--box-border);
-        }
-        #icon_image::-webkit-scrollbar-thumb:hover {
-            background-color: var(--accent-color);
-        }
-        #icon_image::-webkit-scrollbar-corner {
-            background: transparent;
-        }
+#searchInput:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: var(--accent-color); /* Highlight border on focus */
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4); /* Add theme glow on focus */
+    background-color: rgba(26, 35, 58, 0.7); /* Slightly lighter background on focus */
+}
+
+#searchInput::placeholder {
+    color: var(--description-color); /* Use theme placeholder color */
+    opacity: 0.6; /* Make placeholder slightly less prominent */
+}
+
+.search-icon {
+    position: absolute;
+    left: 18px; /* Position icon inside the padding area */
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center icon */
+    color: var(--secondary-blue); /* Use theme secondary color for icon */
+    font-size: 1.1rem; /* Adjust icon size */
+    pointer-events: none; /* Prevent icon from blocking input clicks */
+    opacity: 0.7;
+    transition: color 0.2s ease, opacity 0.2s ease; /* Smooth icon transition */
+}
+
+/* Change icon color when the input is focused */
+#searchInput:focus + .search-icon { /* Use adjacent sibling selector (+) */
+     color: var(--accent-color); /* Match focus highlight color */
+     opacity: 1;
+}
+
+/* Hide the default ugly 'X' clear button on search inputs in Webkit browsers */
+#searchInput::-webkit-search-cancel-button {
+    appearance: none;
+    -webkit-appearance: none;
+}
 
 
         /* --- Game Player --- */
