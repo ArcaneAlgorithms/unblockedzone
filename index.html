@@ -134,6 +134,57 @@
         .sort-container label { font-size: 0.9rem; font-weight: 600; color: var(--secondary-blue); }
         #sortOptions { font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; background-color: var(--button-bg); color: var(--text-color); border: 1px solid var(--box-border); border-radius: 5px; padding: 7px 10px; cursor: pointer; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23a0c0ff'%3E%3Cpath fill-rule='evenodd' d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; background-size: 12px; padding-right: 30px; }
         #sortOptions:hover { border-color: var(--accent-color); }
+
+        /* --- Search Bar Styles (Updated) --- */
+        .search-container {
+            position: relative; /* For positioning the icon */
+            width: 100%;
+            max-width: 450px; /* Increased max-width slightly */
+            margin-bottom: 15px; /* Add some space below */
+            margin-left: auto; /* Center it roughly if container allows */
+            margin-right: auto;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 10px 20px 10px 45px; /* Increased left padding for icon */
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem; /* Slightly larger font */
+            background-color: rgba(10, 15, 26, 0.8); /* Darker, similar to header */
+            color: var(--text-color);
+            border: 1px solid var(--box-border);
+            border-radius: 25px; /* Fully rounded */
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            backdrop-filter: blur(2px); /* Subtle blur */
+        }
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+            background-color: rgba(26, 35, 58, 0.7); /* Slightly lighter on focus */
+        }
+        #searchInput::placeholder {
+            color: var(--description-color);
+            opacity: 0.6;
+        }
+        .search-icon {
+            position: absolute;
+            left: 18px; /* Adjusted position */
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-blue);
+            font-size: 1.1rem; /* Slightly larger icon */
+            pointer-events: none; /* Prevent icon from blocking input clicks */
+            opacity: 0.7;
+            transition: color 0.2s ease;
+        }
+        #searchInput:focus + .search-icon { /* Change icon color on focus */
+             color: var(--accent-color);
+             opacity: 1;
+        }
+        #searchInput::-webkit-search-cancel-button {
+            appearance: none;
+        }
+
         .icon_image { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 25px; row-gap: 15px; padding: 0 20px 20px 20px; width: 100%; max-width: 1200px; flex-grow: 1; overflow-y: auto; align-content: flex-start; }
         .icon_image a { position: relative; display: block; text-decoration: none; background-color: var(--icon-bg); border: 1px solid var(--icon-border); border-radius: 12px; width: 140px; height: 140px; transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease; overflow: hidden; cursor: pointer; }
         .icon_image a:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 8px 20px rgba(0, 255, 255, 0.3); border-color: rgba(0, 255, 255, 0.6); }
@@ -925,13 +976,8 @@
             const adminSection = document.getElementById('admin-section');
             if (adminSection?.classList.contains('active')) {
                  console.log("Admin signed out, UI updated.");
-                 // Find showView function - make it global if needed here
-                 if (typeof showView === 'function') {
-                    showView('home-content');
-                 } else {
-                     // If DOMContentLoaded hasn't run yet, the button will be hidden by updateSignInUI anyway
-                     console.warn('showView function not available globally during sign out.');
-                 }
+                 // Use globally defined showView
+                 showView('home-content');
             }
         }
 
@@ -976,6 +1022,30 @@
             }
         }
 
+        // --- View Switching Function (GLOBAL SCOPE) ---
+        function showView(viewId) {
+            const viewToShow = document.getElementById(viewId);
+            if (!viewToShow) { console.error(`showView Error: Element '${viewId}' not found!`); return; }
+             console.log(`--> Activating view: ${viewId}`);
+             // Query sections here as they might not be available when this is first defined
+             document.querySelectorAll('.view-section').forEach(section => section.classList.remove('active'));
+             requestAnimationFrame(() => { viewToShow.classList.add('active'); viewToShow.scrollTop = 0; });
+        }
+
+        // --- Debounce Helper Function (GLOBAL SCOPE) ---
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        };
+
+
         // --- Google Library Initialization (GLOBAL SCOPE) ---
         window.onload = function () {
           google.accounts.id.initialize({
@@ -1012,7 +1082,7 @@
             const gameIconsContainer = document.getElementById('icon_image');
             const fullscreenButton = document.getElementById('fullscreenButton');
             const backButton = document.getElementById('backButton');
-            const viewSections = document.querySelectorAll('.view-section');
+            const viewSections = document.querySelectorAll('.view-section'); // Query here now
             const transitionOverlay = document.getElementById('transitionOverlay');
             const noGamesMessageElement = document.getElementById('noGamesMessage');
             // Settings Popup
@@ -1058,6 +1128,8 @@
             // Admin Elements
             const testAllGamesBtn = document.getElementById('testAllGamesBtn');
             const gameTestResultsDiv = document.getElementById('gameTestResults');
+            // Search Input
+            const searchInput = document.getElementById('searchInput');
 
 
              // --- Finder State Variables ---
@@ -1066,7 +1138,7 @@
 
 
             // --- Verify Crucial Elements ---
-             if (!homeButton || !launchButton || !gameIconsContainer || !gamePlayerSection || !helpSection || !suggestionsSection || !adminSection || !fullscreenButton || !backButton || !transitionOverlay || !homeContent || !gameSection || !sortDropdown || !categoryFiltersContainer || !settingsButton || !helpButton || !suggestionsButton || !adminButton || !settingsOverlay || !settingsPopup || !closeSettingsButton || !tabCloakOptionsContainer || !applyCloakButton || !resetCloakButton || !originalTitleElement || !originalFaviconElement || !requestGameBtn || !reportIssueBtn || !supportFormOverlay || !supportFormPopup || !closeSupportFormBtn || !supportForm || !supportFormTitle || !supportType || !supportTopic || !supportMessage || !submitSupportButton || !supportMessageStatus || !gameRequestFields || !topicLabel || !detailsLabel || !gameUrlInput || !iconUrlInput || !gameUrlPreview || !iconUrlPreview || !playerCountStep || !categorySelectStep || !resultsStep || !finderCategoriesContainer || !playerCountOptionsContainer || !finderResultsContainer || !finderNoResults || !restartFinderBtn || !testAllGamesBtn || !gameTestResultsDiv ) {
+             if (!homeButton || !launchButton || !gameIconsContainer || !gamePlayerSection || !helpSection || !suggestionsSection || !adminSection || !fullscreenButton || !backButton || !transitionOverlay || !homeContent || !gameSection || !sortDropdown || !categoryFiltersContainer || !settingsButton || !helpButton || !suggestionsButton || !adminButton || !settingsOverlay || !settingsPopup || !closeSettingsButton || !tabCloakOptionsContainer || !applyCloakButton || !resetCloakButton || !originalTitleElement || !originalFaviconElement || !requestGameBtn || !reportIssueBtn || !supportFormOverlay || !supportFormPopup || !closeSupportFormBtn || !supportForm || !supportFormTitle || !supportType || !supportTopic || !supportMessage || !submitSupportButton || !supportMessageStatus || !gameRequestFields || !topicLabel || !detailsLabel || !gameUrlInput || !iconUrlInput || !gameUrlPreview || !iconUrlPreview || !playerCountStep || !categorySelectStep || !resultsStep || !finderCategoriesContainer || !playerCountOptionsContainer || !finderResultsContainer || !finderNoResults || !restartFinderBtn || !testAllGamesBtn || !gameTestResultsDiv || !searchInput ) {
                  console.error("CRITICAL STARTUP ERROR: Cannot find essential page structure elements. Verify IDs in HTML.");
                  alert("Critical page element missing. Site may not function correctly. Check console (F12).");
                  return;
@@ -1102,15 +1174,7 @@
 
             // --- Helper Functions (Defined within DOMContentLoaded) ---
 
-            // Make showView global for handleSignOut
-            window.showView = function(viewId) {
-                const viewToShow = document.getElementById(viewId);
-                if (!viewToShow) { console.error(`showView Error: Element '${viewId}' not found!`); return; }
-                 console.log(`--> Activating view: ${viewId}`);
-                 // Ensure viewSections is accessible or query it here
-                 document.querySelectorAll('.view-section').forEach(section => section.classList.remove('active'));
-                 requestAnimationFrame(() => { viewToShow.classList.add('active'); viewToShow.scrollTop = 0; });
-            }
+            // showView is now global
 
             function getGameTitle(linkElement) { const caption = linkElement?.querySelector('figcaption'); const img = linkElement?.querySelector('img'); return caption?.textContent.trim() || img?.alt.trim() || ''; }
             function populateCloakOptions() {
@@ -1190,8 +1254,16 @@
                  supportFormOverlay.classList.remove('visible');
                  supportFormPopup.classList.remove('visible');
             }
-            function sortGames() { /* ... */ } // Keep implementation
-            function filterGames(filter) {
+            function sortGames() {
+                if (!sortDropdown || !gameIconsContainer) return;
+                const sortValue = sortDropdown.value; console.log(`    Sorting by: ${sortValue}`);
+                const visibleLinks = Array.from(gameIconsContainer.querySelectorAll('.game-link')).filter(link => window.getComputedStyle(link).display !== 'none');
+                if (sortValue !== 'default') {
+                    visibleLinks.sort((a, b) => { const titleA = getGameTitle(a).toLowerCase(); const titleB = getGameTitle(b).toLowerCase(); if (sortValue === 'az') return titleA.localeCompare(titleB); if (sortValue === 'za') return titleB.localeCompare(titleA); return 0; });
+                    visibleLinks.forEach(link => gameIconsContainer.appendChild(link)); console.log(`    Sorted and re-appended ${visibleLinks.length} items by ${sortValue}`);
+                }
+             }
+             function filterGames(filter) {
                 console.log(`--- filterGames called with filter: ${filter} ---`);
                 if (!gameIconsContainer) { console.error("Filter Error: Cannot find #icon_image"); return; }
 
