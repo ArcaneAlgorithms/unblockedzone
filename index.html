@@ -960,7 +960,7 @@
 
 
         .admin-actions { /* Now below dashboard */
-             margin-top: 30px;
+             margin-top: 0; /* Reduced margin as dashboard provides space */
              width: 100%;
              max-width: 500px; /* Keep actions centered below */
              margin-left: auto;
@@ -985,6 +985,8 @@
             background-color: var(--box-bg);
             border: 1px solid var(--box-border); /* White border */
             padding: 15px; border-radius: 8px; max-height: 40vh; overflow-y: auto; font-size: 0.8rem; display: none;
+            width: 100%; /* Make results take full width of container */
+            margin-top: 15px; /* Add space above results */
         }
         #gameTestResults div {
             padding: 3px 0;
@@ -1046,6 +1048,7 @@
              .finder-result-item { width: calc(100% - 10px); max-width: none; } /* Finder results full width */
              #admin-dashboard { padding: 15px; } /* Reduce padding */
              #admin-stats h3, #admin-chart-container h3 { font-size: 1.1rem; }
+             .admin-actions { max-width: 90%; } /* Allow actions to take more width */
          }
          @media (max-width: 480px) {
             :root { --header-height: 45px; --footer-height: 45px;} /* Slightly reduce heights */
@@ -1323,8 +1326,8 @@
                     </div>
                     <div class="stat-item">
                         <span class="stat-label"><i class="fas fa-envelope"></i> Total Submissions:</span>
-                        <span class="stat-value" id="stat-total-submissions">N/A</span>
-                        <small>(Requires Backend)</small>
+                        <span class="stat-value" id="stat-total-submissions">--</span>
+                        <small>(Requires Backend/Fetch)</small> <!-- Updated small text -->
                     </div>
                     <!-- Add more stats here as needed -->
                 </div>
@@ -1617,7 +1620,7 @@
             const statTotalGames = document.getElementById('stat-total-games');
             const statTotalCategories = document.getElementById('stat-total-categories');
             const statGamesWithErrors = document.getElementById('stat-games-with-errors');
-            const statTotalSubmissions = document.getElementById('stat-total-submissions'); // Placeholder
+            const statTotalSubmissions = document.getElementById('stat-total-submissions');
             const categoryChartCanvas = document.getElementById('categoryChartCanvas');
 
 
@@ -1857,7 +1860,8 @@
                           !['game-link', 'New'].includes(c) // Exclude base and temporary classes
                           && !c.startsWith('data-') // Exclude data attributes potentially added as classes somewhere
                           && !/^\d+$/.test(c) &&                  // Exclude simple numbers (like player counts if used as class)
-                          c !== 'Multi'                         // Exclude specific player keywords
+                          c !== 'Multi' &&                      // Exclude specific player keywords
+                          c !== '1' && c !== '2'                // Exclude player numbers if used as classes
                       );
 
                     const resultDiv = document.createElement('div');
@@ -1884,9 +1888,11 @@
                      const categoriesDiv = document.createElement('div');
                      categoriesDiv.className = 'finder-result-categories';
                      categories.forEach(cat => {
-                         const catSpan = document.createElement('span');
-                         catSpan.textContent = cat;
-                         categoriesDiv.appendChild(catSpan);
+                          if (cat) { // Ensure category is not empty string
+                             const catSpan = document.createElement('span');
+                             catSpan.textContent = cat;
+                             categoriesDiv.appendChild(catSpan);
+                         }
                      });
 
                     const playBtn = document.createElement('button');
@@ -1963,14 +1969,55 @@
                     gamesWithErrors = 0; // Test ran, no errors found
                  }
 
-                // Placeholder for submissions - Replace with actual fetching logic later
-                const totalSubmissions = 'N/A'; // Update this if you implement submission fetching
 
-                // --- Update Stat Display ---
+                // --- Fetch Total Submissions Count ---
+                const SCRIPT_COUNT_URL = 'https://script.google.com/macros/s/AKfycbz-oAR3GGVgCkzbpe5rLXq_U4c_eVx2n5W1Ih-lN0fF5fwE11fubZ3R2OGgBcVvQeR7vw/exec'; // <<< YOUR URL INSERTED HERE
+                let totalSubmissions = 'Loading...'; // Initial placeholder
+
+                if (SCRIPT_COUNT_URL && !SCRIPT_COUNT_URL.includes('PASTE_YOUR')) {
+                    fetch(SCRIPT_COUNT_URL + '?action=count') // Append a query param to ensure GET
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log("Submission count data:", data);
+                            if (data.result === 'success' && typeof data.count !== 'undefined') {
+                                totalSubmissions = data.count;
+                            } else {
+                                console.error("Error getting submission count:", data.message || 'Invalid response format');
+                                totalSubmissions = 'Error';
+                            }
+                            // Update DOM *after* fetch completes
+                            statTotalSubmissions.textContent = totalSubmissions;
+                            // If you have a 'small' tag associated, you might want to hide/remove it on success
+                            const submissionsSmallText = statTotalSubmissions.closest('.stat-item')?.querySelector('small');
+                            if (submissionsSmallText && totalSubmissions !== 'Error' && totalSubmissions !== 'Loading...') {
+                                submissionsSmallText.style.display = 'none'; // Hide the "(Requires Backend)" text
+                            }
+
+                        })
+                        .catch(error => {
+                            console.error('Error fetching submission count:', error);
+                            totalSubmissions = 'Error';
+                            // Update DOM *after* fetch error
+                            statTotalSubmissions.textContent = totalSubmissions;
+                        });
+                } else {
+                    console.warn("Submission Count URL is not configured.");
+                    totalSubmissions = 'N/A'; // Keep as N/A if URL not set
+                    statTotalSubmissions.textContent = totalSubmissions; // Update DOM immediately if URL is missing
+                }
+                // -------------------------------------
+
+                // --- Update Stat Display (for stats NOT fetched async) ---
                 statTotalGames.textContent = totalGames;
                 statTotalCategories.textContent = totalCategories;
                 statGamesWithErrors.textContent = gamesWithErrors;
-                statTotalSubmissions.textContent = totalSubmissions;
+                statTotalSubmissions.textContent = totalSubmissions; // Set initial 'Loading...' or 'N/A'
+                // Note: The actual count for submissions will be updated inside the .then() of the fetch
 
                 // --- Prepare Chart Data ---
                 const categoryCounts = {};
@@ -2236,20 +2283,20 @@
                     supportMessageStatus.textContent = 'Submitting...';
                     submitSupportButton.disabled = true;
 
-                    // --- YOUR DEPLOYED WEB APP URL ---
-                    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-oAR3GGVgCkzbpe5rLXq_U4c_eVx2n5W1Ih-lN0fF5fwE11fubZ3R2OGgBcVvQeR7vw/exec';
+                    // --- YOUR DEPLOYED WEB APP URL (for doPost) ---
+                    const SCRIPT_POST_URL = 'https://script.google.com/macros/s/AKfycbz-oAR3GGVgCkzbpe5rLXq_U4c_eVx2n5W1Ih-lN0fF5fwE11fubZ3R2OGgBcVvQeR7vw/exec';
                     // ---------------------------------
 
-                    if (!SCRIPT_URL || SCRIPT_URL.includes('PASTE_YOUR_WEB_APP_URL_HERE')) { // Keep check
+                    if (!SCRIPT_POST_URL || SCRIPT_POST_URL.includes('PASTE_YOUR_WEB_APP_URL_HERE')) { // Keep check
                          supportMessageStatus.textContent = 'Error: Web App URL issue!';
                          submitSupportButton.disabled = false;
-                         console.error("Google Apps Script Web App URL issue in the script.");
+                         console.error("Google Apps Script Web App URL issue in the script (POST).");
                          return;
                     }
 
                     const formData = new FormData(supportForm);
 
-                    fetch(SCRIPT_URL, {
+                    fetch(SCRIPT_POST_URL, { // Use the POST URL here
                         method: 'POST',
                         body: formData,
                     })
@@ -2381,3 +2428,4 @@
 
 </body>
 </html>
+```
