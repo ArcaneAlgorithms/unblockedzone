@@ -921,6 +921,48 @@
             }
         }
 
+        // --- UI Update Function (GLOBAL SCOPE) ---
+        function updateSignInUI(isSignedIn) {
+            const signInContainer = document.getElementById('googleSignInContainer');
+            const buttonDiv = document.getElementById('buttonDiv');
+            const userInfoDiv = document.getElementById('userInfo');
+            const userNameSpan = document.getElementById('userName');
+            const userPictureImg = document.getElementById('userPicture');
+            const signOutButton = document.getElementById('signOutButton');
+            const adminButton = document.getElementById('adminButton');
+
+            // Ensure elements exist before manipulating
+            if (!signInContainer || !buttonDiv || !userInfoDiv || !userNameSpan || !userPictureImg || !signOutButton || !adminButton) {
+                console.error("Sign-in UI elements not found!");
+                return;
+            }
+
+            if (isSignedIn && googleUser) {
+                buttonDiv.style.display = 'none';
+                userInfoDiv.style.display = 'flex';
+                userNameSpan.textContent = googleUser.given_name || googleUser.name || 'User';
+                userPictureImg.src = googleUser.picture || '';
+                userPictureImg.alt = userNameSpan.textContent;
+                signOutButton.onclick = handleSignOut; // Attach sign out handler
+
+                // Check for Admin
+                if (googleUser.email === ADMIN_EMAIL) {
+                    console.log("Admin user detected.");
+                    adminButton.style.display = 'inline-block'; // Show admin button
+                } else {
+                    console.log("Regular user detected.");
+                    adminButton.style.display = 'none'; // Hide admin button
+                }
+
+            } else {
+                buttonDiv.style.display = 'block';
+                userInfoDiv.style.display = 'none';
+                userNameSpan.textContent = '';
+                userPictureImg.src = '';
+                adminButton.style.display = 'none'; // Hide admin button on sign out
+            }
+        }
+
         window.onload = function () {
           google.accounts.id.initialize({
             client_id: "881545540885-84jq8c5ha2ij9j15ikl7vb551rd22h1f.apps.googleusercontent.com", // YOUR CLIENT ID
@@ -930,6 +972,8 @@
             document.getElementById("buttonDiv"),
             { theme: "outline", size: "medium", type: "standard" }
           );
+          // Update UI based on any existing session after Google init
+          updateSignInUI(!!googleUser); // Call here after lib is loaded
           // google.accounts.id.prompt(); // Optional: show one-tap prompt
         };
 
@@ -1301,48 +1345,12 @@
                  showFinderStep('results-step');
              }
 
-            // --- UI Update Function ---
-            function updateSignInUI(isSignedIn) {
-                const signInContainer = document.getElementById('googleSignInContainer');
-                const buttonDiv = document.getElementById('buttonDiv');
-                const userInfoDiv = document.getElementById('userInfo');
-                const userNameSpan = document.getElementById('userName');
-                const userPictureImg = document.getElementById('userPicture');
-                const signOutButton = document.getElementById('signOutButton');
-                const adminButton = document.getElementById('adminButton');
-
-                if (isSignedIn && googleUser) {
-                    buttonDiv.style.display = 'none';
-                    userInfoDiv.style.display = 'flex';
-                    userNameSpan.textContent = googleUser.given_name || googleUser.name || 'User';
-                    userPictureImg.src = googleUser.picture || '';
-                    userPictureImg.alt = userNameSpan.textContent;
-                    signOutButton.onclick = handleSignOut; // Attach sign out handler
-
-                    // Check for Admin
-                    if (googleUser.email === ADMIN_EMAIL) {
-                        console.log("Admin user detected.");
-                        adminButton.style.display = 'inline-block'; // Show admin button
-                    } else {
-                        console.log("Regular user detected.");
-                        adminButton.style.display = 'none'; // Hide admin button
-                    }
-
-                } else {
-                    buttonDiv.style.display = 'block';
-                    userInfoDiv.style.display = 'none';
-                    userNameSpan.textContent = '';
-                    userPictureImg.src = '';
-                    adminButton.style.display = 'none'; // Hide admin button on sign out
-                }
-            }
-
 
              // --- Event Listeners ---
              if(launchButton) { launchButton.addEventListener('click', () => { console.log("[LAUNCH BTN] Clicked."); showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All'); }); console.log("Launch Button listener attached."); }
              if (homeButton) { homeButton.addEventListener('click', () => { console.log("Home clicked."); const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') ) { console.log("   Cleaning player/state before going home"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } if(homeContent) showView('home-content'); }); console.log("Home button listener attached."); }
             // Suggestions Button (NOW triggers the finder steps)
-            if (suggestionsButton) { suggestionsButton.addEventListener('click', () => { console.log("Suggestions clicked, starting finder."); const playerView = document.getElementById('game-player-section'); const currentAdminView = document.getElementById('admin-section'); if (playerView?.classList.contains('active') || currentAdminView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing suggestions"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } selectedPlayerCount = null; selectedFinderCategory = null; finderResultsContainer.innerHTML = ''; finderNoResults.style.display = 'none'; finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category'); showView('suggestions-section'); showFinderStep('player-count-step'); }); console.log("Suggestions button listener attached."); }
+            if (suggestionsButton) { suggestionsButton.addEventListener('click', () => { console.log("Suggestions clicked, starting finder."); const playerView = document.getElementById('game-player-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (playerView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing suggestions"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } selectedPlayerCount = null; selectedFinderCategory = null; finderResultsContainer.innerHTML = ''; finderNoResults.style.display = 'none'; finderCategoriesContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); finderCategoriesContainer.querySelector('[data-filter="Any"]')?.classList.add('active-category'); showView('suggestions-section'); showFinderStep('player-count-step'); }); console.log("Suggestions button listener attached."); }
              // Help Button (Main)
              if (helpButton) { helpButton.addEventListener('click', () => { console.log("Help clicked."); const playerView = document.getElementById('game-player-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); if (playerView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing help"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } if (helpSection) showView('help-section'); }); console.log("Help button listener attached."); }
              // Admin Button Listener
@@ -1534,31 +1542,7 @@
                 console.log("Apps Script support form listener attached.");
             }
 
-            // --- Admin Button Listener ---
-            if (adminButton) {
-                adminButton.addEventListener('click', () => {
-                    if (googleUser && googleUser.email === ADMIN_EMAIL) {
-                        console.log("Admin button clicked.");
-                        const playerView = document.getElementById('game-player-section');
-                        const currentHelpView = document.getElementById('help-section');
-                        const currentSuggestionsView = document.getElementById('suggestions-section');
-                        if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active')) {
-                           const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator');
-                           console.log("   Cleaning player/state before showing admin panel");
-                           try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {}
-                           if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator";
-                           if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); }
-                        }
-                        showView('admin-section');
-                    } else {
-                        console.warn("Non-admin tried to access admin panel via button click?");
-                        adminButton.style.display = 'none';
-                    }
-                });
-                console.log("Admin button listener attached.");
-            }
-
-             // --- Test All Games Button Listener ---
+             // --- Admin Button Test Games Listener ---
             if (testAllGamesBtn && gameTestResultsDiv) {
                 testAllGamesBtn.addEventListener('click', async () => {
                     console.log("Starting game link test...");
@@ -1610,8 +1594,7 @@
              if (savedTitle && savedFavicon) { console.log("Found saved cloak in localStorage. Applying."); setTabCloak(savedTitle, savedFavicon); }
              else { console.log("No saved cloak found, using default."); resetTabCloak(); }
 
-             // Initial UI state based on potential existing sign-in (might be needed if auto-select is enabled later)
-             updateSignInUI(!!googleUser);
+             // Initial UI state for sign-in called in window.onload
 
 
             console.log("--- DOMContentLoaded Initial Setup Complete ---");
@@ -1621,3 +1604,4 @@
 
 </body>
 </html>
+```
