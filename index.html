@@ -404,25 +404,27 @@
         .transition-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #f0f0f0; opacity: 0; visibility: hidden; pointer-events: none; z-index: 10000; transition: opacity var(--overlay-fade-speed) ease-in-out, visibility 0s linear var(--overlay-fade-speed); }
         .transition-overlay.active { opacity: 1; visibility: visible; transition-delay: 0s; }
 
-        /* --- Settings/Support Popup Common Styles --- */
-        .settings-overlay { /* Used by both settings & support */
+        /* --- Settings/Support/Edit Popup Common Styles --- */
+        .settings-overlay { /* Used by settings, support & edit game */
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); z-index: 5999;
+            background-color: rgba(0, 0, 0, 0.6); z-index: 5999; /* Base overlay z-index */
             opacity: 0; visibility: hidden;
             transition: opacity var(--popup-fade-speed) ease, visibility 0s linear var(--popup-fade-speed);
             backdrop-filter: blur(3px);
         }
         /* Popup shadow */
-        .settings-popup { /* Base style for both */
+        .settings-popup { /* Base style for settings, support & edit game */
             position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.95);
             background-color: var(--popup-bg); border: 1px solid var(--popup-border); /* White border */
             border-radius: 15px; padding: 25px 30px;
             /* MODIFIED: Changed glow to white */
-            box-shadow: 0 5px 25px rgba(255, 255, 255, 0.15); z-index: 6000;
+            box-shadow: 0 5px 25px rgba(255, 255, 255, 0.15); z-index: 6000; /* Base popup z-index */
             width: 90%; max-width: 450px; /* Default max width */
             opacity: 0; visibility: hidden;
             transition: opacity var(--popup-fade-speed) ease, transform var(--popup-fade-speed) ease, visibility 0s linear var(--popup-fade-speed);
+            overflow-y: auto; /* Allow popup content to scroll if needed */
+            max-height: 90vh; /* Prevent popup being taller than viewport */
         }
         .settings-overlay.visible, .settings-popup.visible {
             opacity: 1; visibility: visible; transition-delay: 0s;
@@ -437,12 +439,12 @@
             margin: 0;
         }
         /* Close button (uses --secondary-blue -> light gray) */
-        #closeSettingsButton, #closeSupportFormBtn {
+        #closeSettingsButton, #closeSupportFormBtn, #closeEditGameModal {
             background: none; border: none;
             color: var(--secondary-blue); /* Now light gray */
             font-size: 1.6rem; cursor: pointer; padding: 0 5px; line-height: 1; transition: color 0.2s ease, transform 0.2s ease;
         }
-        #closeSettingsButton:hover, #closeSupportFormBtn:hover { color: var(--highlight-yellow); transform: scale(1.1); }
+        #closeSettingsButton:hover, #closeSupportFormBtn:hover, #closeEditGameModal:hover { color: var(--highlight-yellow); transform: scale(1.1); }
         .settings-content { padding-top: 10px; } /* Add some space below header */
         .settings-section { margin-bottom: 25px; }
         /* Setting section title (uses --secondary-blue -> light gray) */
@@ -611,17 +613,17 @@
             display: none;
         }
         /* Icon Preview (Image) */
-         #iconUrlPreview img {
+         #iconUrlPreview img, #editIconPreview img {
             max-width: 64px;
             max-height: 64px;
             display: none; /* Hide initially */
             object-fit: contain; /* Prevent distortion */
             margin-bottom: 5px; /* Space between img and text */
         }
-        #iconUrlPreview img[src]:not([src=""]) {
+        #iconUrlPreview img[src]:not([src=""]), #editIconPreview img[src]:not([src=""]) {
              display: block; /* Show image only when src is set */
         }
-        #iconUrlPreview img[src]:not([src=""]) + span { /* Hide text span when image is shown */
+        #iconUrlPreview img[src]:not([src=""]) + span, #editIconPreview img[src]:not([src=""]) + span { /* Hide text span when image shown */
             display: none;
         }
         /* --- Support Form Popup Styles --- */
@@ -958,9 +960,217 @@
          }
          /* End Admin Dashboard Styles */
 
+        /* --- Admin Game Manager Styles --- */
+        #admin-game-manager {
+            width: 100%;
+            max-width: 1100px; /* Match dashboard width */
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: rgba(26, 35, 58, 0.5);
+            border: 1px solid var(--box-border);
+            border-radius: 10px;
+        }
 
-        .admin-actions { /* Now below dashboard */
-             margin-top: 0; /* Reduced margin as dashboard provides space */
+        #admin-game-manager h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--box-border);
+        }
+
+        .game-manager-table-container {
+            max-height: 50vh; /* Limit table height and make scrollable */
+            overflow-y: auto;
+            border: 1px solid var(--icon-border);
+            border-radius: 5px;
+            /* Custom Scrollbar for table container */
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-blue) var(--icon-bg);
+        }
+        .game-manager-table-container::-webkit-scrollbar { width: 8px; height: 8px; }
+        .game-manager-table-container::-webkit-scrollbar-track { background: var(--icon-bg); border-radius: 10px; }
+        .game-manager-table-container::-webkit-scrollbar-thumb { background-color: var(--secondary-blue); border-radius: 10px; border: 1px solid var(--box-border); }
+        .game-manager-table-container::-webkit-scrollbar-thumb:hover { background-color: var(--accent-color); }
+
+        #game-manager-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        #game-manager-table thead th {
+            background-color: var(--box-bg);
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--secondary-blue);
+            position: sticky; /* Keep header visible on scroll */
+            top: 0;
+            z-index: 1;
+        }
+
+        #game-manager-table tbody td {
+            padding: 8px;
+            border-bottom: 1px solid var(--icon-border);
+            vertical-align: middle;
+        }
+
+        #game-manager-table tbody tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        #game-manager-table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+
+        #game-manager-table .game-icon-cell img {
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+
+        #game-manager-table .game-categories-cell {
+            max-width: 150px; /* Limit width */
+            white-space: normal; /* Allow wrapping */
+        }
+        #game-manager-table .game-categories-cell span {
+            display: inline-block;
+            background-color: var(--button-bg);
+            color: var(--description-color);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            margin: 2px;
+        }
+
+        #game-manager-table .game-url-cell {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        #game-manager-table .game-url-cell a {
+            color: var(--secondary-blue);
+            text-decoration: none;
+        }
+        #game-manager-table .game-url-cell a:hover {
+            text-decoration: underline;
+            color: var(--accent-color);
+        }
+
+
+        #game-manager-table .actions-cell button {
+            background: none;
+            border: none;
+            color: var(--secondary-blue);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 3px 6px;
+            margin: 0 3px;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+        #game-manager-table .actions-cell button:hover {
+            transform: scale(1.1);
+        }
+        #game-manager-table .actions-cell .edit-btn:hover {
+            color: var(--highlight-yellow);
+        }
+        #game-manager-table .actions-cell .delete-btn:hover {
+            color: #f08080; /* LightCoral */
+        }
+
+        /* Edit Game Modal Styles */
+        #editGameModal {
+            max-width: 600px; /* Wider modal for form */
+            z-index: 6010; /* Above its overlay */
+        }
+        #editGameOverlay {
+            z-index: 6005; /* Below modal */
+        }
+
+        #editGameForm label {
+            display: block; margin-bottom: 5px; font-weight: 600;
+            color: var(--secondary-blue); font-size: 0.9rem;
+        }
+        #editGameForm input[type="text"],
+        #editGameForm input[type="url"] {
+            width: 100%; padding: 8px 10px; background-color: var(--button-bg);
+            border: 1px solid var(--box-border); border-radius: 5px;
+            color: var(--text-color); font-family: 'Rajdhani', sans-serif; font-size: 0.9rem;
+        }
+        #editGameForm input[type="text"]:focus,
+        #editGameForm input[type="url"]:focus {
+            outline: none; border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
+
+        #editIconPreview img { display: none; } /* Hide preview img initially */
+        #editIconPreview img[src]:not([src=""]) { display: block; } /* Show only if src set */
+        #editIconPreview img[src]:not([src=""]) + span { display: none; } /* Hide text span when image shown */
+
+        .edit-categories {
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid var(--box-border);
+            border-radius: 5px;
+            padding: 10px;
+            background-color: rgba(0,0,0,0.2);
+            /* Custom Scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-blue) var(--icon-bg);
+        }
+        .edit-categories::-webkit-scrollbar { width: 6px; }
+        .edit-categories::-webkit-scrollbar-track { background: var(--icon-bg); border-radius: 10px; }
+        .edit-categories::-webkit-scrollbar-thumb { background-color: var(--secondary-blue); border-radius: 10px; border: 1px solid var(--box-border); }
+
+        .edit-categories label {
+            display: block; /* One category per line */
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            cursor: pointer;
+            font-weight: normal; /* Override default label weight */
+        }
+        .edit-categories input[type="checkbox"] {
+            margin-right: 8px;
+            accent-color: var(--accent-color); /* Style checkbox color */
+            vertical-align: middle;
+        }
+
+        .edit-player-options label {
+            display: inline-block; /* Keep radios inline */
+            margin-right: 15px;
+            font-size: 0.9rem;
+            font-weight: normal;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+        .edit-player-options input[type="radio"] {
+            margin-right: 5px;
+            accent-color: var(--accent-color);
+            vertical-align: middle;
+        }
+
+
+        #saveGameChanges {
+            background-color: var(--highlight-yellow) !important; /* Ensure yellow wins */
+            color: var(--bg-color) !important;
+            border-color: var(--highlight-yellow) !important;
+        }
+        #saveGameChanges:hover {
+            background-color: #e6c300 !important; /* Darker yellow */
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5) !important;
+        }
+        /* End Game Manager Styles */
+
+
+        .admin-actions { /* Now below manager */
+             margin-top: 30px; /* Restore margin-top */
              width: 100%;
              max-width: 500px; /* Keep actions centered below */
              margin-left: auto;
@@ -1002,6 +1212,7 @@
         /* --- Responsive Adjustments --- */
          @media (max-width: 1100px) {
              .info-box { flex-basis: 45%; min-width: 220px; }
+             #admin-game-manager { max-width: 95%; } /* Allow manager to be wider */
          }
          @media (max-width: 900px) {
             #admin-dashboard {
@@ -1035,9 +1246,9 @@
              #backButton, #fullscreenButton { font-size: 1.2rem; padding: 5px; }
              .help-options-container { flex-direction: column; gap: 20px; }
              .help-button { min-width: unset; width: 80%; padding: 20px; min-height: unset; }
-             .settings-popup, #supportFormPopup { width: 95%; padding: 20px; }
+             .settings-popup, #supportFormPopup, #editGameModal { width: 95%; padding: 20px; max-width: 95%; }
              .settings-title { font-size: 1.1rem; }
-             #closeSettingsButton, #closeSupportFormBtn { font-size: 1.4rem; }
+             #closeSettingsButton, #closeSupportFormBtn, #closeEditGameModal { font-size: 1.4rem; }
              #userPicture { width: 25px; height: 25px;}
              #userName { font-size: 0.75rem; }
              #signOutButton { font-size: 1rem; }
@@ -1047,8 +1258,14 @@
              .icon_image figcaption { font-size: 0.7rem; bottom: 5px; padding: 4px 8px; }
              .finder-result-item { width: calc(100% - 10px); max-width: none; } /* Finder results full width */
              #admin-dashboard { padding: 15px; } /* Reduce padding */
-             #admin-stats h3, #admin-chart-container h3 { font-size: 1.1rem; }
+             #admin-game-manager { padding: 15px; }
+             #admin-stats h3, #admin-chart-container h3, #admin-game-manager h3 { font-size: 1.1rem; }
              .admin-actions { max-width: 90%; } /* Allow actions to take more width */
+              /* Hide less important columns on smaller tables */
+             #game-manager-table .game-url-cell,
+             #game-manager-table th:nth-child(6) { display: none; } /* Hide URL */
+             #game-manager-table .game-categories-cell,
+             #game-manager-table th:nth-child(4) { max-width: 100px; } /* Reduce category width */
          }
          @media (max-width: 480px) {
             :root { --header-height: 45px; --footer-height: 45px;} /* Slightly reduce heights */
@@ -1068,11 +1285,21 @@
              .icon_image figcaption { display: none; } /* Hide captions on mobile */
              .icon_image a:hover figcaption { display: none; } /* Ensure hover doesn't show it */
              .game-player-box { border-width: 1px; border-radius: 10px; }
-             .settings-popup, #supportFormPopup { max-width: 98%; }
+             .settings-popup, #supportFormPopup, #editGameModal { max-width: 98%; }
              .step-button { width: calc(50% - 15px); min-width: 140px; } /* Finder step buttons */
              .stat-item { flex-direction: column; align-items: flex-start; gap: 5px; } /* Stack stats vertically */
              .stat-value { margin-left: 0; padding-left: 0; margin-top: 5px; font-size: 1.2rem; }
              .stat-item small { text-align: left; margin-top: 0; }
+             /* Hide more columns on smallest screens */
+             #game-manager-table .game-categories-cell,
+             #game-manager-table th:nth-child(4) { display: none; } /* Hide Categories */
+             #game-manager-table .game-icon-cell,
+             #game-manager-table th:nth-child(1) { display: none; } /* Hide Icon */
+             #game-manager-table .game-players-cell,
+             #game-manager-table th:nth-child(5) { display: none; } /* Hide Players */
+             #game-manager-table tbody td { padding: 6px 4px; } /* Reduce padding */
+             #game-manager-table { font-size: 0.75rem; }
+             .edit-categories { max-height: 100px;}
          }
 
     </style>
@@ -1307,7 +1534,7 @@
            <h2>Admin Panel</h2> <!-- Title style applied via CSS -->
            <p style="color: var(--secondary-blue); margin-bottom: 30px;">Site overview and management tools.</p>
 
-            <!-- ===== NEW: Admin Dashboard ===== -->
+            <!-- ===== Admin Dashboard ===== -->
             <div id="admin-dashboard">
                 <div id="admin-stats">
                     <h3>Site Statistics</h3>
@@ -1338,13 +1565,41 @@
             </div>
             <!-- ============================== -->
 
+            <!-- ===== NEW: Game Manager ===== -->
+            <div id="admin-game-manager">
+                <h3>Game Management</h3>
+                <div id="game-manager-controls" style="margin-bottom: 15px;">
+                    <!-- Add New Game button can go here later -->
+                    <span id="game-manager-status" style="font-size: 0.8rem; color: var(--description-color);">Edits are temporary (session only).</span>
+                </div>
+                <div class="game-manager-table-container">
+                    <table id="game-manager-table">
+                        <thead>
+                            <tr>
+                                <th>Icon</th>
+                                <th>Title</th>
+                                <th>Creator</th>
+                                <th>Categories</th>
+                                <th>Players</th>
+                                <th>URL</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="game-manager-table-body"> <!-- Added ID for easier targeting -->
+                            <!-- Game rows will be populated by JS -->
+                            <tr><td colspan="7" style="text-align:center; padding: 20px;">Loading games...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- =========================== -->
 
-           <div class="admin-actions"> <!-- Moved margin-top to CSS -->
+
+           <div class="admin-actions"> <!-- Actions like Test Button are now below manager -->
                <button id="testAllGamesBtn" class="settings-button">Test All Game Links</button>
                <div id="gameTestResults">
                    <!-- Test results will appear here -->
                </div>
-               <!-- Add other admin buttons/forms here -->
            </div>
        </section>
 
@@ -1422,6 +1677,62 @@
             </form>
         </div>
     </div>
+
+    <!-- Edit Game Modal (Hidden by default) -->
+    <div id="editGameOverlay" class="settings-overlay"></div>
+    <div id="editGameModal" class="settings-popup"> <!-- Uses settings-popup for base style -->
+        <div class="settings-header">
+            <h2 id="editGameTitle" class="settings-title">Edit Game</h2>
+            <button id="closeEditGameModal" class="header-button" title="Close">&times;</button>
+        </div>
+        <div class="settings-content">
+            <form id="editGameForm">
+                <input type="hidden" id="editGameId" name="gameId"> <!-- Store ID (index) of game being edited -->
+
+                <div style="margin-bottom: 15px;">
+                    <label for="editTitle">Title:</label>
+                    <input type="text" id="editTitle" name="title" required>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="editCreator">Creator:</label>
+                    <input type="text" id="editCreator" name="creator">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="editUrl">Game URL:</label>
+                    <input type="url" id="editUrl" name="url" required>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="editIconUrl">Icon URL:</label>
+                    <input type="url" id="editIconUrl" name="iconUrl">
+                    <div id="editIconPreview" class="url-preview" style="max-width: 80px; min-height: 60px; margin-top: 5px;">
+                         <img src="" alt="Icon Preview" style="max-width: 64px; max-height: 64px;">
+                         <span>Icon Preview</span>
+                    </div>
+                </div>
+                 <div style="margin-bottom: 15px;">
+                     <label>Categories:</label>
+                     <div id="editCategoriesContainer" class="edit-categories">
+                         <!-- Checkboxes will be populated by JS -->
+                         <p style="color: var(--description-color);">Loading categories...</p>
+                     </div>
+                 </div>
+                 <div style="margin-bottom: 20px;">
+                     <label>Player Count:</label>
+                     <div id="editPlayerOptions" class="edit-player-options">
+                         <label><input type="radio" name="players" value="1"> 1 Player</label>
+                         <label><input type="radio" name="players" value="2"> 2 Players</label>
+                         <label><input type="radio" name="players" value="Multi"> Multiplayer</label>
+                     </div>
+                 </div>
+
+            </form>
+        </div>
+        <div class="settings-actions">
+            <button type="button" id="cancelEditGame" class="settings-button" style="background-color: var(--button-bg); color: var(--secondary-blue);">Cancel</button>
+            <button type="button" id="saveGameChanges" class="settings-button">Save Changes</button>
+        </div>
+    </div>
+    <!-- ============================ -->
 
     <!-- Transition Overlay -->
     <div id="transitionOverlay" class="transition-overlay"></div>
@@ -1622,7 +1933,28 @@
             const statGamesWithErrors = document.getElementById('stat-games-with-errors');
             const statTotalSubmissions = document.getElementById('stat-total-submissions');
             const categoryChartCanvas = document.getElementById('categoryChartCanvas');
+             // Admin Game Manager Elements
+            const gameManagerTableBody = document.getElementById('game-manager-table-body');
+            const gameManagerStatus = document.getElementById('game-manager-status');
+            const editGameOverlay = document.getElementById('editGameOverlay');
+            const editGameModal = document.getElementById('editGameModal');
+            const closeEditGameModal = document.getElementById('closeEditGameModal');
+            const editGameForm = document.getElementById('editGameForm');
+            const editGameIdInput = document.getElementById('editGameId');
+            const editTitleInput = document.getElementById('editTitle');
+            const editCreatorInput = document.getElementById('editCreator');
+            const editUrlInput = document.getElementById('editUrl');
+            const editIconUrlInput = document.getElementById('editIconUrl');
+            const editIconPreviewContainer = document.getElementById('editIconPreview');
+            const editCategoriesContainer = document.getElementById('editCategoriesContainer');
+            const editPlayerOptionsContainer = document.getElementById('editPlayerOptions');
+            const cancelEditGameBtn = document.getElementById('cancelEditGame');
+            const saveGameChangesBtn = document.getElementById('saveGameChanges');
 
+
+             // --- Game Data Storage ---
+             let adminGamesData = []; // Holds parsed game data for admin panel
+             let availableCategories = []; // Holds all unique categories found
 
              // --- Finder State Variables ---
              let selectedPlayerCount = null;
@@ -1632,11 +1964,11 @@
              let categoryChartInstance = null; // To hold the chart object
 
 
-            // --- Verify Crucial Elements (Add new dashboard elements) ---
-             if (!homeButton || !launchButton || !gameIconsContainer || !gamePlayerSection || !helpSection || !suggestionsSection || !adminSection || !fullscreenButton || !backButton || !transitionOverlay || !homeContent || !gameSection || !sortDropdown || !categoryFiltersContainer || !settingsButton || !helpButton || !suggestionsButton || !adminButton || !settingsOverlay || !settingsPopup || !closeSettingsButton || !tabCloakOptionsContainer || !applyCloakButton || !resetCloakButton || !originalTitleElement || !originalFaviconElement || !requestGameBtn || !reportIssueBtn || !supportFormOverlay || !supportFormPopup || !closeSupportFormBtn || !supportForm || !supportFormTitle || !supportType || !supportTopic || !supportMessage || !submitSupportButton || !supportMessageStatus || !gameRequestFields || !topicLabel || !detailsLabel || !gameUrlInput || !iconUrlInput || !gameUrlPreview || !iconUrlPreview || !playerCountStep || !categorySelectStep || !resultsStep || !finderCategoriesContainer || !playerCountOptionsContainer || !finderResultsContainer || !finderNoResults || !restartFinderBtn || !testAllGamesBtn || !gameTestResultsDiv || !searchInput || !adminDashboard || !statTotalGames || !statTotalCategories || !statGamesWithErrors || !statTotalSubmissions || !categoryChartCanvas ) {
-                 console.error("CRITICAL STARTUP ERROR: Cannot find essential page structure elements (including dashboard). Verify IDs in HTML.");
-                 alert("Critical page element missing. Site may not function correctly. Check console (F12).");
-                 return;
+            // --- Verify Crucial Elements (Add new manager/modal elements) ---
+            if (!homeButton || !launchButton || !gameIconsContainer || !gamePlayerSection || !helpSection || !suggestionsSection || !adminSection || !fullscreenButton || !backButton || !transitionOverlay || !homeContent || !gameSection || !sortDropdown || !categoryFiltersContainer || !settingsButton || !helpButton || !suggestionsButton || !adminButton || !settingsOverlay || !settingsPopup || !closeSettingsButton || !tabCloakOptionsContainer || !applyCloakButton || !resetCloakButton || !originalTitleElement || !originalFaviconElement || !requestGameBtn || !reportIssueBtn || !supportFormOverlay || !supportFormPopup || !closeSupportFormBtn || !supportForm || !supportFormTitle || !supportType || !supportTopic || !supportMessage || !submitSupportButton || !supportMessageStatus || !gameRequestFields || !topicLabel || !detailsLabel || !gameUrlInput || !iconUrlInput || !gameUrlPreview || !iconUrlPreview || !playerCountStep || !categorySelectStep || !resultsStep || !finderCategoriesContainer || !playerCountOptionsContainer || !finderResultsContainer || !finderNoResults || !restartFinderBtn || !testAllGamesBtn || !gameTestResultsDiv || !searchInput || !adminDashboard || !statTotalGames || !statTotalCategories || !statGamesWithErrors || !statTotalSubmissions || !categoryChartCanvas || !gameManagerTableBody || !gameManagerStatus || !editGameOverlay || !editGameModal || !closeEditGameModal || !editGameForm || !editGameIdInput || !editTitleInput || !editCreatorInput || !editUrlInput || !editIconUrlInput || !editIconPreviewContainer || !editCategoriesContainer || !editPlayerOptionsContainer || !cancelEditGameBtn || !saveGameChangesBtn) {
+                console.error("CRITICAL STARTUP ERROR: Cannot find essential page structure elements (including dashboard/manager/modal). Verify IDs in HTML.");
+                alert("Critical page element missing. Site may not function correctly. Check console (F12).");
+                return;
              }
             console.log("Static element references verified.");
 
@@ -1857,9 +2189,9 @@
                      const gameCreator = gameLink.dataset.gameCreator || 'Unknown';
                      const iconSrc = gameLink.querySelector('img')?.src || '';
                       const categories = Array.from(gameLink.classList).filter(c =>
-                          !['game-link', 'New'].includes(c) // Exclude base and temporary classes
-                          && !c.startsWith('data-') // Exclude data attributes potentially added as classes somewhere
-                          && !/^\d+$/.test(c) &&                  // Exclude simple numbers (like player counts if used as class)
+                          !['game-link', 'New'].includes(c) && // Exclude base/temp classes
+                          !c.startsWith('data-') &&             // Exclude data attributes
+                          !/^\d+$/.test(c) &&                  // Exclude simple numbers (like player counts if used as class)
                           c !== 'Multi' &&                      // Exclude specific player keywords
                           c !== '1' && c !== '2'                // Exclude player numbers if used as classes
                       );
@@ -1952,14 +2284,16 @@
                  console.log(`Search for "${searchTerm}" finished, visible: ${visibleCount}`);
             }
 
-            // ===== NEW: Update Admin Dashboard Function =====
+            // ===== Update Admin Dashboard Function =====
             function updateAdminDashboard() {
                 if (!adminSection.classList.contains('active')) return; // Only update if visible
                 console.log("Updating Admin Dashboard...");
 
                 // --- Calculate Stats ---
-                const totalGames = gameIconsContainer.querySelectorAll('a.game-link').length;
-                const totalCategories = categoryFiltersContainer.querySelectorAll('.category-button:not([data-filter="All"]):not([data-filter="New"])').length;
+                const totalGames = adminGamesData.length; // Use parsed data length
+                // Recalculate total categories based on availableCategories array
+                availableCategories = [...new Set(adminGamesData.flatMap(game => game.categories))]; // Get unique categories from current data
+                const totalCategoriesCount = availableCategories.length;
 
                 // Games with Errors (Check if results are visible and contain errors)
                 let gamesWithErrors = '--';
@@ -1969,10 +2303,14 @@
                     gamesWithErrors = 0; // Test ran, no errors found
                  }
 
-
                 // --- Fetch Total Submissions Count ---
                 const SCRIPT_COUNT_URL = 'https://script.google.com/macros/s/AKfycbz-oAR3GGVgCkzbpe5rLXq_U4c_eVx2n5W1Ih-lN0fF5fwE11fubZ3R2OGgBcVvQeR7vw/exec'; // <<< YOUR URL INSERTED HERE
-                let totalSubmissions = 'Loading...'; // Initial placeholder
+                let submissionStatValue = statTotalSubmissions.textContent; // Keep current value unless fetch changes it
+                if (submissionStatValue === '--' || submissionStatValue === 'N/A') { // Only show loading if not already loaded/error
+                     submissionStatValue = 'Loading...';
+                     statTotalSubmissions.textContent = submissionStatValue;
+                }
+
 
                 if (SCRIPT_COUNT_URL && !SCRIPT_COUNT_URL.includes('PASTE_YOUR')) {
                     fetch(SCRIPT_COUNT_URL + '?action=count') // Append a query param to ensure GET
@@ -1985,56 +2323,46 @@
                         .then(data => {
                             console.log("Submission count data:", data);
                             if (data.result === 'success' && typeof data.count !== 'undefined') {
-                                totalSubmissions = data.count;
+                                submissionStatValue = data.count; // Update the variable
                             } else {
                                 console.error("Error getting submission count:", data.message || 'Invalid response format');
-                                totalSubmissions = 'Error';
+                                submissionStatValue = 'Error';
                             }
                             // Update DOM *after* fetch completes
-                            statTotalSubmissions.textContent = totalSubmissions;
+                            statTotalSubmissions.textContent = submissionStatValue;
                             // If you have a 'small' tag associated, you might want to hide/remove it on success
                             const submissionsSmallText = statTotalSubmissions.closest('.stat-item')?.querySelector('small');
-                            if (submissionsSmallText && totalSubmissions !== 'Error' && totalSubmissions !== 'Loading...') {
+                            if (submissionsSmallText && submissionStatValue !== 'Error' && submissionStatValue !== 'Loading...') {
                                 submissionsSmallText.style.display = 'none'; // Hide the "(Requires Backend)" text
                             }
 
                         })
                         .catch(error => {
                             console.error('Error fetching submission count:', error);
-                            totalSubmissions = 'Error';
+                            submissionStatValue = 'Error';
                             // Update DOM *after* fetch error
-                            statTotalSubmissions.textContent = totalSubmissions;
+                            statTotalSubmissions.textContent = submissionStatValue;
                         });
                 } else {
-                    console.warn("Submission Count URL is not configured.");
-                    totalSubmissions = 'N/A'; // Keep as N/A if URL not set
-                    statTotalSubmissions.textContent = totalSubmissions; // Update DOM immediately if URL is missing
+                     console.warn("Submission Count URL is not configured.");
+                     submissionStatValue = 'N/A'; // Keep as N/A if URL not set
+                     statTotalSubmissions.textContent = submissionStatValue; // Update DOM immediately if URL is missing
+                      const submissionsSmallText = statTotalSubmissions.closest('.stat-item')?.querySelector('small');
+                      if (submissionsSmallText) submissionsSmallText.style.display = 'inline'; // Ensure small text shows if URL missing
                 }
                 // -------------------------------------
 
                 // --- Update Stat Display (for stats NOT fetched async) ---
                 statTotalGames.textContent = totalGames;
-                statTotalCategories.textContent = totalCategories;
+                statTotalCategories.textContent = totalCategoriesCount;
                 statGamesWithErrors.textContent = gamesWithErrors;
-                statTotalSubmissions.textContent = totalSubmissions; // Set initial 'Loading...' or 'N/A'
-                // Note: The actual count for submissions will be updated inside the .then() of the fetch
+                // statTotalSubmissions is updated above and async inside fetch
 
-                // --- Prepare Chart Data ---
+                // --- Prepare Chart Data (using parsed adminGamesData) ---
                 const categoryCounts = {};
-                const gameLinks = gameIconsContainer.querySelectorAll('a.game-link');
-
-                gameLinks.forEach(link => {
-                    const categories = Array.from(link.classList).filter(c =>
-                        !['game-link', 'New'].includes(c) && // Exclude base/temp classes
-                        !c.startsWith('data-') &&             // Exclude data attributes
-                        !/^\d+$/.test(c) &&                  // Exclude simple numbers (like player counts if used as class)
-                        c !== 'Multi' &&                      // Exclude specific player keywords
-                        c !== '1' && c !== '2'                // Exclude player numbers if used as classes
-                    );
-                    categories.forEach(cat => {
-                         if (cat) { // Ensure category is not empty string
-                            categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-                         }
+                adminGamesData.forEach(game => {
+                    game.categories.forEach(cat => {
+                        if (cat) { categoryCounts[cat] = (categoryCounts[cat] || 0) + 1; }
                     });
                 });
 
@@ -2096,7 +2424,6 @@
                                         },
                                         title: {
                                             display: false, // Title is already in the container H3
-                                            // text: 'Games per Category'
                                         },
                                         tooltip: {
                                             backgroundColor: 'rgba(10, 15, 26, 0.9)',
@@ -2110,7 +2437,6 @@
                             });
                         } catch(error) {
                             console.error("Error creating chart:", error);
-                             // Optional: Display error message to user on canvas
                              ctx.clearRect(0, 0, categoryChartCanvas.width, categoryChartCanvas.height);
                              ctx.fillStyle = 'rgba(224, 224, 224, 0.5)';
                              ctx.textAlign = 'center';
@@ -2118,7 +2444,6 @@
                         }
                     } else {
                          console.log("No category data to create chart.");
-                         // Optional: Display a message on the canvas if no data
                          ctx.clearRect(0, 0, categoryChartCanvas.width, categoryChartCanvas.height);
                          ctx.fillStyle = 'rgba(224, 224, 224, 0.5)';
                          ctx.textAlign = 'center';
@@ -2130,8 +2455,208 @@
                  console.log("Admin Dashboard update complete.");
             } // ===== End updateAdminDashboard Function =====
 
+             // --- Game Manager Functions ---
+             function parseGamesFromDOM() {
+                console.log("Parsing games from DOM for admin manager...");
+                adminGamesData = []; // Clear existing data
+                availableCategories = []; // Clear existing categories
+                const gameLinks = gameIconsContainer.querySelectorAll('a.game-link');
+                const uniqueCategories = new Set();
 
-             // --- Event Listeners ---
+                gameLinks.forEach((link, index) => {
+                    const categories = Array.from(link.classList).filter(c =>
+                        !['game-link', 'New'].includes(c) && // Exclude base/temp classes
+                        !c.startsWith('data-') &&             // Exclude data attributes
+                        !/^\d+$/.test(c) &&                  // Exclude simple numbers
+                        c !== 'Multi' &&                      // Exclude specific player keywords
+                        c !== '1' && c !== '2'                // Exclude player numbers
+                    );
+                    categories.forEach(cat => uniqueCategories.add(cat)); // Collect unique categories
+
+                    adminGamesData.push({
+                        id: index, // Use index as a temporary unique ID
+                        title: getGameTitle(link),
+                        creator: link.dataset.gameCreator || '',
+                        url: link.dataset.gameUrl || '',
+                        iconUrl: link.querySelector('img')?.src || '',
+                        categories: categories,
+                        players: link.dataset.players || '1' // Default to '1' if missing
+                    });
+                });
+                availableCategories = Array.from(uniqueCategories).sort(); // Store sorted unique categories
+                console.log(`Parsed ${adminGamesData.length} games. Found categories:`, availableCategories);
+             }
+
+             function renderAdminGameTable() {
+                console.log("Rendering admin game table...");
+                if (!gameManagerTableBody) return;
+                gameManagerTableBody.innerHTML = ''; // Clear existing rows
+
+                if (adminGamesData.length === 0) {
+                    gameManagerTableBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px;">No game data found or parsed.</td></tr>';
+                    return;
+                }
+
+                adminGamesData.forEach(game => {
+                    const row = gameManagerTableBody.insertRow();
+                    row.dataset.gameId = game.id; // Store game ID on the row
+
+                    // Icon
+                    const iconCell = row.insertCell();
+                    iconCell.className = 'game-icon-cell';
+                    iconCell.innerHTML = `<img src="${game.iconUrl}" alt="Icon" loading="lazy" onerror="this.style.display='none'">`;
+
+                    // Title
+                    row.insertCell().textContent = game.title;
+
+                    // Creator
+                    row.insertCell().textContent = game.creator;
+
+                    // Categories
+                    const catCell = row.insertCell();
+                    catCell.className = 'game-categories-cell';
+                    catCell.innerHTML = game.categories.map(cat => `<span>${cat}</span>`).join('');
+
+                    // Players
+                    const playerCell = row.insertCell();
+                    playerCell.className = 'game-players-cell'; // Added class for potential styling/hiding
+                    playerCell.textContent = game.players === 'Multi' ? 'Multi' : `${game.players}P`;
+
+
+                    // URL
+                    const urlCell = row.insertCell();
+                    urlCell.className = 'game-url-cell';
+                    urlCell.innerHTML = `<a href="${game.url}" target="_blank" title="${game.url}">${game.url}</a>`;
+
+                    // Actions
+                    const actionsCell = row.insertCell();
+                    actionsCell.className = 'actions-cell';
+                    actionsCell.innerHTML = `
+                        <button class="edit-btn" title="Edit Game"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="delete-btn" title="Delete Game"><i class="fas fa-trash-alt"></i></button>
+                    `;
+                });
+                console.log(`Rendered ${adminGamesData.length} games into admin table.`);
+             }
+
+             function openEditGameModal(gameId) {
+                 const gameData = adminGamesData.find(g => g.id === parseInt(gameId));
+                 if (!gameData) {
+                     console.error("Game data not found for ID:", gameId);
+                     alert("Error: Could not find game data to edit.");
+                     return;
+                 }
+                 console.log("Opening edit modal for game:", gameData.title);
+
+                 // Populate form
+                 editGameIdInput.value = gameData.id;
+                 editTitleInput.value = gameData.title;
+                 editCreatorInput.value = gameData.creator;
+                 editUrlInput.value = gameData.url;
+                 editIconUrlInput.value = gameData.iconUrl;
+
+                 // Populate categories checkboxes
+                 editCategoriesContainer.innerHTML = ''; // Clear old checkboxes
+                 availableCategories.forEach(cat => {
+                     const isChecked = gameData.categories.includes(cat);
+                     const label = document.createElement('label');
+                     const checkbox = document.createElement('input');
+                     checkbox.type = 'checkbox';
+                     checkbox.value = cat;
+                     checkbox.checked = isChecked;
+                     label.appendChild(checkbox);
+                     label.appendChild(document.createTextNode(` ${cat}`));
+                     editCategoriesContainer.appendChild(label);
+                 });
+
+                  // Populate player count radio buttons
+                  const playerRadios = editPlayerOptionsContainer.querySelectorAll('input[name="players"]');
+                  playerRadios.forEach(radio => {
+                      radio.checked = (radio.value === gameData.players);
+                  });
+
+                  // Show icon preview
+                  const previewImg = editIconPreviewContainer.querySelector('img');
+                  previewImg.src = gameData.iconUrl || ''; // Set src, will trigger onerror/onload naturally
+
+
+                 // Show modal
+                 editGameOverlay.classList.add('visible');
+                 editGameModal.classList.add('visible');
+             }
+
+             function closeEditGameModal() {
+                 editGameOverlay.classList.remove('visible');
+                 editGameModal.classList.remove('visible');
+                 editGameForm.reset(); // Reset form fields
+                 const previewImg = editIconPreviewContainer.querySelector('img');
+                 previewImg.src = ''; // Clear preview
+                 editGameIdInput.value = ''; // Clear hidden ID
+             }
+
+            function saveGameEdit() {
+                 const gameId = parseInt(editGameIdInput.value);
+                 const gameIndex = adminGamesData.findIndex(g => g.id === gameId);
+
+                 if (gameIndex === -1) {
+                     console.error("Cannot save, game index not found for ID:", gameId);
+                     alert("Error saving changes: Game not found.");
+                     return;
+                 }
+
+                 // Get updated categories
+                 const selectedCategories = [];
+                 editCategoriesContainer.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                     selectedCategories.push(checkbox.value);
+                 });
+
+                  // Get updated player count
+                  const selectedPlayerRadio = editPlayerOptionsContainer.querySelector('input[name="players"]:checked');
+                  const updatedPlayers = selectedPlayerRadio ? selectedPlayerRadio.value : '1'; // Default to '1' if none selected
+
+                 // Update the game data in the JS array
+                 adminGamesData[gameIndex] = {
+                     ...adminGamesData[gameIndex], // Keep existing id
+                     title: editTitleInput.value.trim(),
+                     creator: editCreatorInput.value.trim(),
+                     url: editUrlInput.value.trim(),
+                     iconUrl: editIconUrlInput.value.trim(),
+                     categories: selectedCategories,
+                     players: updatedPlayers
+                 };
+
+                 console.log("Updated game data (client-side):", adminGamesData[gameIndex]);
+                 alert(`Game "${adminGamesData[gameIndex].title}" updated (session only).`);
+
+                 // Re-render the table and update dashboard stats
+                 renderAdminGameTable();
+                 updateAdminDashboard();
+                 closeEditGameModal();
+                 // **Reminder:** Need to implement actual saving (to file/backend) here later.
+            }
+
+            function deleteGame(gameId) {
+                 const gameIndex = adminGamesData.findIndex(g => g.id === parseInt(gameId));
+                 if (gameIndex === -1) {
+                     console.error("Cannot delete, game index not found for ID:", gameId);
+                     alert("Error deleting game: Game not found.");
+                     return;
+                 }
+
+                 const gameTitle = adminGamesData[gameIndex].title;
+                 if (confirm(`Are you sure you want to delete "${gameTitle}"? This is temporary for this session.`)) {
+                     adminGamesData.splice(gameIndex, 1); // Remove game from array
+                     console.log(`Deleted game "${gameTitle}" (client-side)`);
+                     alert(`Game "${gameTitle}" deleted (session only).`);
+
+                     // Re-render table and update dashboard
+                     renderAdminGameTable();
+                     updateAdminDashboard();
+                     // **Reminder:** Need to implement actual deletion (from file/backend) here later.
+                 }
+            }
+
+            // --- Event Listeners ---
              if(launchButton) { launchButton.addEventListener('click', () => { const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { /* Optional cleanup if needed */ } showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All'); }); console.log("Launch Button listener attached."); }
              if (homeButton) { homeButton.addEventListener('click', () => { console.log("Home clicked."); const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') ) { console.log("   Cleaning player/state before going home"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } if(homeContent) showView('home-content'); }); console.log("Home button listener attached."); }
             // Suggestions Button (NOW triggers the finder steps)
@@ -2141,7 +2666,9 @@
              // Admin Button Listener
              if (adminButton) { adminButton.addEventListener('click', () => { if (googleUser && googleUser.email === ADMIN_EMAIL) { console.log("Admin button clicked."); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active')) { const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); console.log("   Cleaning player/state before showing admin panel"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } }
                  showView('admin-section');
-                 updateAdminDashboard(); // <<< CALL DASHBOARD UPDATE HERE
+                 parseGamesFromDOM(); // <<< Parse games when admin panel opens
+                 renderAdminGameTable(); // <<< Render table
+                 updateAdminDashboard(); // <<< Update dashboard stats & chart
              } else { console.warn("Non-admin tried to access admin panel via button click?"); adminButton.style.display = 'none'; } }); console.log("Admin button listener attached."); }
              // Game Section Specific Filters
              if (categoryFiltersContainer) { categoryFiltersContainer.addEventListener('click', (event) => { if (event.target.classList.contains('category-button')) { const filterValue = event.target.dataset.filter; categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); event.target.classList.add('active-category'); filterGames(filterValue); } }); console.log("Category filter listener attached."); }
@@ -2154,7 +2681,7 @@
              if (settingsButton) { settingsButton.addEventListener('click', openSettingsPopup); console.log("Settings button listener attached."); }
              if (closeSettingsButton) { closeSettingsButton.addEventListener('click', closeSettingsPopup); console.log("Close Settings button listener attached."); }
              if (settingsOverlay) { settingsOverlay.addEventListener('click', closeSettingsPopup); console.log("Settings overlay listener attached."); }
-             if (settingsPopup) { settingsPopup.addEventListener('click', (event) => { event.stopPropagation(); }); }
+             if (settingsPopup) { settingsPopup.addEventListener('click', (event) => { event.stopPropagation(); }); } // Prevent closing when clicking inside popup
              if (applyCloakButton) { applyCloakButton.addEventListener('click', () => { const selectedRadio = tabCloakOptionsContainer.querySelector('input[name="tab-cloak"]:checked'); if (selectedRadio) { const title = selectedRadio.dataset.title; const favicon = selectedRadio.dataset.favicon; setTabCloak(title, favicon); closeSettingsPopup(); } else { console.warn("Apply Cloak: No option selected."); } }); console.log("Apply Cloak button listener attached."); }
              if (resetCloakButton) { resetCloakButton.addEventListener('click', () => { resetTabCloak(); }); console.log("Reset Cloak button listener attached."); }
 
@@ -2165,7 +2692,7 @@
              // --- Attach Listeners for Closing Support Form ---
              if (closeSupportFormBtn) { closeSupportFormBtn.addEventListener('click', closeSupportFormPopup); console.log("Close Support Form button listener attached."); }
              if (supportFormOverlay) { supportFormOverlay.addEventListener('click', closeSupportFormPopup); console.log("Support Form overlay listener attached."); }
-             if (supportFormPopup) { supportFormPopup.addEventListener('click', (event) => { event.stopPropagation(); }); }
+             if (supportFormPopup) { supportFormPopup.addEventListener('click', (event) => { event.stopPropagation(); }); } // Prevent closing when clicking inside popup
 
             // --- URL Preview Listeners ---
             if (gameUrlInput && gameUrlPreview) {
@@ -2185,7 +2712,6 @@
                 });
                  console.log("Game URL preview listener attached.");
             }
-
             if (iconUrlInput && iconUrlPreview) {
                 iconUrlInput.addEventListener('input', () => {
                      const url = iconUrlInput.value.trim();
@@ -2202,6 +2728,21 @@
                 });
                  console.log("Icon URL preview listener attached.");
             }
+             // Add listener for Edit Icon URL Preview
+             if (editIconUrlInput && editIconPreviewContainer) {
+                 editIconUrlInput.addEventListener('input', () => {
+                     const url = editIconUrlInput.value.trim();
+                     const previewImg = editIconPreviewContainer.querySelector('img');
+                     if (url && (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:image'))) {
+                         console.log("Attempting to preview edit icon URL:", url);
+                         previewImg.src = url;
+                         previewImg.onerror = () => { previewImg.src = ''; }; // Clear on error
+                     } else {
+                         previewImg.src = ''; // Clear preview
+                     }
+                 });
+                 console.log("Edit Icon URL preview listener attached.");
+             }
 
             // --- Finder Event Listeners ---
              if (playerCountOptionsContainer) {
@@ -2339,7 +2880,7 @@
             }
 
 
-             // --- Admin Button Test Games Listener (Optimized with Parallel Requests) ---
+             // --- Admin Button Test Games Listener ---
             if (testAllGamesBtn && gameTestResultsDiv) {
                 testAllGamesBtn.addEventListener('click', async () => {
                     console.log("Starting parallel game link test...");
@@ -2347,30 +2888,30 @@
                     gameTestResultsDiv.style.display = 'block';
                     testAllGamesBtn.disabled = true;
 
-                    const gameLinks = Array.from(gameIconsContainer.querySelectorAll('a.game-link')); // Convert NodeList to Array
+                    // Use the data already parsed for the manager if available
+                    const gamesToTest = adminGamesData.length > 0 ? adminGamesData : parseGamesFromDOM(); // Fallback if admin panel wasn't opened first
+                    if (!gamesToTest || gamesToTest.length === 0) {
+                         gameTestResultsDiv.innerHTML = '<b>Error:</b> No games found to test.';
+                         testAllGamesBtn.disabled = false;
+                         return;
+                    }
+
                     let promises = [];
-                    let gameData = []; // Store info to match results later
+                    let gameDataForTest = []; // Store info to match results later
 
                     // 1. Create all fetch promises
-                    gameLinks.forEach(link => {
-                        const url = link.dataset.gameUrl;
-                        const title = getGameTitle(link);
-                        gameData.push({ title: title, url: url }); // Store data for later reference
+                    gamesToTest.forEach(game => {
+                        const url = game.url;
+                        const title = game.title;
+                        gameDataForTest.push({ title: title, url: url }); // Store data
 
                         if (!url) {
-                            // Create a promise that immediately rejects for missing URLs
                             promises.push(Promise.reject({ reason: 'Missing URL' }));
                         } else {
-                            // Create the fetch promise
                             const fetchPromise = fetch(url, { method: 'HEAD', mode: 'no-cors' })
-                                .then(response => {
-                                    // With no-cors, we can't read status, assume OK if fetch itself didn't throw
-                                    return { status: 'fulfilled' }; // Simulate fulfilled status
-                                })
+                                .then(response => ({ status: 'fulfilled' }))
                                 .catch(error => {
-                                    // Network error or potentially CORS preflight failure
                                     console.warn(`Test Error: ${title} - ${url}`, error);
-                                    // Simulate rejected status with a reason
                                     throw new Error('Network Error/CORS?');
                                 });
                             promises.push(fetchPromise);
@@ -2379,7 +2920,7 @@
 
                     console.log(`Created ${promises.length} test promises.`);
 
-                    // 2. Wait for all promises to settle (succeed or fail)
+                    // 2. Wait for all promises to settle
                     const results = await Promise.allSettled(promises);
                     console.log("All promises settled.");
 
@@ -2389,14 +2930,13 @@
                     let errorCount = 0;
 
                     results.forEach((result, index) => {
-                        const title = gameData[index].title; // Get title using index
+                        const title = gameDataForTest[index].title; // Get title using index
                         let statusHTML = '';
 
                         if (result.status === 'fulfilled') {
                             statusHTML = '<span class="status-ok">OK (Network)</span>';
                             successCount++;
                         } else {
-                            // result.reason will contain the Error object or our custom object
                             const reason = result.reason?.message || result.reason?.reason || 'Unknown Error';
                             statusHTML = `<span class="status-error">${reason}</span>`;
                             errorCount++;
@@ -2410,6 +2950,54 @@
                     console.log("Game link test finished.");
                 });
                 console.log("Test All Games button listener attached.");
+            }
+
+            // --- Game Manager Edit/Delete Listeners (Event Delegation) ---
+            if (gameManagerTableBody) {
+                 gameManagerTableBody.addEventListener('click', (event) => {
+                     const editButton = event.target.closest('.edit-btn');
+                     const deleteButton = event.target.closest('.delete-btn');
+
+                     if (editButton) {
+                         const row = editButton.closest('tr');
+                         const gameId = row?.dataset.gameId;
+                         if (gameId !== undefined) {
+                             openEditGameModal(gameId);
+                         } else {
+                             console.error("Could not find game ID for edit button.");
+                         }
+                     } else if (deleteButton) {
+                         const row = deleteButton.closest('tr');
+                         const gameId = row?.dataset.gameId;
+                         if (gameId !== undefined) {
+                             deleteGame(gameId);
+                         } else {
+                             console.error("Could not find game ID for delete button.");
+                         }
+                     }
+                 });
+                 console.log("Game Manager action listeners attached.");
+            }
+
+            // --- Edit Game Modal Button Listeners ---
+            if (closeEditGameModal) {
+                 closeEditGameModal.addEventListener('click', closeEditGameModal);
+                 console.log("Close Edit Modal button listener attached.");
+            }
+            if (editGameOverlay) {
+                 editGameOverlay.addEventListener('click', closeEditGameModal);
+                 console.log("Edit Modal overlay listener attached.");
+            }
+             if (editGameModal) {
+                 editGameModal.addEventListener('click', (event) => event.stopPropagation()); // Prevent closing by clicking inside
+             }
+            if (cancelEditGameBtn) {
+                 cancelEditGameBtn.addEventListener('click', closeEditGameModal);
+                 console.log("Cancel Edit button listener attached.");
+            }
+            if (saveGameChangesBtn) {
+                 saveGameChangesBtn.addEventListener('click', saveGameEdit);
+                 console.log("Save Changes button listener attached.");
             }
 
 
@@ -2428,4 +3016,3 @@
 
 </body>
 </html>
-```
