@@ -986,7 +986,7 @@
             overflow-y: auto;
             border: 1px solid var(--icon-border);
             border-radius: 5px;
-            /* Custom Scrollbar for table container */
+             /* Custom Scrollbar for table container */
             scrollbar-width: thin;
             scrollbar-color: var(--secondary-blue) var(--icon-bg);
         }
@@ -1086,27 +1086,27 @@
 
         /* Edit Game Modal Styles */
         #editGameModal {
-            max-width: 600px; /* Wider modal for form */
-            z-index: 6010; /* Above its overlay */
+             max-width: 600px; /* Wider modal for form */
+             z-index: 6010; /* Above its overlay */
         }
         #editGameOverlay {
             z-index: 6005; /* Below modal */
         }
 
         #editGameForm label {
-            display: block; margin-bottom: 5px; font-weight: 600;
-            color: var(--secondary-blue); font-size: 0.9rem;
+             display: block; margin-bottom: 5px; font-weight: 600;
+             color: var(--secondary-blue); font-size: 0.9rem;
         }
         #editGameForm input[type="text"],
         #editGameForm input[type="url"] {
-            width: 100%; padding: 8px 10px; background-color: var(--button-bg);
-            border: 1px solid var(--box-border); border-radius: 5px;
-            color: var(--text-color); font-family: 'Rajdhani', sans-serif; font-size: 0.9rem;
+             width: 100%; padding: 8px 10px; background-color: var(--button-bg);
+             border: 1px solid var(--box-border); border-radius: 5px;
+             color: var(--text-color); font-family: 'Rajdhani', sans-serif; font-size: 0.9rem;
         }
         #editGameForm input[type="text"]:focus,
         #editGameForm input[type="url"]:focus {
-            outline: none; border-color: var(--accent-color);
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+             outline: none; border-color: var(--accent-color);
+             box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
         #editIconPreview img { display: none; } /* Hide preview img initially */
@@ -1120,7 +1120,7 @@
             border-radius: 5px;
             padding: 10px;
             background-color: rgba(0,0,0,0.2);
-            /* Custom Scrollbar */
+             /* Custom Scrollbar */
             scrollbar-width: thin;
             scrollbar-color: var(--secondary-blue) var(--icon-bg);
         }
@@ -1212,7 +1212,7 @@
         /* --- Responsive Adjustments --- */
          @media (max-width: 1100px) {
              .info-box { flex-basis: 45%; min-width: 220px; }
-             #admin-game-manager { max-width: 95%; } /* Allow manager to be wider */
+             #admin-game-manager, #admin-dashboard { max-width: 95%; } /* Allow manager/dashboard to be wider */
          }
          @media (max-width: 900px) {
             #admin-dashboard {
@@ -1266,6 +1266,8 @@
              #game-manager-table th:nth-child(6) { display: none; } /* Hide URL */
              #game-manager-table .game-categories-cell,
              #game-manager-table th:nth-child(4) { max-width: 100px; } /* Reduce category width */
+             #game-manager-table .game-players-cell,
+             #game-manager-table th:nth-child(5) { display: none; } /* Hide Players */
          }
          @media (max-width: 480px) {
             :root { --header-height: 45px; --footer-height: 45px;} /* Slightly reduce heights */
@@ -1565,7 +1567,7 @@
             </div>
             <!-- ============================== -->
 
-            <!-- ===== NEW: Game Manager ===== -->
+            <!-- ===== Game Manager ===== -->
             <div id="admin-game-manager">
                 <h3>Game Management</h3>
                 <div id="game-manager-controls" style="margin-bottom: 15px;">
@@ -1585,7 +1587,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="game-manager-table-body"> <!-- Added ID for easier targeting -->
+                        <tbody id="game-manager-table-body"> <!-- Added ID -->
                             <!-- Game rows will be populated by JS -->
                             <tr><td colspan="7" style="text-align:center; padding: 20px;">Loading games...</td></tr>
                         </tbody>
@@ -1733,6 +1735,7 @@
         </div>
     </div>
     <!-- ============================ -->
+
 
     <!-- Transition Overlay -->
     <div id="transitionOverlay" class="transition-overlay"></div>
@@ -1965,10 +1968,10 @@
 
 
             // --- Verify Crucial Elements (Add new manager/modal elements) ---
-            if (!homeButton || !launchButton || !gameIconsContainer || !gamePlayerSection || !helpSection || !suggestionsSection || !adminSection || !fullscreenButton || !backButton || !transitionOverlay || !homeContent || !gameSection || !sortDropdown || !categoryFiltersContainer || !settingsButton || !helpButton || !suggestionsButton || !adminButton || !settingsOverlay || !settingsPopup || !closeSettingsButton || !tabCloakOptionsContainer || !applyCloakButton || !resetCloakButton || !originalTitleElement || !originalFaviconElement || !requestGameBtn || !reportIssueBtn || !supportFormOverlay || !supportFormPopup || !closeSupportFormBtn || !supportForm || !supportFormTitle || !supportType || !supportTopic || !supportMessage || !submitSupportButton || !supportMessageStatus || !gameRequestFields || !topicLabel || !detailsLabel || !gameUrlInput || !iconUrlInput || !gameUrlPreview || !iconUrlPreview || !playerCountStep || !categorySelectStep || !resultsStep || !finderCategoriesContainer || !playerCountOptionsContainer || !finderResultsContainer || !finderNoResults || !restartFinderBtn || !testAllGamesBtn || !gameTestResultsDiv || !searchInput || !adminDashboard || !statTotalGames || !statTotalCategories || !statGamesWithErrors || !statTotalSubmissions || !categoryChartCanvas || !gameManagerTableBody || !gameManagerStatus || !editGameOverlay || !editGameModal || !closeEditGameModal || !editGameForm || !editGameIdInput || !editTitleInput || !editCreatorInput || !editUrlInput || !editIconUrlInput || !editIconPreviewContainer || !editCategoriesContainer || !editPlayerOptionsContainer || !cancelEditGameBtn || !saveGameChangesBtn) {
-                console.error("CRITICAL STARTUP ERROR: Cannot find essential page structure elements (including dashboard/manager/modal). Verify IDs in HTML.");
-                alert("Critical page element missing. Site may not function correctly. Check console (F12).");
-                return;
+             if (!homeButton || !launchButton || !gameIconsContainer || !gamePlayerSection || !helpSection || !suggestionsSection || !adminSection || !fullscreenButton || !backButton || !transitionOverlay || !homeContent || !gameSection || !sortDropdown || !categoryFiltersContainer || !settingsButton || !helpButton || !suggestionsButton || !adminButton || !settingsOverlay || !settingsPopup || !closeSettingsButton || !tabCloakOptionsContainer || !applyCloakButton || !resetCloakButton || !originalTitleElement || !originalFaviconElement || !requestGameBtn || !reportIssueBtn || !supportFormOverlay || !supportFormPopup || !closeSupportFormBtn || !supportForm || !supportFormTitle || !supportType || !supportTopic || !supportMessage || !submitSupportButton || !supportMessageStatus || !gameRequestFields || !topicLabel || !detailsLabel || !gameUrlInput || !iconUrlInput || !gameUrlPreview || !iconUrlPreview || !playerCountStep || !categorySelectStep || !resultsStep || !finderCategoriesContainer || !playerCountOptionsContainer || !finderResultsContainer || !finderNoResults || !restartFinderBtn || !testAllGamesBtn || !gameTestResultsDiv || !searchInput || !adminDashboard || !statTotalGames || !statTotalCategories || !statGamesWithErrors || !statTotalSubmissions || !categoryChartCanvas || !gameManagerTableBody || !gameManagerStatus || !editGameOverlay || !editGameModal || !closeEditGameModal || !editGameForm || !editGameIdInput || !editTitleInput || !editCreatorInput || !editUrlInput || !editIconUrlInput || !editIconPreviewContainer || !editCategoriesContainer || !editPlayerOptionsContainer || !cancelEditGameBtn || !saveGameChangesBtn) {
+                 console.error("CRITICAL STARTUP ERROR: Cannot find essential page structure elements (including dashboard/manager/modal). Verify IDs in HTML.");
+                 alert("Critical page element missing. Site may not function correctly. Check console (F12).");
+                 return;
              }
             console.log("Static element references verified.");
 
@@ -2292,7 +2295,10 @@
                 // --- Calculate Stats ---
                 const totalGames = adminGamesData.length; // Use parsed data length
                 // Recalculate total categories based on availableCategories array
-                availableCategories = [...new Set(adminGamesData.flatMap(game => game.categories))]; // Get unique categories from current data
+                // Ensure availableCategories is populated if not already
+                if(availableCategories.length === 0 && adminGamesData.length > 0) {
+                     availableCategories = [...new Set(adminGamesData.flatMap(game => game.categories.filter(cat => cat)))].sort();
+                }
                 const totalCategoriesCount = availableCategories.length;
 
                 // Games with Errors (Check if results are visible and contain errors)
@@ -2306,50 +2312,52 @@
                 // --- Fetch Total Submissions Count ---
                 const SCRIPT_COUNT_URL = 'https://script.google.com/macros/s/AKfycbz-oAR3GGVgCkzbpe5rLXq_U4c_eVx2n5W1Ih-lN0fF5fwE11fubZ3R2OGgBcVvQeR7vw/exec'; // <<< YOUR URL INSERTED HERE
                 let submissionStatValue = statTotalSubmissions.textContent; // Keep current value unless fetch changes it
-                if (submissionStatValue === '--' || submissionStatValue === 'N/A') { // Only show loading if not already loaded/error
+                if (submissionStatValue === '--' || submissionStatValue === 'N/A' || submissionStatValue === 'Error') { // Only show loading if not already loaded/error
                      submissionStatValue = 'Loading...';
                      statTotalSubmissions.textContent = submissionStatValue;
-                }
+                     // Reset small text visibility
+                     const submissionsSmallText = statTotalSubmissions.closest('.stat-item')?.querySelector('small');
+                     if(submissionsSmallText) submissionsSmallText.style.display = 'inline';
 
+                    if (SCRIPT_COUNT_URL && !SCRIPT_COUNT_URL.includes('PASTE_YOUR')) {
+                        fetch(SCRIPT_COUNT_URL + '?action=count') // Append a query param to ensure GET
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log("Submission count data:", data);
+                                if (data.result === 'success' && typeof data.count !== 'undefined') {
+                                    submissionStatValue = data.count; // Update the variable
+                                } else {
+                                    console.error("Error getting submission count:", data.message || 'Invalid response format');
+                                    submissionStatValue = 'Error';
+                                }
+                                // Update DOM *after* fetch completes
+                                statTotalSubmissions.textContent = submissionStatValue;
+                                // If you have a 'small' tag associated, you might want to hide/remove it on success
+                                const submissionsSmallText = statTotalSubmissions.closest('.stat-item')?.querySelector('small');
+                                if (submissionsSmallText && submissionStatValue !== 'Error' && submissionStatValue !== 'Loading...') {
+                                    submissionsSmallText.style.display = 'none'; // Hide the "(Requires Backend)" text
+                                }
 
-                if (SCRIPT_COUNT_URL && !SCRIPT_COUNT_URL.includes('PASTE_YOUR')) {
-                    fetch(SCRIPT_COUNT_URL + '?action=count') // Append a query param to ensure GET
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log("Submission count data:", data);
-                            if (data.result === 'success' && typeof data.count !== 'undefined') {
-                                submissionStatValue = data.count; // Update the variable
-                            } else {
-                                console.error("Error getting submission count:", data.message || 'Invalid response format');
+                            })
+                            .catch(error => {
+                                console.error('Error fetching submission count:', error);
                                 submissionStatValue = 'Error';
-                            }
-                            // Update DOM *after* fetch completes
-                            statTotalSubmissions.textContent = submissionStatValue;
-                            // If you have a 'small' tag associated, you might want to hide/remove it on success
-                            const submissionsSmallText = statTotalSubmissions.closest('.stat-item')?.querySelector('small');
-                            if (submissionsSmallText && submissionStatValue !== 'Error' && submissionStatValue !== 'Loading...') {
-                                submissionsSmallText.style.display = 'none'; // Hide the "(Requires Backend)" text
-                            }
-
-                        })
-                        .catch(error => {
-                            console.error('Error fetching submission count:', error);
-                            submissionStatValue = 'Error';
-                            // Update DOM *after* fetch error
-                            statTotalSubmissions.textContent = submissionStatValue;
-                        });
-                } else {
-                     console.warn("Submission Count URL is not configured.");
-                     submissionStatValue = 'N/A'; // Keep as N/A if URL not set
-                     statTotalSubmissions.textContent = submissionStatValue; // Update DOM immediately if URL is missing
-                      const submissionsSmallText = statTotalSubmissions.closest('.stat-item')?.querySelector('small');
-                      if (submissionsSmallText) submissionsSmallText.style.display = 'inline'; // Ensure small text shows if URL missing
-                }
+                                // Update DOM *after* fetch error
+                                statTotalSubmissions.textContent = submissionStatValue;
+                            });
+                    } else {
+                        console.warn("Submission Count URL is not configured.");
+                        submissionStatValue = 'N/A'; // Keep as N/A if URL not set
+                        statTotalSubmissions.textContent = submissionStatValue; // Update DOM immediately if URL is missing
+                        const submissionsSmallText = statTotalSubmissions.closest('.stat-item')?.querySelector('small');
+                        if (submissionsSmallText) submissionsSmallText.style.display = 'inline'; // Ensure small text shows if URL missing
+                    }
+                } // End if needs loading
                 // -------------------------------------
 
                 // --- Update Stat Display (for stats NOT fetched async) ---
@@ -2471,7 +2479,7 @@
                         c !== 'Multi' &&                      // Exclude specific player keywords
                         c !== '1' && c !== '2'                // Exclude player numbers
                     );
-                    categories.forEach(cat => uniqueCategories.add(cat)); // Collect unique categories
+                    categories.forEach(cat => { if(cat) uniqueCategories.add(cat) }); // Collect unique categories, ignore empty strings
 
                     adminGamesData.push({
                         id: index, // Use index as a temporary unique ID
@@ -2479,12 +2487,13 @@
                         creator: link.dataset.gameCreator || '',
                         url: link.dataset.gameUrl || '',
                         iconUrl: link.querySelector('img')?.src || '',
-                        categories: categories,
+                        categories: categories.filter(cat => cat), // Filter out empty strings here too
                         players: link.dataset.players || '1' // Default to '1' if missing
                     });
                 });
                 availableCategories = Array.from(uniqueCategories).sort(); // Store sorted unique categories
                 console.log(`Parsed ${adminGamesData.length} games. Found categories:`, availableCategories);
+                return adminGamesData; // Return the parsed data
              }
 
              function renderAdminGameTable() {
@@ -2519,7 +2528,7 @@
 
                     // Players
                     const playerCell = row.insertCell();
-                    playerCell.className = 'game-players-cell'; // Added class for potential styling/hiding
+                    playerCell.className = 'game-players-cell'; // Added class
                     playerCell.textContent = game.players === 'Multi' ? 'Multi' : `${game.players}P`;
 
 
@@ -2559,11 +2568,14 @@
                  editCategoriesContainer.innerHTML = ''; // Clear old checkboxes
                  availableCategories.forEach(cat => {
                      const isChecked = gameData.categories.includes(cat);
+                     const checkboxId = `edit-cat-${cat.replace(/\s+/g, '-')}-${gameId}`; // Unique ID
                      const label = document.createElement('label');
+                     label.setAttribute('for', checkboxId);
                      const checkbox = document.createElement('input');
                      checkbox.type = 'checkbox';
                      checkbox.value = cat;
                      checkbox.checked = isChecked;
+                     checkbox.id = checkboxId;
                      label.appendChild(checkbox);
                      label.appendChild(document.createTextNode(` ${cat}`));
                      editCategoriesContainer.appendChild(label);
@@ -2656,7 +2668,8 @@
                  }
             }
 
-            // --- Event Listeners ---
+
+             // --- Event Listeners ---
              if(launchButton) { launchButton.addEventListener('click', () => { const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); const currentHelpView = document.getElementById('help-section'); if (currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') || currentHelpView?.classList.contains('active')) { /* Optional cleanup if needed */ } showView('game-section'); const allButton = categoryFiltersContainer?.querySelector('.category-button[data-filter="All"]'); if (allButton && categoryFiltersContainer) { categoryFiltersContainer.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active-category')); allButton.classList.add('active-category'); } if (sortDropdown) sortDropdown.value = 'az'; filterGames('All'); }); console.log("Launch Button listener attached."); }
              if (homeButton) { homeButton.addEventListener('click', () => { console.log("Home clicked."); const frame = document.getElementById('gameFrame'); const title = document.getElementById('currentGameTitle'); const creator = document.getElementById('currentGameCreator'); const playerView = document.getElementById('game-player-section'); const currentHelpView = document.getElementById('help-section'); const currentSuggestionsView = document.getElementById('suggestions-section'); const currentAdminView = document.getElementById('admin-section'); if (playerView?.classList.contains('active') || currentHelpView?.classList.contains('active') || currentSuggestionsView?.classList.contains('active') || currentAdminView?.classList.contains('active') ) { console.log("   Cleaning player/state before going home"); try { if (frame?.contentWindow?.stop) { frame.contentWindow.stop(); } } catch (e) {} if (frame) frame.src = 'about:blank'; if (title) title.textContent = "Game Title"; if (creator) creator.textContent = "Creator"; if (document.fullscreenElement) { (document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen)?.call(document); } } if(homeContent) showView('home-content'); }); console.log("Home button listener attached."); }
             // Suggestions Button (NOW triggers the finder steps)
@@ -3007,6 +3020,7 @@
              else { console.log("No saved cloak found, using default."); resetTabCloak(); }
 
              // Initial UI update for sign-in is now handled in window.onload
+             // Initial parsing of games for admin panel (will happen on first admin view click)
 
 
             console.log("--- DOMContentLoaded Initial Setup Complete ---");
@@ -3016,4 +3030,3 @@
 
 </body>
 </html>
-```
