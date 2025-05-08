@@ -1941,7 +1941,7 @@
             const gameManagerStatus = document.getElementById('game-manager-status');
             const editGameOverlay = document.getElementById('editGameOverlay');
             const editGameModal = document.getElementById('editGameModal');
-            const closeEditGameModal = document.getElementById('closeEditGameModal');
+            const closeEditGameModal = document.getElementById('closeEditGameModal'); // Element variable
             const editGameForm = document.getElementById('editGameForm');
             const editGameIdInput = document.getElementById('editGameId');
             const editTitleInput = document.getElementById('editTitle');
@@ -2597,7 +2597,8 @@
                  editGameModal.classList.add('visible');
              }
 
-             function closeEditGameModal() {
+             // Renamed function to avoid conflict with element ID variable
+             function handleCloseEditGameModal() {
                  editGameOverlay.classList.remove('visible');
                  editGameModal.classList.remove('visible');
                  editGameForm.reset(); // Reset form fields
@@ -2643,7 +2644,7 @@
                  // Re-render the table and update dashboard stats
                  renderAdminGameTable();
                  updateAdminDashboard();
-                 closeEditGameModal();
+                 handleCloseEditGameModal(); // Use renamed function
                  // **Reminder:** Need to implement actual saving (to file/backend) here later.
             }
 
@@ -2993,19 +2994,19 @@
             }
 
             // --- Edit Game Modal Button Listeners ---
-            if (closeEditGameModal) {
-                 closeEditGameModal.addEventListener('click', closeEditGameModal);
+            if (closeEditGameModal) { // Element variable
+                 closeEditGameModal.addEventListener('click', handleCloseEditGameModal); // Use renamed handler function
                  console.log("Close Edit Modal button listener attached.");
             }
             if (editGameOverlay) {
-                 editGameOverlay.addEventListener('click', closeEditGameModal);
+                 editGameOverlay.addEventListener('click', handleCloseEditGameModal); // Use renamed handler function
                  console.log("Edit Modal overlay listener attached.");
             }
              if (editGameModal) {
                  editGameModal.addEventListener('click', (event) => event.stopPropagation()); // Prevent closing by clicking inside
              }
             if (cancelEditGameBtn) {
-                 cancelEditGameBtn.addEventListener('click', closeEditGameModal);
+                 cancelEditGameBtn.addEventListener('click', handleCloseEditGameModal); // Use renamed handler function
                  console.log("Cancel Edit button listener attached.");
             }
             if (saveGameChangesBtn) {
@@ -3030,3 +3031,4 @@
 
 </body>
 </html>
+```
